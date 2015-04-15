@@ -1,0 +1,26 @@
+{
+   "browser_action": {
+      "default_icon": "img/icon.png",
+      "default_popup": "popup.html"
+   },
+   "content_scripts": [ {
+      "js": [ "lib/api.js" ],
+      "matches": [ "\u003Call_urls>" ]
+   }, {
+      "all_frames": true,
+      "js": [ "lib/run.js" ],
+      "matches": [ "\u003Call_urls>" ]
+   } ],
+   "content_security_policy": "script-src 'self' https://*.googleapis.com; object-src 'self'",
+   "description": "Run custom JavaScript on any website.",
+   "icons": {
+      "128": "img/icon_128.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnHb+gE8rp8LRfvgkO/Wex4Vh2SHuD5I7p40vqU2vGga5nnbR5DjkN1mjTrs6AMqkvdpuXMXqIU2lGVcJ14+6Yq2cijGyK3HXLBCmhDQLNM/4dJbXNEJz24TlEQOx9nRsA5/51yFZagugUbJmFQmDhO6NQ700l/SDp1200aqRY/Xj+OmAubiO5thQpmnZVaR+JDtnpLD7cNFMyIstJiUUMhF80FDv4TFeg5h9JbQBHhJ9bMeK2J6LetYKlcthXiev//CE/j46/4N9xYd7uCP+HUfKvPl5DPyh5NkTPMK5VofuOiXe0dqxEo0ocJFVjzfFXbj1iAmsGOpoxtNyJSjpZQIDAQAB",
+   "manifest_version": 2,
+   "name": "Custom JavaScript for websites ",
+   "permissions": [ "storage", "http://*/", "https://*/", "tabs" ],
+   "short_name": "customjs",
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "2.1.40"
+}

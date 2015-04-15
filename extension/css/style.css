@@ -1,0 +1,219 @@
+
+/**
+ * Basic
+ */
+
+.customjs {
+  position: relative;
+  overflow: hidden;
+  padding: 12px 24px;
+  width: 548px;
+  height: 570px;
+  color: #4A4A4A;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.customjs.customjs--error {
+  width: 400px;
+  height: 75px;
+}
+
+.customjs.customjs--error form {
+  display: none;
+}
+
+a,
+a:hover,
+.blue-text,
+.blue-text:hover {
+  color: #0F14F3;
+}
+
+.red-text,
+.red-text:hover {
+  color: #f10000;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.is-hidden {
+  display: none;
+}
+
+.pure-g {
+  padding: 10px 0;
+}
+
+
+/**
+ * Host row (up)
+ */
+
+.host {
+}
+
+.host__name select {
+  min-width: 220px;
+}
+
+.host__name a {
+  margin-left: 5px;
+  font-size: 12px;
+}
+
+.host__enable {
+  text-align: right;
+  line-height: 34px;
+}
+
+.host__enable input {
+  position: relative;
+  bottom: -2px;
+  margin-left: 2px;
+}
+
+
+/**
+ * Share button
+ */
+.share button {
+  display: none;
+  font-size: 16px;
+}
+
+
+/**
+ * Include row (bellow top)
+ */
+
+.include {
+  text-align: right;
+}
+
+.include__body {
+  color: #999;
+  font-size: 12px;
+  line-height: 35px;
+}
+
+.include__body select {
+  min-width: 110px;
+}
+
+.include__popbox {
+}
+
+.include__popbox__body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  margin: -150px 0 0 -250px;
+  width: 500px;
+  height: 300px;
+}
+
+.include__popbox__body textarea {
+  width: 100%;
+  height: 100%;
+  color: #777;
+  font-size: 12px;
+  line-height: 180%;
+  resize: none;
+}
+
+.include__popbox__screenmask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  background-color: #ddd;
+  opacity: 0.4;
+}
+
+
+/**
+ * Source row  (middle)
+ */
+
+.source {
+}
+
+.source__editor {
+  border: 1px solid #EBEBEB;
+}
+
+.source__editor pre {
+  margin: 0;
+  min-height: 380px;
+  width: 100%;
+  line-height: 150%;
+}
+
+/**
+ * Controls
+ */
+
+.controls { }
+
+.controls__save,
+.controls__reset {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.controls__remove-draft { }
+
+/**
+ * Donate
+ */
+.donate {
+    text-align: right;
+}
+
+.donate img {
+    position: absolute;
+}
+
+.donate__button {
+    background: rgb(28, 184, 65); /* this is a green */
+    color: #fff;
+    font-size: 18px;
+}
+
+.donate-form {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+
+/**
+ * Font icons
+ */
+
+@font-face {
+  font-weight: normal;
+  font-style: normal;
+  font-family: 'customjs';
+  src: url('../font/customjs.svg?96127482#customjs') format('svg');
+}
+
+[class^="icon-"]:before, [class*=" icon-"]:before {
+  display: inline-block;
+  font-variant: normal;
+  font-family: "customjs";
+}
+
+.icon-left-open:before { content: '\e800'; } /* '' */
+.icon-right-open:before { content: '\e801'; } /* '' */
+.icon-share:before { content: '\e802'; } /* '' */
