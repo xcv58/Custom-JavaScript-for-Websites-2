@@ -26,3 +26,10 @@ New features:
 Thanks to:
 - Ace - http://ace.c9.io/
 - Pure - http://purecss.io/
+
+# Why Custom JavaScript for Websites 2
+Since the author haven't update original extension for almost one year.
+Its website http://hromadadan.com is also unavailable.
+I can not find the author.
+
+But the sync feature is urgent. So this repos is here.
