@@ -51,16 +51,16 @@
     include: {
       predefined: [
         {
-          name: 'jQuery 1.11.0',
-          path: '/jquery/1.11.0/jquery.min.js'
+          name: 'jQuery 1.11.3',
+          path: '/jquery/1.11.3/jquery.min.js'
         },
         {
-          name: 'jQuery 2.1.0',
-          path: '/jquery/2.1.0/jquery.min.js'
+          name: 'jQuery 2.1.4',
+          path: '/jquery/2.1.4/jquery.min.js'
         }
       ],
       extra: [
-        '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js'
+        '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'
       ]
     },
     host: undefined,
