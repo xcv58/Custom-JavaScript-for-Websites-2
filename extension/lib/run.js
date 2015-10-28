@@ -10,6 +10,9 @@
     var customjs = obj[website];
     if( customjs ) {
       if( customjs.config.enable ) {
+        // base.js to provide useful functions
+        injectScript(chrome.extension.getURL('lib/base.js'));
+
         // Predefined include
         if( customjs.config.include ) {
           injectScript('https://ajax.googleapis.com/ajax/libs' + customjs.config.include);

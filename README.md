@@ -8,11 +8,12 @@ Use this tool to inject custom javascript in any website.
 
 Your scripts are kept in the local storage and applied across domain URLs.
 
-You can use jQuery 1.11.0 or 2.1.0 or your own external scripts.
+You can use jQuery 1.11.x or 2.1.x or your own external scripts.
 
-Usage:
+Use cases:
 - site debugging (wrong list sort, etc.)
 - hiding annoyng popups and Ads
+- custom UI
 - anything you can think of :)
 
 New features:
@@ -21,11 +22,24 @@ New features:
 - Hosts (websites) switch (you can browse customjs of other websites)
 - Include external script (eq. Underscore.js is cool)
 
-![Mind map](http://hromadadan.com/customjs/mindmap.png)
-
 Thanks to:
 - Ace - http://ace.c9.io/
 - Pure - http://purecss.io/
+
+# base.js
+It provides useful functions for you.
+Now there're only one function:
+```javascript
+customjsReady('.nav', function(element) {
+  // do something
+});
+```
+
+The `customjsReady` wiil be called when an element matching the selector
+is added to the DOM. You can find more details from:
+http://ryanmorr.com/using-mutation-observers-to-watch-for-element-availability/
+
+Special thanks to [Ryan Morr](http://ryanmorr.com/)
 
 # Why Custom JavaScript for Websites 2
 Since the author haven't update original extension for almost one year.

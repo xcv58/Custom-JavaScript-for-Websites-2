@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Custom JavaScript for Websites 2",
   "short_name": "customjs",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "author": "xcv58",
   "description": "Run custom JavaScript on any website.",
   "icons": {
@@ -16,6 +16,9 @@
     "js": [ "lib/run.js" ],
     "matches": [ "\u003Call_urls>" ]
   } ],
+  "web_accessible_resources": [
+      "lib/base.js"
+  ],
   "browser_action": {
     "default_icon": "img/icon.png",
     "default_popup": "popup.html"
