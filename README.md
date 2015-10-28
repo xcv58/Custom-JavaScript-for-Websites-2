@@ -27,6 +27,7 @@ Thanks to:
 - Pure - http://purecss.io/
 
 # base.js
+You can find `base.js` at `extension/lib/base.js`.
 It provides useful functions for you. You can directly use all functions in your
 JavaScript code. To avoid name conflict, all functions start with `customjs`.
 
