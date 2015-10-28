@@ -27,8 +27,12 @@ Thanks to:
 - Pure - http://purecss.io/
 
 # base.js
-It provides useful functions for you.
+It provides useful functions for you. You can directly use all functions in your
+JavaScript code. To avoid name conflict, all functions start with `customjs`.
+
 Now there're only one function:
+
+## `customjsReady`
 ```javascript
 customjsReady('.nav', function(element) {
   // do something
