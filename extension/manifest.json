@@ -5,6 +5,7 @@
   "version": "2.3.1",
   "author": "xcv58",
   "description": "Run custom JavaScript on any website.",
+  "minimum_chrome_version": "52.0.2743",
   "icons": {
     "128": "img/icon_128.png"
   },
