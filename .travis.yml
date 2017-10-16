@@ -9,7 +9,8 @@ script:
   - yarn test
   - yarn deploy
   - ls -l build/* build.zip
-  - sha256sum build/* build.zip | tee SHA256SUMS.txt
+  - sha256sum build.zip | tee SHA256SUMS.txt
+  - find build -type f -exec sha256sum {} \; | tee -a SHA256SUMS.txt
   - find build -type f -exec cat {} \; | sha256sum | tee -a SHA256SUMS.txt
 deploy:
   provider: releases
