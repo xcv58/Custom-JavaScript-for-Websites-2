@@ -10,7 +10,7 @@
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
 
-[Custom JavaScript for websites - Chrome Extension](https://chrome.google.com/webstore/detail/custom-javascript-for-web/poakhlngfciodnhlhhgnaaelnpjljija)
+[Custom JavaScript for websites - Chrome Extension](https://xcv58.xyz/inject-js)
 
 Run custom JavaScript on any website.
 Use this tool to inject custom javascript in any website.
