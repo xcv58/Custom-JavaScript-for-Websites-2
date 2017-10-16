@@ -4,7 +4,7 @@ import '../css/style.css'
 import jQuery from 'jquery'
 
 (function ($) {
-  var popup = {
+  const popup = {
     key: 'popup',
     el: {
       popup: $('#customjs'),
@@ -82,14 +82,14 @@ import jQuery from 'jquery'
       defaultValue: '// Here You can type your custom JavaScript...',
       value: '',
       init: function () {
-        var editor = this.instance = ace.edit(popup.el.sourceEditor[0])
+        const editor = this.instance = ace.edit(popup.el.sourceEditor[0])
         editor.setTheme('ace/theme/tomorrow')
         editor.getSession().setMode('ace/mode/javascript')
         editor.setHighlightActiveLine(false)
         editor.getSession().on('change', this.onChange)
       },
       apply: function (source) {
-        var editor = this.instance
+        const editor = this.instance
         editor.setValue(source)
         editor.gotoLine(1)
       }
@@ -116,21 +116,21 @@ import jQuery from 'jquery'
       },
       load: function () {
         this.setMode(this.MODE.private)
-        this._setData(JSON.parse(localStorage.getItem(this.key) || '{}'))
+        this._setData(JSON.parse(window.localStorage.getItem(this.key) || '{}'))
 
         this.setMode(this.MODE.global)
-        this._setData(JSON.parse(localStorage.getItem(this.key) || '{}'))
+        this._setData(JSON.parse(window.localStorage.getItem(this.key) || '{}'))
       },
       _getData: function (key) {
-        var storage = popup.storage
-        if (storage.mode == storage.MODE.private) {
+        const storage = popup.storage
+        if (storage.mode === storage.MODE.private) {
           if (key) {
             return storage.data.private[key]
           } else {
             return storage.data.private
           }
         }
-        if (storage.mode == storage.MODE.global) {
+        if (storage.mode === storage.MODE.global) {
           if (key) {
             return storage.data.global[key]
           } else {
@@ -140,14 +140,14 @@ import jQuery from 'jquery'
       },
       _setData: function (data, key) {
         var storage = popup.storage
-        if (storage.mode == storage.MODE.private) {
+        if (storage.mode === storage.MODE.private) {
           if (key) {
             storage.data.private[key] = data
           } else {
             storage.data.private = data
           }
         }
-        if (storage.mode == storage.MODE.global) {
+        if (storage.mode === storage.MODE.global) {
           if (key) {
             storage.data.global[key] = data
           } else {
@@ -162,14 +162,13 @@ import jQuery from 'jquery'
         // arg1 is a key
         if (typeof arg1 === 'string') {
           this._setData(arg2, arg1)
-        }
-        // arg1 is data
-        else {
+        } else {
+          // arg1 is data
           this._setData(arg1)
         }
 
         var str = JSON.stringify(this._getData() || {})
-        localStorage.setItem(this.key, str)
+        window.localStorage.setItem(this.key, str)
       },
       remove: function (key) {
         if (key) {
@@ -180,10 +179,10 @@ import jQuery from 'jquery'
             this.remove()
           } else {
             var str = JSON.stringify(this._getData())
-            localStorage.setItem(this.key, str)
+            window.localStorage.setItem(this.key, str)
           }
         } else {
-          localStorage.removeItem(this.key)
+          window.localStorage.removeItem(this.key)
           this._setData({})
         }
       }
@@ -212,8 +211,8 @@ import jQuery from 'jquery'
         // Set storage to store data accessible from all hosts
         popup.storage.setMode(popup.storage.MODE.global)
 
-        var hosts = popup.storage.get('hosts') || [],
-          url = popup.protocol + '//' + response.host
+        const hosts = popup.storage.get('hosts') || []
+        const url = popup.protocol + '//' + response.host
 
         // Add current host to list
         if (hosts.indexOf(url) === -1) {
@@ -249,7 +248,7 @@ import jQuery from 'jquery'
         // ... source is now encoded as base64
         if (popup.data.source.indexOf('data:text/javascript;base64,') === 0) {
           popup.data.source = popup.data.source.replace('data:text/javascript;base64,', '')
-          popup.data.source = atob(popup.data.source)
+          popup.data.source = window.atob(popup.data.source)
         } else if (popup.data.source.indexOf('data:text/javascript;charset=utf-8,') === 0) {
           popup.data.source = popup.data.source.replace('data:text/javascript;charset=utf-8,', '')
           popup.data.source = decodeURIComponent(popup.data.source)
@@ -272,7 +271,7 @@ import jQuery from 'jquery'
       // base64 may be smaller, but does not handle unicode characters
       // attempt base64 first, fall back to escaped text
       try {
-        b64 += (';base64,' + btoa(script))
+        b64 += (';base64,' + window.btoa(script))
       } catch (e) {
         b64 += (';charset=utf-8,' + encodeURIComponent(script))
       }
@@ -292,9 +291,8 @@ import jQuery from 'jquery'
         popup.include.extra.forEach(function (url) {
           data.config.extra += '# ' + url + '\n'
         })
-      }
-      // Readable format for 'extra include'
-      else {
+      } else {
+        // Readable format for 'extra include'
         data.config.extra = data.config.extra.replace(';', '\n')
       }
 
@@ -369,15 +367,16 @@ import jQuery from 'jquery'
         return false
       }
 
-      if (confirm('Do you really want all away?')) {
+      // TODO: confirm doesn't work with popup window
+      if (window.confirm('Do you really want all away?')) {
         // Remove stored data for current host
         popup.storage.setMode(popup.storage.MODE.private)
         popup.storage.remove()
 
         // Remove host from hosts inside global storage
         popup.storage.setMode(popup.storage.MODE.global)
-        var oldHosts = popup.storage.get('hosts'),
-          newHosts = []
+        const oldHosts = popup.storage.get('hosts')
+        const newHosts = []
         oldHosts.forEach(function (host) {
           if (host !== popup.protocol + '//' + popup.host) {
             newHosts.push(host)
@@ -457,29 +456,29 @@ import jQuery from 'jquery'
    * Auto save draft
    */
 
-  var draftAutoSave = function () {
-      var draft = popup.getCurrentData(),
-        source = draft.source
+  const draftAutoSave = function () {
+    const draft = popup.getCurrentData()
+    const source = draft.source
 
-      if ((source || !popup.data.source) && source !== popup.data.source) {
-        popup.storage.setMode(popup.storage.MODE.private)
-        popup.storage.set('draft', draft)
+    if ((source || !popup.data.source) && source !== popup.data.source) {
+      popup.storage.setMode(popup.storage.MODE.private)
+      popup.storage.set('draft', draft)
 
       // Auto switch 'enable checkbox' on source edit
-        if (!popup.el.enableCheck.hasClass('not-auto-change')) {
-          popup.el.enableCheck.prop('checked', true)
-        }
+      if (!popup.el.enableCheck.hasClass('not-auto-change')) {
+        popup.el.enableCheck.prop('checked', true)
       }
-    },
-    draftAutoSaveInterval = setInterval(draftAutoSave, 2000)
+    }
+  }
+  let draftAutoSaveInterval = setInterval(draftAutoSave, 2000)
 
   /**
    * Change host by select
    */
 
   popup.el.hostSelect.on('change', function (e) {
-    var host = $(this).val(),
-      hostData = JSON.parse(localStorage.getItem(popup.key + '-' + host), true)
+    const host = $(this).val()
+    const hostData = JSON.parse(window.localStorage.getItem(popup.key + '-' + host), true)
 
     if (host !== popup.protocol + '//' + popup.host) {
       // Stop making drafts
@@ -496,9 +495,8 @@ import jQuery from 'jquery'
       // Apply other host data
       try {
         popup.applyData(hostData.data, true)
-      }
-      // Hotfix for host without customjs
-      catch (err) {
+      } catch (err) {
+        // Hotfix for host without customjs
         popup.applyData($.extend(true, {}, popup.emptyDataPattern), true)
       }
     } else {
@@ -516,7 +514,7 @@ import jQuery from 'jquery'
       }
 
       // Apply current host data
-      popup.applyData(hostData.draft || hostData.data, hostData.draft ? false : true)
+      popup.applyData(hostData.draft || hostData.data, !hostData.draft)
     }
   })
 
