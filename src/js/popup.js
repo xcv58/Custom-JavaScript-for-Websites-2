@@ -11,7 +11,6 @@ const popup = {
     hostSelect: $('#host'),
     hostGoToLink: $('#goto-host'),
     enableCheck: $('#enable'),
-    shareBtn: $('#share'),
     includeOpenPopboxLink: $('#open-popbox'),
     includePopbox: $('#include-popbox'),
     includeSelect: $('#include'),
@@ -25,7 +24,6 @@ const popup = {
     donateBtn: $('#donate'),
     donateForm: $('#donate-form')
   },
-  shareUrl: 'http://hromadadan.com/customjs/share',
   title: {
     host: {
       select: 'List of websites modified by Your custom js',
@@ -46,9 +44,7 @@ const popup = {
     this.el.includeTextarea.attr('title', this.title.include.textarea)
     this.el.includeMask.attr('title', this.title.include.mask)
 
-    this.el.shareBtn.attr('title', this.title.share)
     this.el.saveBtn.attr('title', this.title.save)
-    this.el.shareBtn.attr('title', this.title.share)
     this.el.draftRemoveLink.attr('title', this.title.draft)
   },
   include: {
@@ -551,26 +547,3 @@ donate.button.on('click', function (e) {
   donate.form.find('input[name="submit"]').click()
   e.preventDefault()
 })
-
-/**
- * Share script
- */
-popup.el.shareBtn.on('click', function (e) {
-  // Form popup form create share form
-  popup.el.popupForm.attr({
-    action: popup.shareUrl,
-    target: '_blank'
-  })
-
-  // Paste script source to hodden input
-  popup.el.popupForm.find('input[name="script"]').val(popup.getCurrentData().source)
-})
-
-// Animate share button if customjs enabled
-setInterval(function () {
-  setTimeout(function () {
-    if (popup.data.config.enable) {
-      popup.el.shareBtn.toggleClass('animated tada')
-    }
-  }, Math.round(Math.random() * 1000))
-}, 3000)
