@@ -1,0 +1,24 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: yarn test
+      - run: yarn deploy
+      - run: ls -l build/* build.zip
+      - run: sha256sum build/* build.zip | tee SHA256SUMS.txt
+      - run: cat build/* | sha256sum | tee -a SHA256SUMS.txt
+      - run: mkdir dist && mv build.zip SHA256SUMS.txt dist
+      - store_artifacts:
+          path: dist
+          destination: dist
