@@ -6,7 +6,7 @@
   "description": "Run custom JavaScript on any website.",
   "minimum_chrome_version": "52.0.2743",
   "icons": {
-    "128": "icon_128.png"
+    "128": "icon-128.png"
   },
   "content_scripts": [ {
     "js": [ "api.js" ],

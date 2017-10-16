@@ -1,2 +1,2 @@
-import 'img/icon_128.png'
 import 'img/icon.png'
+import 'img/icon-128.png'
