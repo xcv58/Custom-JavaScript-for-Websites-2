@@ -10,8 +10,8 @@ script:
   - yarn deploy
   - ls -l build/* build.zip
   - sha256sum build.zip | tee SHA256SUMS.txt
-  - find build -type f -exec sha256sum {} \; | tee -a SHA256SUMS.txt
-  - find build -type f -exec cat {} \; | sha256sum | tee -a SHA256SUMS.txt
+  - find build -type f -exec ls {} \; | sort | xargs sha256sum | tee -a SHA256SUMS.txt
+  - find build -type f -exec ls {} \; | sort | xargs cat | sha256sum | tee -a SHA256SUMS.txt
 deploy:
   provider: releases
   api_key: $GITHUB_OAUTH_TOKEN
