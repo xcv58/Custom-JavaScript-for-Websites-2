@@ -1,5 +1,14 @@
-customjs
-========
+# Custom JavaScript for websites
+
+[![CircleCI](https://circleci.com/gh/xcv58/Custom-JavaScript-for-Websites-2.svg?style=svg)](https://circleci.com/gh/xcv58/Custom-JavaScript-for-Websites-2)
+[![Build Status](https://travis-ci.org/xcv58/Custom-JavaScript-for-Websites-2.svg?branch=master)](https://travis-ci.org/xcv58/Custom-JavaScript-for-Websites-2)
+[![dependencies Status](https://david-dm.org/xcv58/Custom-JavaScript-for-Websites-2/status.svg)](https://david-dm.org/xcv58/Custom-JavaScript-for-Websites-2)
+[![devDependencies Status](https://david-dm.org/xcv58/Custom-JavaScript-for-Websites-2/dev-status.svg)](https://david-dm.org/xcv58/Custom-JavaScript-for-Websites-2?type=dev)
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/92a8617dc60beef87408/maintainability)](https://codeclimate.com/github/xcv58/Custom-JavaScript-for-Websites-2/maintainability)
+
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
+
 
 [Custom JavaScript for websites - Chrome Extension](https://chrome.google.com/webstore/detail/custom-javascript-for-web/poakhlngfciodnhlhhgnaaelnpjljija)
 
