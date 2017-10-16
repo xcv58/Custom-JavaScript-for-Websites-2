@@ -2,28 +2,27 @@
   "manifest_version": 2,
   "name": "Custom JavaScript for Websites 2",
   "short_name": "customjs",
-  "version": "2.3.2",
   "author": "xcv58",
   "description": "Run custom JavaScript on any website.",
   "minimum_chrome_version": "52.0.2743",
   "icons": {
-    "128": "img/icon_128.png"
+    "128": "icon_128.png"
   },
   "content_scripts": [ {
-    "js": [ "lib/api.js" ],
+    "js": [ "api.js" ],
     "matches": [ "\u003Call_urls>" ]
   }, {
     "all_frames": true,
-    "js": [ "lib/run.js" ],
+    "js": [ "run.js" ],
     "matches": [ "\u003Call_urls>" ]
   } ],
   "web_accessible_resources": [
-      "lib/base.js"
+      "base.js"
   ],
   "browser_action": {
-    "default_icon": "img/icon.png",
+    "default_icon": "icon.png",
     "default_popup": "popup.html"
   },
-  "content_security_policy": "script-src 'self' https://*.googleapis.com; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://*.googleapis.com; object-src 'self'",
   "permissions": [ "storage", "http://*/", "https://*/", "tabs" ]
 }

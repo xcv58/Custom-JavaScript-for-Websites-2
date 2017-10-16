@@ -1,0 +1,42 @@
+{
+  "name": "custom-javaScript-for-websites-2",
+  "version": "2.3.2",
+  "description": "Run custom JavaScript on any website.",
+  "scripts": {
+    "analyze": "NODE_ENV=production node utils/analyze.js",
+    "build": "node utils/build.js",
+    "deploy": "NODE_ENV=production yarn build && yarn zip",
+    "zip": "zip -X --compression-method deflate -r build.zip build/*",
+    "lint": "standard",
+    "lintfix": "yarn lint -- --fix",
+    "start": "node utils/webserver.js",
+    "test": "yarn lint && yarn build"
+  },
+  "dependencies": {
+    "jquery": "^3.2.1"
+  },
+  "devDependencies": {
+    "babel-core": "7.0.0-beta.2",
+    "babel-eslint": "^8.0.1",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "2.0.0-beta.2",
+    "copy-webpack-plugin": "^4.1.1",
+    "css-loader": "^0.28.7",
+    "file-loader": "^1.1.5",
+    "fs-extra": "^4.0.2",
+    "html-loader": "^0.5.1",
+    "html-webpack-plugin": "^2.30.1",
+    "standard": "^10.0.3",
+    "style-loader": "^0.19.0",
+    "webpack": "^3.6.0",
+    "webpack-bundle-analyzer": "^2.9.0",
+    "webpack-dev-server": "2.9.1",
+    "write-file-webpack-plugin": "^4.2.0"
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "globals": [
+      "chrome"
+    ]
+  }
+}

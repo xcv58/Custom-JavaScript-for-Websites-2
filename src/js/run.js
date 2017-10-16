@@ -11,7 +11,7 @@
     if( customjs ) {
       if( customjs.config.enable ) {
         // base.js to provide useful functions
-        injectScript(chrome.runtime.getURL('lib/base.js'));
+        injectScript(chrome.runtime.getURL('base.js'));
 
         // Predefined include
         if( customjs.config.include ) {
