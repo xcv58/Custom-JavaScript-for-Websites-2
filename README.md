@@ -61,3 +61,5 @@ Its website http://hromadadan.com is also unavailable.
 I can not find the author.
 
 But the sync feature is urgent. So this repos is here.
+
+You can download older versions from: https://crx.dam.io/ext/ddbjnfjiigjmcpcpkmhogomapikjbjdk.html
