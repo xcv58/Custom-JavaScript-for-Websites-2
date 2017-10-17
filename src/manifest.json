@@ -6,7 +6,7 @@
   "description": "Run custom JavaScript on any website.",
   "minimum_chrome_version": "52.0.2743",
   "icons": {
-    "128": "icon-128.png"
+    "128": "img/icon-128.png"
   },
   "content_scripts": [ {
     "js": [ "api.js" ],
@@ -20,7 +20,7 @@
       "base.js"
   ],
   "browser_action": {
-    "default_icon": "icon.png",
+    "default_icon": "img/icon.png",
     "default_popup": "popup.html"
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://*.googleapis.com; object-src 'self'",
