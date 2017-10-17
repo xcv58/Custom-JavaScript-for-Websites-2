@@ -43,7 +43,6 @@ const HtmlFiles = [
 const options = {
   entry: {
     popup: path.join(__dirname, 'src', 'js', 'popup.js'),
-    api: path.join(__dirname, 'src', 'js', 'api.js'),
     run: path.join(__dirname, 'src', 'js', 'run.js'),
     base: path.join(__dirname, 'src', 'js', 'base.js'),
     background: path.join(__dirname, 'src', 'js', 'background.js')

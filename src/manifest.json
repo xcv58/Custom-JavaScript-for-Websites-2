@@ -8,10 +8,11 @@
   "icons": {
     "128": "img/icon-128.png"
   },
+  "background": {
+    "scripts": [ "background.js" ],
+    "persistent": false
+  },
   "content_scripts": [ {
-    "js": [ "api.js" ],
-    "matches": [ "\u003Call_urls>" ]
-  }, {
     "all_frames": true,
     "js": [ "run.js" ],
     "matches": [ "\u003Call_urls>" ]

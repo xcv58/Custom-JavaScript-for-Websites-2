@@ -185,7 +185,10 @@ const popup = {
   apiclb: {
     onSelectedTab: function (tab) {
       popup.tabId = tab.id
-      chrome.tabs.sendRequest(popup.tabId, {method: 'getData', reload: false}, popup.apiclb.onGetData)
+      chrome.runtime.sendMessage(
+        { method: 'getData' },
+        popup.apiclb.onGetData
+      )
     },
     onGetData: function (response) {
       if (!response || typeof response.host !== 'string') {
@@ -340,7 +343,7 @@ const popup = {
     data.source = popup.generateScriptDataUrl(data.source)
 
     // Send new data to apply
-    chrome.tabs.sendRequest(popup.tabId, {method: 'setData', customjs: data, reload: true})
+    chrome.runtime.sendMessage({ method: 'setData', customjs: data, reload: true })
 
     // Save local copy of data
     popup.storage.setMode(popup.storage.MODE.private)
@@ -380,7 +383,7 @@ const popup = {
       popup.storage.set('hosts', newHosts)
 
       // Remove customjs from frontend
-      chrome.tabs.sendRequest(popup.tabId, {method: 'removeData', reload: false})
+      chrome.runtime.sendMessage({ method: 'removeData' })
 
       // Set-up empty data
       popup.data = $.extend(true, {}, popup.emptyDataPattern)
@@ -410,7 +413,7 @@ popup.applyTitles()
 */
 popup.el.hostGoToLink.on('click', function () {
   var link = popup.el.hostSelect.val()
-  chrome.tabs.sendRequest(popup.tabId, {method: 'goTo', link: link, reload: false})
+  chrome.runtime.sendMessage({ method: 'goTo', link: link })
   window.close()
 })
 
