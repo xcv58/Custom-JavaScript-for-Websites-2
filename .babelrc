@@ -3,8 +3,13 @@
     [
       "env",
       {
-        "targets": { "chrome": 60 }
+        "targets": { "chrome": 52 }
       }
-    ]
+    ],
+    "react",
+    "stage-2"
+  ],
+  "plugins": [
+    "transform-decorators-legacy"
   ]
 }
