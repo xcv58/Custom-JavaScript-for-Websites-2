@@ -2,13 +2,15 @@
 /**
  * Basic
  */
+html, body {
+  width: 570px;
+  height: 600px;
+}
 
 .customjs {
   position: relative;
   overflow: hidden;
   padding: 12px 24px;
-  width: 548px;
-  height: 570px;
   color: #4A4A4A;
   font-size: 14px;
   font-family: Arial, Helvetica, sans-serif;
@@ -81,15 +83,6 @@ a:hover {
 
 
 /**
- * Share button
- */
-.share button {
-  display: none;
-  font-size: 16px;
-}
-
-
-/**
  * Include row (bellow top)
  */
 
@@ -138,25 +131,6 @@ a:hover {
   height: 100%;
   background-color: #ddd;
   opacity: 0.4;
-}
-
-
-/**
- * Source row  (middle)
- */
-
-.source {
-}
-
-.source__editor {
-  border: 1px solid #EBEBEB;
-}
-
-.source__editor pre {
-  margin: 0;
-  min-height: 380px;
-  width: 100%;
-  line-height: 150%;
 }
 
 /**

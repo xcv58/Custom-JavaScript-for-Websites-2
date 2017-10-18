@@ -2,6 +2,13 @@ import '../css/pure/pure-min.css'
 import '../css/animate.css'
 import '../css/style.css'
 import $ from 'jquery'
+import React from 'react'
+import { render } from 'react-dom'
+import { Provider } from 'mobx-react'
+import Editor from 'components/Editor'
+import Store from 'stores'
+
+const store = new Store()
 
 const popup = {
   key: 'popup',
@@ -16,7 +23,6 @@ const popup = {
     includeSelect: $('#include'),
     includeTextarea: $('#extra-scripts'),
     includeMask: $('#screen-mask'),
-    sourceEditor: $('#ace-editor'),
     saveBtn: $('#save'),
     resetBtn: $('#reset'),
     draftRemoveLink: $('#draft-remove'),
@@ -72,23 +78,6 @@ const popup = {
     source: ''
   },
   data: null,
-  editor: {
-    instance: null,
-    defaultValue: '// Here You can type your custom JavaScript...',
-    value: '',
-    init: function () {
-      const editor = this.instance = ace.edit(popup.el.sourceEditor[0])
-      editor.setTheme('ace/theme/tomorrow')
-      editor.getSession().setMode('ace/mode/javascript')
-      editor.setHighlightActiveLine(false)
-      editor.getSession().on('change', this.onChange)
-    },
-    apply: function (source) {
-      const editor = this.instance
-      editor.setValue(source)
-      editor.gotoLine(1)
-    }
-  },
   storage: {
     data: {
       private: {},
@@ -296,7 +285,7 @@ const popup = {
 
     // Default value for source
     if (!data.source) {
-      data.source = popup.editor.defaultValue
+      data.source = store.EditorStore.value
     }
 
     // Set 'predefined include' value
@@ -309,7 +298,7 @@ const popup = {
     popup.el.includeTextarea.val(data.config.extra)
 
     // Apply source into editor
-    popup.editor.apply(data.source)
+    store.EditorStore.setValue(data.source)
   },
   getCurrentData: function () {
     return {
@@ -318,7 +307,7 @@ const popup = {
         include: popup.el.includeSelect.val(),
         extra: popup.el.includeTextarea.val()
       },
-      source: popup.editor.instance.getValue()
+      source: store.EditorStore.value
     }
   },
   removeDraft: function () {
@@ -430,7 +419,15 @@ popup.include.predefined.forEach(function (lib) {
 * Inicialize Ace Editor
 */
 
-popup.editor.init()
+const initEditor = () => {
+  render(
+    <Provider {...store}>
+      <Editor />
+    </Provider>,
+    document.getElementById('ace-editor')
+  )
+}
+initEditor()
 
 /**
 * Connect front end (load info about current site)
