@@ -29,6 +29,7 @@ export default class Editor extends Component {
         showPrintMargin
         highlightActiveLine
         wrapEnabled
+        editorProps={{ $blockScrolling: true }}
         setOptions={{
           enableBasicAutocompletion: true,
           enableLiveAutocompletion: true,

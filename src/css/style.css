@@ -133,6 +133,11 @@ a:hover {
   opacity: 0.4;
 }
 
+#ace-editor {
+  height: 380px;
+  width: 100%;
+}
+
 /**
  * Controls
  */
