@@ -37,19 +37,11 @@ const storage = {
     this._setData(JSON.parse(window.localStorage.getItem(this.key) || '{}'))
   },
   _getData: function (key) {
-    if (this.mode === this.MODE.private) {
-      if (key) {
-        return this.data.private[key]
-      } else {
-        return this.data.private
-      }
-    }
-    if (this.mode === this.MODE.global) {
-      if (key) {
-        return this.data.global[key]
-      } else {
-        return this.data.global
-      }
+    const object = this.mode === this.MODE.private ? this.data.private : this.data.global
+    if (key) {
+      return object[key]
+    } else {
+      return object
     }
   },
   _setData: function (data, key) {
@@ -72,12 +64,13 @@ const storage = {
     return this._getData(key)
   },
   set: function (arg1, arg2) {
-      // arg1 is a key
+    // arg1 is a key
     if (typeof arg1 === 'string') {
       this._setData(arg2, arg1)
     } else {
-        // arg1 is data
-      this._setData(arg1)
+      // arg1 is data
+      throw new Error('This should never happen!')
+      // this._setData(arg1)
     }
 
     var str = JSON.stringify(this._getData() || {})
@@ -390,7 +383,7 @@ popup.include.predefined.forEach(function (lib) {
 })
 
 /**
-* Inicialize Ace Editor
+* Initialize Ace Editor
 */
 
 const initEditor = () => {
