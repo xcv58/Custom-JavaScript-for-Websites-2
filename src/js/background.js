@@ -8,7 +8,7 @@ const reloadTab = (tab) => chrome.tabs.reload(tab.id)
 const methodMap = {
   getData: async (message, { url }, sendResponse) => {
     const { host, protocol, origin } = url
-    const data = await chrome.store.sync.get(origin)
+    const data = await chrome.storage.sync.get(origin)
     const customjs = data[origin]
     sendResponse({ customjs, host, protocol })
   },
