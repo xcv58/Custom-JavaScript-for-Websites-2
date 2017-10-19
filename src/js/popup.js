@@ -7,6 +7,7 @@ import { render } from 'react-dom'
 import { Provider } from 'mobx-react'
 import Editor from 'components/Editor'
 import Store from 'stores'
+import { encodeSource, decodeSource } from 'libs'
 
 const store = new Store()
 const storage = {
@@ -72,7 +73,6 @@ const storage = {
       throw new Error('This should never happen!')
       // this._setData(arg1)
     }
-
     var str = JSON.stringify(this._getData() || {})
     window.localStorage.setItem(this.key, str)
   },
@@ -144,99 +144,76 @@ const popup = {
     source: ''
   },
   data: null,
-  apiclb: {
-    onSelectedTab: function (tab) {
-      popup.tabId = tab.id
-      chrome.runtime.sendMessage(
-        { method: 'getData' },
-        popup.apiclb.onGetData
-      )
-    },
-    onGetData: function (response) {
-      if (!response || typeof response.host !== 'string') {
-        popup.error()
-        return
-      }
+  init: function () {
+    chrome.runtime.sendMessage(
+      { method: 'getData' },
+      popup.onGetData
+    )
+  },
+  onGetData: function (response) {
+    if (!response || typeof response.host !== 'string') {
+      popup.error()
+      return
+    }
 
       /**
       * Create 'hosts select'
       */
 
-      popup.host = response.host
-      popup.protocol = response.protocol
+    popup.host = response.host
+    popup.protocol = response.protocol
 
       // Load storage (global, local) IMPORTANT: Must be called first of all storage operations
-      storage.load()
+    storage.load()
 
       // Set storage to store data accessible from all hosts
-      storage.setMode(storage.MODE.global)
+    storage.setMode(storage.MODE.global)
 
-      const hosts = storage.get('hosts') || []
-      const url = popup.protocol + '//' + response.host
+    const hosts = storage.get('hosts') || []
+    const url = popup.protocol + '//' + response.host
 
       // Add current host to list
-      if (hosts.indexOf(url) === -1) {
-        hosts.push(url)
-      }
+    if (hosts.indexOf(url) === -1) {
+      hosts.push(url)
+    }
 
       // Fill 'hosts select'
-      hosts.forEach(function (host) {
-        var option = $('<option>' + host + '</option>')
-        if (host === url) {
-          option.attr('selected', 'selected')
-        }
-        popup.el.hostSelect.append(option)
-      })
-
-      // Store host (current included in array) if is customjs defined
-      if (response.customjs) {
-        storage.set('hosts', hosts)
+    hosts.forEach(function (host) {
+      var option = $('<option>' + host + '</option>')
+      if (host === url) {
+        option.attr('selected', 'selected')
       }
+      popup.el.hostSelect.append(option)
+    })
 
-      /**
-      * Set-up data (script, enable, include, extra)
-      */
-
-      // Set-up data pattern if empty
-      if (!popup.data) {
-        popup.data = $.extend(true, {}, popup.emptyDataPattern)
-      }
-
-      // Merge host's data to defaults
-      popup.data = $.extend(popup.data, response.customjs)
-
-      // ... source is now encoded as base64
-      if (popup.data.source.indexOf('data:text/javascript;base64,') === 0) {
-        popup.data.source = popup.data.source.replace('data:text/javascript;base64,', '')
-        popup.data.source = window.atob(popup.data.source)
-      } else if (popup.data.source.indexOf('data:text/javascript;charset=utf-8,') === 0) {
-        popup.data.source = popup.data.source.replace('data:text/javascript;charset=utf-8,', '')
-        popup.data.source = decodeURIComponent(popup.data.source)
-      }
-
-      // Set storage to store data accessible ONLY from current host
-      storage.setMode(storage.MODE.private)
-
-      // Save local copy of live data
-      if (response.customjs) {
-        storage.set('data', popup.data)
-      }
-
-      // Apply data (draft if exist)
-      popup.applyData(storage.get('draft'))
-    }
-  },
-  generateScriptDataUrl: function (script) {
-    var b64 = 'data:text/javascript'
-    // base64 may be smaller, but does not handle unicode characters
-    // attempt base64 first, fall back to escaped text
-    try {
-      b64 += (';base64,' + window.btoa(script))
-    } catch (e) {
-      b64 += (';charset=utf-8,' + encodeURIComponent(script))
+    // Store host (current included in array) if is customjs defined
+    if (response.customjs) {
+      storage.set('hosts', hosts)
     }
 
-    return b64
+    /**
+     * Set-up data (script, enable, include, extra)
+     */
+    // Set-up data pattern if empty
+    if (!popup.data) {
+      popup.data = $.extend(true, {}, popup.emptyDataPattern)
+    }
+
+    // Merge host's data to defaults
+    popup.data = $.extend(popup.data, response.customjs)
+
+    popup.data.source = decodeSource(popup.data.source)
+
+    // Set storage to store data accessible ONLY from current host
+    storage.setMode(storage.MODE.private)
+
+    // Save local copy of live data
+    if (response.customjs) {
+      storage.set('data', popup.data)
+    }
+
+    // Apply data (draft if exist)
+    popup.applyData(storage.get('draft'))
   },
   applyData: function (data, notDraft) {
     if (data && !notDraft) {
@@ -302,7 +279,7 @@ const popup = {
 
     // Transform source for correct apply
     data.config.extra = data.config.extra.replace('\n', ';')
-    data.source = popup.generateScriptDataUrl(data.source)
+    data.source = encodeSource(data.source)
 
     // Send new data to apply
     chrome.runtime.sendMessage({ method: 'setData', customjs: data, reload: true })
@@ -316,8 +293,6 @@ const popup = {
 
     // Close popup
     window.close()
-
-    return false
   },
   reset: function (e) {
     e.preventDefault()
@@ -328,31 +303,27 @@ const popup = {
     }
 
     // TODO: confirm doesn't work with popup window
-    if (window.confirm('Do you really want all away?')) {
-      // Remove stored data for current host
-      storage.setMode(storage.MODE.private)
-      storage.remove()
+    // if (window.confirm('Do you really want all away?')) {
+    // Remove stored data for current host
+    storage.setMode(storage.MODE.private)
+    storage.remove()
 
-      // Remove host from hosts inside global storage
-      storage.setMode(storage.MODE.global)
-      const oldHosts = storage.get('hosts')
-      const newHosts = []
-      oldHosts.forEach(function (host) {
-        if (host !== popup.protocol + '//' + popup.host) {
-          newHosts.push(host)
-        }
-      })
-      storage.set('hosts', newHosts)
+    // Remove host from hosts inside global storage
+    storage.setMode(storage.MODE.global)
+    const oldHosts = storage.get('hosts')
+    const newHosts = oldHosts.filter((host) => host !== `${popup.protocol}//${popup.host}`)
+    storage.set('hosts', newHosts)
 
-      // Remove customjs from frontend
-      chrome.runtime.sendMessage({ method: 'removeData' })
+    // Remove customjs from frontend
+    chrome.runtime.sendMessage({ method: 'removeData' })
 
-      // Set-up empty data
-      popup.data = $.extend(true, {}, popup.emptyDataPattern)
-      popup.applyData()
+    // Set-up empty data
+    popup.data = $.extend(true, {}, popup.emptyDataPattern)
+    popup.applyData()
 
-      popup.removeDraft()
-    }
+    popup.removeDraft()
+    store.EditorStore.setDefaultValue()
+    // }
 
     return false
   },
@@ -396,11 +367,7 @@ const initEditor = () => {
 }
 initEditor()
 
-/**
-* Connect front end (load info about current site)
-*/
-
-chrome.tabs.getSelected(null, popup.apiclb.onSelectedTab)
+popup.init()
 
 /**
 * 'Include extra scripts' control

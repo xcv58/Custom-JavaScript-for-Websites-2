@@ -24,3 +24,27 @@ export const getActiveTab = async () => {
   }
   return tabs[0]
 }
+
+const SOURCE_PREFIX = 'data:text/javascript'
+const BASE64_PREFIX = SOURCE_PREFIX + ';base64,'
+const UTF8_PREFIX = SOURCE_PREFIX + ';charset=utf-8,'
+
+export const encodeSource = (script) => {
+  // base64 may be smaller, but does not handle unicode characters
+  // attempt base64 first, fall back to escaped text
+  try {
+    return (BASE64_PREFIX + window.btoa(script))
+  } catch (e) {
+    return (UTF8_PREFIX + encodeURIComponent(script))
+  }
+}
+
+export const decodeSource = (source) => {
+  if (source.startsWith(BASE64_PREFIX)) {
+    return window.atob(source.replace(BASE64_PREFIX, ''))
+  }
+  if (source.startsWith(UTF8_PREFIX)) {
+    return decodeURIComponent(source.replace(UTF8_PREFIX, ''))
+  }
+  throw new Error(`Unrecognized source format: ${source}`)
+}
