@@ -1,6 +1,3 @@
-import '../css/pure/pure-min.css'
-import '../css/animate.css'
-import '../css/style.css'
 import $ from 'jquery'
 import React from 'react'
 import { render } from 'react-dom'

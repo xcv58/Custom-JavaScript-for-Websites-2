@@ -18,7 +18,8 @@
     "matches": [ "\u003Call_urls>" ]
   } ],
   "web_accessible_resources": [
-      "base.js"
+    "css/*.css",
+    "base.js"
   ],
   "browser_action": {
     "default_icon": "img/icon.png",

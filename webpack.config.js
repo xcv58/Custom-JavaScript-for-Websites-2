@@ -92,6 +92,7 @@ const options = {
       'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV)
     }),
     new CopyWebpackPlugin([
+      { from: 'src/css', to: 'css' },
       { from: 'src/img', to: 'img' }
     ]),
     ...HtmlFiles,
