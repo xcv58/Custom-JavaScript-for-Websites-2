@@ -11,86 +11,54 @@ import { encodeSource, decodeSource } from 'libs'
 
 const store = new Store()
 const storage = {
-  data: {
-    private: {},
-    global: {}
+  hosts: [],
+  data: '',
+  draft: '',
+  setDraft: function (draft = '') {
+    this.draft = draft
+    this.saveToLocalStorage()
   },
-  MODE: {
-    private: 1,
-    global: 2
+  getDraft: function () {
+    return this.draft
   },
-  setMode: function (mode) {
-    if (mode === this.MODE.private) {
-      this.key = popup.key + '-' + popup.protocol + '//' + popup.host
-      this.mode = this.MODE.private
-    }
-
-    if (mode === this.MODE.global) {
-      this.key = popup.key
-      this.mode = this.MODE.global
-    }
+  removeDraft: function () {
+    this.draft = ''
+    this.saveToLocalStorage()
+  },
+  setData: function (data = '') {
+    this.data = data
+    this.saveToLocalStorage()
+  },
+  getData: function () {
+    return this.data
+  },
+  getHosts: function () {
+    return this.hosts
+  },
+  setHosts: function (hosts = []) {
+    this.hosts = hosts
+    const hostsStr = JSON.stringify({ hosts: this.hosts })
+    window.localStorage.setItem(popup.key, hostsStr)
+  },
+  saveToLocalStorage: function () {
+    const key = popup.key + '-' + popup.protocol + '//' + popup.host
+    const str = JSON.stringify({
+      data: this.data,
+      draft: this.draft
+    })
+    window.localStorage.setItem(key, str)
   },
   load: function () {
-    this.setMode(this.MODE.private)
-    this._setData(JSON.parse(window.localStorage.getItem(this.key) || '{}'))
-
-    this.setMode(this.MODE.global)
-    this._setData(JSON.parse(window.localStorage.getItem(this.key) || '{}'))
+    const key = popup.key + '-' + popup.protocol + '//' + popup.host
+    const { data, draft } = JSON.parse(window.localStorage.getItem(key) || '{}')
+    this.data = data
+    this.draft = draft
+    const { hosts } = JSON.parse(window.localStorage.getItem(popup.key) || '{}')
+    this.hosts = hosts
   },
-  _getData: function (key) {
-    const object = this.mode === this.MODE.private ? this.data.private : this.data.global
-    if (key) {
-      return object[key]
-    } else {
-      return object
-    }
-  },
-  _setData: function (data, key) {
-    if (this.mode === this.MODE.private) {
-      if (key) {
-        this.data.private[key] = data
-      } else {
-        this.data.private = data
-      }
-    }
-    if (this.mode === this.MODE.global) {
-      if (key) {
-        this.data.global[key] = data
-      } else {
-        this.data.global = data
-      }
-    }
-  },
-  get: function (key) {
-    return this._getData(key)
-  },
-  set: function (arg1, arg2) {
-    // arg1 is a key
-    if (typeof arg1 === 'string') {
-      this._setData(arg2, arg1)
-    } else {
-      // arg1 is data
-      throw new Error('This should never happen!')
-      // this._setData(arg1)
-    }
-    var str = JSON.stringify(this._getData() || {})
-    window.localStorage.setItem(this.key, str)
-  },
-  remove: function (key) {
-    if (key) {
-      var data = this._getData()
-      delete data[key]
-
-      if ($.isEmptyObject(data)) {
-        this.remove()
-      } else {
-        var str = JSON.stringify(this._getData())
-        window.localStorage.setItem(this.key, str)
-      }
-    } else {
-      window.localStorage.removeItem(this.key)
-      this._setData({})
-    }
+  remove: function () {
+    const key = popup.key + '-' + popup.protocol + '//' + popup.host
+    window.localStorage.removeItem(key)
   }
 }
 
@@ -163,16 +131,13 @@ const popup = {
     popup.host = response.host
     popup.protocol = response.protocol
 
-      // Load storage (global, local) IMPORTANT: Must be called first of all storage operations
+    // Load storage (global, local) IMPORTANT: Must be called first of all storage operations
     storage.load()
 
-      // Set storage to store data accessible from all hosts
-    storage.setMode(storage.MODE.global)
-
-    const hosts = storage.get('hosts') || []
+    const hosts = storage.getHosts()
     const url = popup.protocol + '//' + response.host
 
-      // Add current host to list
+    // Add current host to list
     if (hosts.indexOf(url) === -1) {
       hosts.push(url)
     }
@@ -188,7 +153,7 @@ const popup = {
 
     // Store host (current included in array) if is customjs defined
     if (response.customjs) {
-      storage.set('hosts', hosts)
+      storage.setHosts(hosts)
     }
 
     /**
@@ -204,16 +169,13 @@ const popup = {
 
     popup.data.source = decodeSource(popup.data.source)
 
-    // Set storage to store data accessible ONLY from current host
-    storage.setMode(storage.MODE.private)
-
     // Save local copy of live data
     if (response.customjs) {
-      storage.set('data', popup.data)
+      storage.setData(popup.data)
     }
 
     // Apply data (draft if exist)
-    popup.applyData(storage.get('draft'))
+    popup.applyData(storage.getDraft())
   },
   applyData: function (data, notDraft) {
     if (data && !notDraft) {
@@ -261,8 +223,7 @@ const popup = {
     }
   },
   removeDraft: function () {
-    storage.setMode(storage.MODE.private)
-    storage.remove('draft')
+    storage.removeDraft()
 
     popup.applyData()
     popup.el.draftRemoveLink.addClass('is-hidden')
@@ -285,8 +246,7 @@ const popup = {
     chrome.runtime.sendMessage({ method: 'setData', customjs: data, reload: true })
 
     // Save local copy of data
-    storage.setMode(storage.MODE.private)
-    storage.set('data', popup.data)
+    storage.setData(popup.data)
 
     // Clear draft
     popup.removeDraft()
@@ -305,14 +265,12 @@ const popup = {
     // TODO: confirm doesn't work with popup window
     // if (window.confirm('Do you really want all away?')) {
     // Remove stored data for current host
-    storage.setMode(storage.MODE.private)
     storage.remove()
 
     // Remove host from hosts inside global storage
-    storage.setMode(storage.MODE.global)
-    const oldHosts = storage.get('hosts')
+    const oldHosts = storage.getHosts()
     const newHosts = oldHosts.filter((host) => host !== `${popup.protocol}//${popup.host}`)
-    storage.set('hosts', newHosts)
+    storage.setHosts(newHosts)
 
     // Remove customjs from frontend
     chrome.runtime.sendMessage({ method: 'removeData' })
@@ -390,8 +348,7 @@ const draftAutoSave = function () {
   const source = draft.source
 
   if ((source || !popup.data.source) && source !== popup.data.source) {
-    storage.setMode(storage.MODE.private)
-    storage.set('draft', draft)
+    storage.setDraft(draft)
 
     // Auto switch 'enable checkbox' on source edit
     if (!popup.el.enableCheck.hasClass('not-auto-change')) {
@@ -410,6 +367,7 @@ popup.el.hostSelect.on('change', function (e) {
   const hostData = JSON.parse(window.localStorage.getItem(popup.key + '-' + host), true)
 
   if (host !== popup.protocol + '//' + popup.host) {
+    // storage.load()
     // Stop making drafts
     clearInterval(draftAutoSaveInterval)
 
@@ -438,7 +396,7 @@ popup.el.hostSelect.on('change', function (e) {
     // Show controls
     popup.el.saveBtn.removeClass('pure-button-disabled')
     popup.el.resetBtn.removeClass('pure-button-disabled')
-    if (storage.get('draft')) {
+    if (storage.getDraft()) {
       popup.el.draftRemoveLink.removeClass('is-hidden')
     }
 
@@ -457,7 +415,7 @@ popup.el.enableCheck.on('click', function () {
 /**
  * Save script
  */
-popup.el.saveBtn.on('click', popup.save)
+popup.el.saveBtn.on('click', popup.save.bind(popup))
 
 /**
  * Reset script
