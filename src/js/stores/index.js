@@ -1,7 +1,13 @@
-import EditorStore from './EditorStore'
+import AppStore from './AppStore'
+import IncludeStore from './IncludeStore'
 
 export default class Store {
   constructor () {
-    this.EditorStore = new EditorStore(this)
+    Object.entries({
+      AppStore,
+      IncludeStore
+    }).map(([ key, Value ]) => {
+      this[key] = new Value(this)
+    })
   }
 }

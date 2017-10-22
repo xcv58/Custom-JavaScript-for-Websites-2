@@ -25,8 +25,8 @@ chrome.storage.sync.get(website, (obj) => {
   }
 
   // Extra include
-  (extra || '').split(';').forEach((line) => {
-    if (line.substr(0, 1) !== '#') {
+  (extra || '').split(';').map(x => x.trim()).forEach((line) => {
+    if (line && line.substr(0, 1) !== '#') {
       injectScript(line)
     }
   })

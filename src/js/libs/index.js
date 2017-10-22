@@ -49,5 +49,6 @@ export const decodeSource = (source) => {
   if (!source) {
     return ''
   }
-  throw new Error(`Unrecognized source format: ${source}`)
+  console.log(`Unrecognized source format: ${source}`)
+  return source
 }

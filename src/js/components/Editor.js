@@ -7,17 +7,17 @@ import 'brace/snippets/javascript'
 import 'brace/ext/language_tools'
 import 'brace/ext/searchbox'
 
-@inject('EditorStore')
+@inject('AppStore')
 @observer
 export default class Editor extends Component {
   render () {
-    const { EditorStore: { value, onChange } } = this.props
+    const { draft, source, onChangeSource } = this.props.AppStore
     return (
       <AceEditor
         mode='javascript'
         theme='tomorrow'
-        value={value}
-        onChange={onChange}
+        value={draft || source}
+        onChange={onChangeSource}
         style={{
           border: '1px solid #EBEBEB',
           margin: 0,
