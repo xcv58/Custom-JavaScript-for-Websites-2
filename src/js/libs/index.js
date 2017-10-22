@@ -46,5 +46,8 @@ export const decodeSource = (source) => {
   if (source.startsWith(UTF8_PREFIX)) {
     return decodeURIComponent(source.replace(UTF8_PREFIX, ''))
   }
+  if (!source) {
+    return ''
+  }
   throw new Error(`Unrecognized source format: ${source}`)
 }
