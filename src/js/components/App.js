@@ -27,6 +27,11 @@ export default class App extends Component {
     this.props.AppStore.onHostChange(e.target.value)
   }
 
+  goTo = () => {
+    this.props.AppStore.goTo()
+    window.close()
+  }
+
   componentDidMount () {
     this.props.AppStore.init()
   }
@@ -47,7 +52,7 @@ export default class App extends Component {
                   ))
                 }
               </select>
-              <a className='is-hidden' id='goto-host' href='#'>go to</a>
+              {differentURL && <a href='#' onClick={this.goTo}>go to</a>}
             </div>
             <div className='pure-u-2-5 host__enable'>
               <label htmlFor='enable'>

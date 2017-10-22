@@ -179,10 +179,16 @@ export default class AppStore {
   @action
   reset = () => {
     // TODO: confirm doesn't work with popup window
+    // TODO: Use real delete instead of set to default value
     this.draft = ''
     this.loadCustomjs()
     this.save()
     const newHosts = this.hosts.filter(x => x !== this.domain)
     this.saveHosts(newHosts)
+  }
+
+  @action
+  goTo = () => {
+    chrome.runtime.sendMessage({ method: 'goTo', link: this.domain })
   }
 }
