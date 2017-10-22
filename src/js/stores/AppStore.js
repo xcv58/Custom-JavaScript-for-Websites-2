@@ -90,8 +90,8 @@ export default class AppStore {
     })
   }
 
-  saveHosts = () => {
-    const hostsStr = JSON.stringify({ hosts: this.hosts })
+  saveHosts = (hosts = this.hosts) => {
+    const hostsStr = JSON.stringify({ hosts })
     window.localStorage.setItem(key, hostsStr)
   }
 
@@ -179,7 +179,10 @@ export default class AppStore {
   @action
   reset = () => {
     // TODO: confirm doesn't work with popup window
+    this.draft = ''
     this.loadCustomjs()
     this.save()
+    const newHosts = this.hosts.filter(x => x !== this.domain)
+    this.saveHosts(newHosts)
   }
 }
