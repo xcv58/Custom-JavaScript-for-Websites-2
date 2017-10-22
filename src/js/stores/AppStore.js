@@ -142,7 +142,7 @@ export default class AppStore {
       clearTimeout(this.autoSaveHandle)
       this.autoSaveHandle = null
     }
-    this.autoSaveHandle = setTimeout(this.saveToLocalStorage, 1000)
+    this.autoSaveHandle = setTimeout(this.saveToLocalStorage, 500)
   }
 
   @action
@@ -181,10 +181,5 @@ export default class AppStore {
     // TODO: confirm doesn't work with popup window
     this.loadCustomjs()
     this.save()
-    const index = this.hosts.indexOf(this.domain)
-    if (index !== -1) {
-      this.hosts.splice(index, 1)
-      this.saveHosts()
-    }
   }
 }

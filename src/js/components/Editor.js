@@ -7,6 +7,22 @@ import 'brace/snippets/javascript'
 import 'brace/ext/language_tools'
 import 'brace/ext/searchbox'
 
+const style = {
+  border: '1px solid #EBEBEB',
+  margin: 0,
+  height: 380,
+  width: '100%',
+  lineHeight: '150%'
+}
+
+const setOptions = {
+  enableBasicAutocompletion: true,
+  enableLiveAutocompletion: true,
+  enableSnippets: true,
+  showLineNumbers: true,
+  tabSize: 2
+}
+
 @inject('AppStore')
 @observer
 export default class Editor extends Component {
@@ -18,27 +34,14 @@ export default class Editor extends Component {
         theme='tomorrow'
         value={draft || source}
         onChange={onChangeSource}
-        style={{
-          border: '1px solid #EBEBEB',
-          margin: 0,
-          height: 380,
-          width: '100%',
-          lineHeight: '150%'
-        }}
+        style={style}
         showGutter
         showPrintMargin
         highlightActiveLine
-        wrapEnabled
         editorProps={{
           $blockScrolling: Infinity
         }}
-        setOptions={{
-          enableBasicAutocompletion: true,
-          enableLiveAutocompletion: true,
-          enableSnippets: true,
-          showLineNumbers: true,
-          tabSize: 2
-        }}
+        setOptions={setOptions}
       />
     )
   }
