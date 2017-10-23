@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { inject, observer } from 'mobx-react'
 import AceEditor from 'react-ace'
 import 'brace/theme/tomorrow'
@@ -26,6 +27,13 @@ const setOptions = {
 @inject('AppStore')
 @observer
 export default class Editor extends Component {
+  static propTypes = {
+    AppStore: PropTypes.shape({
+      draft: PropTypes.string.isRequired,
+      source: PropTypes.string.isRequired
+    }).isRequired
+  }
+
   render () {
     const { draft, source, onChangeSource } = this.props.AppStore
     return (

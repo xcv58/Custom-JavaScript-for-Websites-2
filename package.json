@@ -16,9 +16,11 @@
     "chrome-extension-async": "^3.2.4",
     "mobx": "^3.3.1",
     "mobx-react": "^4.3.3",
+    "query-string": "^5.0.0",
     "react": "^16.0.0",
     "react-ace": "^5.4.0",
-    "react-dom": "^16.0.0"
+    "react-dom": "^16.0.0",
+    "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

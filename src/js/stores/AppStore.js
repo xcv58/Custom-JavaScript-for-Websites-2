@@ -42,6 +42,11 @@ export default class AppStore {
   }
 
   @computed
+  get tabMode () {
+    return this.tab.url === window.location.href
+  }
+
+  @computed
   get customjs () {
     return {
       config: {
@@ -115,7 +120,12 @@ export default class AppStore {
   loadLocalStorage = () => {
     const { data, draft } = JSON.parse(window.localStorage.getItem(this.domainKey) || '{}')
     this.loadCustomjs(data)
-    this.draft = draft
+    // TODO: this is a hack to handle draft, need to support draft object
+    if (typeof draft === 'string') {
+      this.draft = draft
+    } else if (typeof draft === 'object' && draft.draft) {
+      this.draft = draft.draft
+    }
     const { hosts } = JSON.parse(window.localStorage.getItem(key) || '{}')
     this.hosts = hosts
   }

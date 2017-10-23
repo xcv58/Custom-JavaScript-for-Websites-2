@@ -1,13 +1,17 @@
-
-/**
- * Basic
- */
 html, body {
-  width: 570px;
-  height: 600px;
+  min-width: 570px;
+  min-height: 600px;
+  height: 100%;
+}
+
+#app {
+  height: 100%;
 }
 
 .customjs {
+  max-width: 1024px;
+  margin: auto;
+  height: 100%;
   position: relative;
   overflow: hidden;
   padding: 12px 24px;
@@ -53,11 +57,6 @@ a:hover {
   padding: 10px 0;
 }
 
-
-/**
- * Host row (up)
- */
-
 .host {
 }
 
@@ -81,10 +80,6 @@ a:hover {
   margin-left: 2px;
 }
 
-
-/**
- * Include row (bellow top)
- */
 
 .include {
   text-align: right;
@@ -138,41 +133,38 @@ a:hover {
   width: 100%;
 }
 
-/**
- * Controls
- */
-
 .controls { }
 
 .controls__save,
-.controls__reset {
+.controls__reset,
+.controls__new-tab,
+.controls__remove-draft {
   margin-right: 10px;
   font-size: 18px;
 }
 
-.controls__remove-draft { }
+.controls__remove-draft {
+  color: red !important;
+}
 
-/**
- * Donate
- */
 .donate {
-    text-align: right;
+  text-align: right;
 }
 
 .donate img {
-    position: absolute;
+  position: absolute;
 }
 
 .donate__button {
-    background: rgb(28, 184, 65); /* this is a green */
-    color: #fff;
-    font-size: 18px;
+  background: rgb(28, 184, 65) !important; /* this is a green */
+  color: #fff !important;
+  font-size: 18px !important;
 }
 
 .donate-form {
-    width: 0;
-    height: 0;
-    overflow: hidden;
+  width: 0;
+  height: 0;
+  overflow: hidden;
 }
 
 
