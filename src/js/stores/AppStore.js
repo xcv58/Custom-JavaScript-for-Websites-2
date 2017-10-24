@@ -10,7 +10,8 @@ export default class AppStore {
     this.store = store
   }
 
-  autoSaveHandle = null
+  @observable autoSaveHandle = null
+  @observable saved = false
 
   @observable hosts = []
 
@@ -121,23 +122,24 @@ export default class AppStore {
 
   @action
   saveDraft = () => {
+    this.draft = this.customjs
     window.localStorage.setItem(
       this.domainKey,
-      JSON.stringify({ draft: this.customjs })
+      JSON.stringify({ draft: this.draft })
     )
+    this.saved = true
+    this.autoSaveHandle = null
   }
 
   @action
   removeDraft = () => {
     this.draft = null
+    this.saved = false
     window.localStorage.removeItem(this.domainKey)
   }
 
   @action
   onChangeSource = (value) => {
-    if (this.draft) {
-      this.draft = null
-    }
     this.source = value
     if (!this.enable) {
       this.enable = true
@@ -196,7 +198,6 @@ export default class AppStore {
   autoSave = () => {
     if (this.autoSaveHandle) {
       clearTimeout(this.autoSaveHandle)
-      this.autoSaveHandle = null
     }
     this.autoSaveHandle = setTimeout(this.saveDraft, 500)
   }

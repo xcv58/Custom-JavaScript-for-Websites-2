@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import AutoSave from 'components/AutoSave'
 import Editor from 'components/Editor'
 import Include from 'components/Include'
 import queryString from 'query-string'
@@ -80,7 +81,10 @@ export default class Page extends Component {
               </label>
             </div>
           </div>
-          <Include />
+          <div className='pure-g'>
+            <AutoSave />
+            <Include />
+          </div>
           <div className='pure-g'>
             <div className='pure-u-1'>
               <Editor />
