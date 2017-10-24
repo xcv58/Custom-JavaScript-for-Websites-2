@@ -29,18 +29,17 @@ const setOptions = {
 export default class Editor extends Component {
   static propTypes = {
     AppStore: PropTypes.shape({
-      draft: PropTypes.string.isRequired,
       source: PropTypes.string.isRequired
     }).isRequired
   }
 
   render () {
-    const { draft, source, onChangeSource } = this.props.AppStore
+    const { source, onChangeSource } = this.props.AppStore
     return (
       <AceEditor
         mode='javascript'
         theme='tomorrow'
-        value={draft || source}
+        value={source}
         onChange={onChangeSource}
         style={style}
         showGutter

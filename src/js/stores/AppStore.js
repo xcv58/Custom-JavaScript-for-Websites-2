@@ -1,5 +1,6 @@
 import { action, computed, observable } from 'mobx'
 import { encodeSource, decodeSource } from 'libs'
+import { isEqual } from 'lodash'
 
 const key = 'popup'
 const defaultSource = '// Here You can type your custom JavaScript...'
@@ -16,7 +17,9 @@ export default class AppStore {
   @observable enable = false
   @observable source = defaultSource
 
-  @observable draft = ''
+  @observable draft = null
+  @observable truth = null
+
   @observable tab = { url: '' }
   @observable host = ''
   @observable protocol = ''
@@ -71,33 +74,30 @@ export default class AppStore {
       }
 
       const { customjs, host, protocol, tab } = response
-      this.host = host
-      this.protocol = protocol
-      this.tab = tab
+      Object.assign(this, {
+        truth: customjs,
+        host,
+        protocol,
+        tab
+      })
+
       this.loadLocalStorage()
+
       const hostExist = this.hosts.includes(this.domain)
       if (!hostExist) {
         this.hosts.push(this.domain)
-      }
-      if (customjs) {
-        this.loadCustomjs(customjs)
-        // Store host (current included in array) if is customjs defined
-        if (!hostExist) {
-          this.saveHosts()
-        }
-        // Save local copy of live data
-        this.saveToLocalStorage()
+        this.saveHosts()
       }
 
-      if (this.source === this.draft) {
-        this.draft = ''
+      if (isEqual(this.draft, this.truth)) {
+        this.draft = null
       }
+      this.loadCustomjs(this.draft || this.truth)
     })
   }
 
   saveHosts = (hosts = this.hosts) => {
-    const hostsStr = JSON.stringify({ hosts })
-    window.localStorage.setItem(key, hostsStr)
+    window.localStorage.setItem(key, JSON.stringify({ hosts }))
   }
 
   loadCustomjs = (customjs = { config: {} }) => {
@@ -109,50 +109,40 @@ export default class AppStore {
         extra = ''
       }
     } = customjs
-    Object.assign(this, {
-      enable,
-      source: decodeSource(source)
-    })
-    this.store.IncludeStore.onSelect(include)
-    this.store.IncludeStore.extra = extra
+    Object.assign(this, { enable, source: decodeSource(source) })
+    Object.assign(this.store.IncludeStore, { include, extra })
   }
 
   loadLocalStorage = () => {
-    const { data, draft } = JSON.parse(window.localStorage.getItem(this.domainKey) || '{}')
-    this.loadCustomjs(data)
-    // TODO: this is a hack to handle draft, need to support draft object
-    if (typeof draft === 'string') {
-      this.draft = draft
-    } else if (typeof draft === 'object' && draft.draft) {
-      this.draft = draft.draft
-    }
+    const { draft } = JSON.parse(window.localStorage.getItem(this.domainKey) || '{}')
     const { hosts } = JSON.parse(window.localStorage.getItem(key) || '{}')
-    this.hosts = hosts
+    Object.assign(this, { draft, hosts })
   }
 
   @action
-  saveToLocalStorage = () => {
-    const str = JSON.stringify({
-      data: this.data,
-      draft: this.draft || this.source
-    })
-    window.localStorage.setItem(this.domainKey, str)
+  saveDraft = () => {
+    window.localStorage.setItem(
+      this.domainKey,
+      JSON.stringify({ draft: this.customjs })
+    )
+  }
+
+  @action
+  removeDraft = () => {
+    this.draft = null
+    window.localStorage.removeItem(this.domainKey)
   }
 
   @action
   onChangeSource = (value) => {
     if (this.draft) {
-      this.draft = ''
+      this.draft = null
     }
     this.source = value
     if (!this.enable) {
       this.enable = true
     }
-    if (this.autoSaveHandle) {
-      clearTimeout(this.autoSaveHandle)
-      this.autoSaveHandle = null
-    }
-    this.autoSaveHandle = setTimeout(this.saveToLocalStorage, 500)
+    this.autoSave()
   }
 
   @action
@@ -162,20 +152,19 @@ export default class AppStore {
 
   @action
   onRemoveDraft = () => {
-    this.draft = ''
-    this.saveToLocalStorage()
+    this.removeDraft()
+    this.loadCustomjs(this.truth)
   }
 
   @action
   toggleEnable = () => {
     this.enable = !this.enable
+    this.autoSave()
   }
 
   @action
   save = () => {
-    // Clear draft
-    this.source = this.draft || this.source
-    this.draft = ''
+    this.removeDraft()
     const { domain, customjs } = this
     chrome.runtime.sendMessage({
       method: 'setData',
@@ -183,22 +172,32 @@ export default class AppStore {
       customjs,
       reload: true
     })
-    this.saveToLocalStorage()
   }
 
   @action
   reset = () => {
     // TODO: confirm doesn't work with popup window
-    // TODO: Use real delete instead of set to default value
-    this.draft = ''
     this.loadCustomjs()
-    this.save()
+    chrome.runtime.sendMessage({
+      method: 'removeData',
+      domain: this.domain,
+      reload: true
+    })
     const newHosts = this.hosts.filter(x => x !== this.domain)
     this.saveHosts(newHosts)
+    this.removeDraft()
   }
 
   @action
   goTo = () => {
     chrome.runtime.sendMessage({ method: 'goTo', link: this.domain })
+  }
+
+  autoSave = () => {
+    if (this.autoSaveHandle) {
+      clearTimeout(this.autoSaveHandle)
+      this.autoSaveHandle = null
+    }
+    this.autoSaveHandle = setTimeout(this.saveDraft, 500)
   }
 }

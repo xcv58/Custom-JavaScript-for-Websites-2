@@ -34,6 +34,7 @@ export default class includeStore {
   @action
   onSelect = (include) => {
     this.include = include
+    this.store.AppStore.autoSave()
   }
 
   @action
@@ -44,5 +45,6 @@ export default class includeStore {
   @action
   onUpdateExtra = (value) => {
     this.extra = value.replace('\n', ';')
+    this.store.AppStore.autoSave()
   }
 }
