@@ -116,7 +116,7 @@ export default class AppStore {
 
   loadLocalStorage = () => {
     const { draft } = JSON.parse(window.localStorage.getItem(this.domainKey) || '{}')
-    const { hosts } = JSON.parse(window.localStorage.getItem(key) || '{}')
+    const { hosts = [] } = JSON.parse(window.localStorage.getItem(key) || '{}')
     Object.assign(this, { draft, hosts })
   }
 
