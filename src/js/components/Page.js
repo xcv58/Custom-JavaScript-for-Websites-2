@@ -21,32 +21,39 @@ export default class Page extends Component {
   onSave = (e) => {
     e.preventDefault()
     this.props.AppStore.save()
-    this.closeWindow()
+    this.closePopup()
   }
 
   onSelectHost = (e) => {
     e.preventDefault()
     const newHost = e.target.value
-    // TODO: Change URL
-    this.props.AppStore.onHostChange(newHost)
+    this.props.history.push(`?domain=${newHost}`)
   }
 
   goTo = () => {
     this.props.AppStore.goTo()
-    this.closeWindow()
+    this.closePopup()
   }
 
-  closeWindow = () => {
+  closePopup = () => {
     if (!this.props.AppStore.tabMode) {
       window.close()
     }
   }
 
-  componentDidMount () {
+  init = () => {
     const { location } = this.props
     const { domain } = queryString.parse(location.search)
     this.props.AppStore.init(domain)
   }
+
+  componentDidUpdate (prevProps) {
+    if (this.props.location.search !== prevProps.location.search) {
+      this.init()
+    }
+  }
+
+  componentDidMount = this.init
 
   render () {
     const {
