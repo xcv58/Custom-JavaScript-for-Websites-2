@@ -1,6 +1,6 @@
 import { action, computed, observable } from 'mobx'
 import { encodeSource, decodeSource } from 'libs'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash.isequal'
 
 const key = 'popup'
 const defaultSource = '// Here You can type your custom JavaScript...'
