@@ -1,4 +1,5 @@
 import 'chrome-extension-async'
+import 'typeface-roboto'
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'mobx-react'

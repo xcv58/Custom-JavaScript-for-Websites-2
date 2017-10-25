@@ -55,13 +55,11 @@ const options = {
     rules: [
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader',
-        exclude: /node_modules/
+        loader: 'style-loader!css-loader'
       },
       {
         test: new RegExp(`\\.(${fileExtensions.join('|')})$`),
-        loader: 'file-loader?name=[name].[ext]',
-        exclude: /node_modules/
+        loader: 'file-loader?name=[name].[ext]'
       },
       {
         test: /\.html$/,
