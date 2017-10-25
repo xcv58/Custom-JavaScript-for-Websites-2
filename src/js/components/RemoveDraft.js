@@ -11,7 +11,7 @@ export default class RemoveDraft extends Component {
       return null
     }
     return (
-      <Button raised color='accent' onClick={onRemoveDraft}>
+      <Button color='accent' onClick={onRemoveDraft}>
         Remove Draft
       </Button>
     )

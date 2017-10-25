@@ -22,7 +22,7 @@ export default class Reset extends Component {
   render () {
     const { domain } = this.props.AppStore
     return [
-      <Button raised onClick={this.openDialog} key='reset'>
+      <Button onClick={this.openDialog} key='reset'>
         Reset
       </Button>,
       <Dialog open={this.state.open} onRequestClose={this.closeDialog} key='dialog'>
@@ -34,10 +34,10 @@ export default class Reset extends Component {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button raised onClick={this.closeDialog}>
+          <Button onClick={this.closeDialog}>
             Cancel
           </Button>
-          <Button raised color='primary' onClick={this.handleReset}>
+          <Button color='primary' onClick={this.handleReset}>
             Reset
           </Button>
         </DialogActions>

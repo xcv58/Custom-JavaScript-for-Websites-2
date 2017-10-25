@@ -8,9 +8,7 @@ export default class Save extends Component {
   render () {
     const { differentURL, tabMode } = this.props.AppStore
     return (
-      <Button raised
-        color='primary'
-        value='save'
+      <Button color='primary'
         disabled={differentURL && !tabMode}
         onClick={this.props.onSave}
       >Save</Button>
