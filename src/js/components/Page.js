@@ -88,14 +88,17 @@ export default class Page extends Component {
               <Editor />
             </div>
           </div>
-          <div className='pure-g'>
-            <div className='pure-u-4-5 controls'>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}>
+            <div>
               <Save onSave={this.onSave} />
               <Reset />
               <NewTabLink />
               <RemoveDraft />
             </div>
-            <div className='pure-u-1-5 donate'>
+            <div>
               <DonateLink />
             </div>
           </div>
