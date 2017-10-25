@@ -5,6 +5,8 @@ html, body {
   font-size: 14px;
   font-family: Arial, Helvetica, sans-serif;
   overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 #app {
