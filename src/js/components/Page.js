@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import AutoSave from 'components/AutoSave'
 import Editor from 'components/Editor'
+import RemoveDraft from 'components/RemoveDraft'
 import Include from 'components/Include'
 import Reset from 'components/Reset'
 import Save from 'components/Save'
@@ -14,11 +15,6 @@ export default class Page extends Component {
   onReset = (e) => {
     e.preventDefault()
     this.props.AppStore.reset()
-  }
-
-  onRemoveDraft = (e) => {
-    e.preventDefault()
-    this.props.AppStore.onRemoveDraft()
   }
 
   onSave = () => {
@@ -59,7 +55,7 @@ export default class Page extends Component {
 
   render () {
     const {
-      draft, hosts, domain, toggleEnable, enable, differentURL
+      hosts, domain, toggleEnable, enable, differentURL
     } = this.props.AppStore
     return (
       <div className='customjs' id='customjs'>
@@ -96,12 +92,7 @@ export default class Page extends Component {
               <Save onSave={this.onSave} />
               <Reset />
               <NewTabLink />
-              {
-                draft &&
-                <button className='controls__remove-draft red-text pure-button' onClick={this.onRemoveDraft}>
-                  remove draft
-                </button>
-              }
+              <RemoveDraft />
             </div>
             <div className='pure-u-1-5 donate'>
               <a className='donate__button pure-button' href='https://paypal.me/xcv58' target='_blank'>donate</a>
