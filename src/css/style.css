@@ -14,7 +14,7 @@ html, body {
   height: 100%;
   position: relative;
   overflow: hidden;
-  padding: 12px 24px;
+  padding: 0 0.5rem;
   color: #4A4A4A;
   font-size: 14px;
   font-family: Arial, Helvetica, sans-serif;

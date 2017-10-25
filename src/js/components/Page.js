@@ -4,12 +4,19 @@ import Editor from 'components/Editor'
 import RemoveDraft from 'components/RemoveDraft'
 import Goto from 'components/Goto'
 import DonateLink from 'components/DonateLink'
+import Toggle from 'components/Toggle'
 import Include from 'components/Include'
 import Reset from 'components/Reset'
 import Save from 'components/Save'
 import queryString from 'query-string'
 import NewTabLink from './NewTabLink'
 import { inject, observer } from 'mobx-react'
+
+const toolbarStyle = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center'
+}
 
 @inject('AppStore')
 @observer
@@ -56,54 +63,44 @@ export default class Page extends Component {
   componentDidMount = this.init
 
   render () {
-    const {
-      hosts, domain, toggleEnable, enable, differentURL
-    } = this.props.AppStore
+    const { hosts, domain } = this.props.AppStore
     return (
-      <div className='customjs' id='customjs'>
-        <form action='' method='post' acceptCharset='utf-8' id='popup-form' className='pure-form'>
-          <div className='pure-g host'>
-            <div className='pure-u-3-5 host__name'>
-              <select onChange={this.onSelectHost} value={domain}>
-                {
-                  hosts.map((host, i) => (
-                    <option key={host} value={host}>{host}</option>
-                  ))
-                }
-              </select>
-              <Goto goTo={this.goTo} />
-            </div>
-            <div className='pure-u-2-5 host__enable'>
-              <label htmlFor='enable'>
-                enable <em className='blue-text'>cjs</em> for this host
-                <input type='checkbox' checked={enable} onClick={toggleEnable} />
-              </label>
-            </div>
+      <div className='customjs'>
+        <div style={toolbarStyle}>
+          <div>
+            <select onChange={this.onSelectHost} value={domain}>
+              {
+                hosts.map((host, i) => (
+                  <option key={host} value={host}>{host}</option>
+                ))
+              }
+            </select>
+            <Goto goTo={this.goTo} />
           </div>
-          <div className='pure-g'>
-            <AutoSave />
-            <Include />
+          <div>
+            <Toggle />
           </div>
-          <div className='pure-g'>
-            <div className='pure-u-1'>
-              <Editor />
-            </div>
+        </div>
+        <div className='pure-g'>
+          <AutoSave />
+          <Include />
+        </div>
+        <div className='pure-g'>
+          <div className='pure-u-1'>
+            <Editor />
           </div>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between'
-          }}>
-            <div>
-              <Save onSave={this.onSave} />
-              <Reset />
-              <NewTabLink />
-              <RemoveDraft />
-            </div>
-            <div>
-              <DonateLink />
-            </div>
+        </div>
+        <div style={toolbarStyle}>
+          <div>
+            <Save onSave={this.onSave} />
+            <Reset />
+            <NewTabLink />
+            <RemoveDraft />
           </div>
-        </form>
+          <div>
+            <DonateLink />
+          </div>
+        </div>
         <div id='error' className='error is-hidden'>
           <strong>Custom JavaScript says:</strong>
           <p className='red-text'>It seems that this page cannot be modified with me..</p>

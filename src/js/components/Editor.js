@@ -11,7 +11,7 @@ import 'brace/ext/searchbox'
 const style = {
   border: '1px solid #EBEBEB',
   margin: 0,
-  height: 380,
+  height: 430,
   width: '100%',
   lineHeight: '150%'
 }
