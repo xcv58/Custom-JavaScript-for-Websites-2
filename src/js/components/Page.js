@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import AutoSave from 'components/AutoSave'
 import Editor from 'components/Editor'
 import RemoveDraft from 'components/RemoveDraft'
+import DonateLink from 'components/DonateLink'
 import Include from 'components/Include'
 import Reset from 'components/Reset'
 import Save from 'components/Save'
@@ -95,7 +96,7 @@ export default class Page extends Component {
               <RemoveDraft />
             </div>
             <div className='pure-u-1-5 donate'>
-              <a className='donate__button pure-button' href='https://paypal.me/xcv58' target='_blank'>donate</a>
+              <DonateLink />
             </div>
           </div>
         </form>
