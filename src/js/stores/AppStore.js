@@ -108,7 +108,7 @@ export default class AppStore {
         enable = false,
         include = '',
         extra = ''
-      }
+      } = {}
     } = customjs
     Object.assign(this, { enable, source: decodeSource(source) })
     Object.assign(this.store.IncludeStore, { include, extra })
