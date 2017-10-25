@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import AutoSave from 'components/AutoSave'
 import Editor from 'components/Editor'
 import Include from 'components/Include'
+import Reset from 'components/Reset'
 import queryString from 'query-string'
 import NewTabLink from './NewTabLink'
 import { inject, observer } from 'mobx-react'
@@ -99,12 +100,7 @@ export default class Page extends Component {
                 disabled={differentURL && !tabMode}
                 onClick={this.onSave}
               />
-              <input onClick={this.onReset}
-                disabled={differentURL && !tabMode}
-                type='submit'
-                className='controls__reset pure-button'
-                value='reset'
-              />
+              <Reset />
               <NewTabLink />
               {
                 draft &&
