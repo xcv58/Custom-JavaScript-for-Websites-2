@@ -65,7 +65,12 @@ export default class Page extends Component {
   render () {
     const { hosts, domain } = this.props.AppStore
     return (
-      <div className='customjs'>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        height: '100%'
+      }}>
         <div style={toolbarStyle}>
           <div>
             <select onChange={this.onSelectHost} value={domain}>
@@ -81,15 +86,11 @@ export default class Page extends Component {
             <Toggle />
           </div>
         </div>
-        <div className='pure-g'>
+        <div style={toolbarStyle}>
           <AutoSave />
           <Include />
         </div>
-        <div className='pure-g'>
-          <div className='pure-u-1'>
-            <Editor />
-          </div>
-        </div>
+        <Editor />
         <div style={toolbarStyle}>
           <div>
             <Save onSave={this.onSave} />

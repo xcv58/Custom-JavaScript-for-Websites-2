@@ -2,22 +2,16 @@ html, body {
   min-width: 800px;
   min-height: 600px;
   height: 100%;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
 }
 
 #app {
   height: 100%;
-}
-
-.customjs {
   max-width: 1024px;
   margin: auto;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
   padding: 0 0.5rem;
-  color: #4A4A4A;
-  font-size: 14px;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 .customjs.customjs--error {
