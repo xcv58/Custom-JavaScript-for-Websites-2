@@ -22,10 +22,10 @@ export default class Reset extends Component {
   render () {
     const { domain } = this.props.AppStore
     return [
-      <Button raised onClick={this.openDialog}>
+      <Button raised onClick={this.openDialog} key='reset'>
         Reset
       </Button>,
-      <Dialog open={this.state.open} onRequestClose={this.closeDialog}>
+      <Dialog open={this.state.open} onRequestClose={this.closeDialog} key='dialog'>
         <DialogTitle>Remove all codes and external scripts?</DialogTitle>
         <DialogContent>
           <DialogContentText>

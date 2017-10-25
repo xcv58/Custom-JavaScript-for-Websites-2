@@ -3,6 +3,7 @@ import AutoSave from 'components/AutoSave'
 import Editor from 'components/Editor'
 import Include from 'components/Include'
 import Reset from 'components/Reset'
+import Save from 'components/Save'
 import queryString from 'query-string'
 import NewTabLink from './NewTabLink'
 import { inject, observer } from 'mobx-react'
@@ -20,8 +21,7 @@ export default class Page extends Component {
     this.props.AppStore.onRemoveDraft()
   }
 
-  onSave = (e) => {
-    e.preventDefault()
+  onSave = () => {
     this.props.AppStore.save()
     this.closePopup()
   }
@@ -59,7 +59,7 @@ export default class Page extends Component {
 
   render () {
     const {
-      draft, hosts, domain, toggleEnable, enable, differentURL, tabMode
+      draft, hosts, domain, toggleEnable, enable, differentURL
     } = this.props.AppStore
     return (
       <div className='customjs' id='customjs'>
@@ -93,13 +93,7 @@ export default class Page extends Component {
           </div>
           <div className='pure-g'>
             <div className='pure-u-4-5 controls'>
-              <input
-                type='submit'
-                className='controls__save pure-button pure-button-primary'
-                value='save'
-                disabled={differentURL && !tabMode}
-                onClick={this.onSave}
-              />
+              <Save onSave={this.onSave} />
               <Reset />
               <NewTabLink />
               {
