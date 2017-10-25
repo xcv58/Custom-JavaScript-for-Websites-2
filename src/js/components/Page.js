@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import AutoSave from 'components/AutoSave'
 import Editor from 'components/Editor'
 import RemoveDraft from 'components/RemoveDraft'
+import Goto from 'components/Goto'
 import DonateLink from 'components/DonateLink'
 import Include from 'components/Include'
 import Reset from 'components/Reset'
@@ -70,7 +71,7 @@ export default class Page extends Component {
                   ))
                 }
               </select>
-              {differentURL && <a href='#' onClick={this.goTo}>go to</a>}
+              <Goto goTo={this.goTo} />
             </div>
             <div className='pure-u-2-5 host__enable'>
               <label htmlFor='enable'>
