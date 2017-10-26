@@ -28,7 +28,7 @@ export default class Include extends Component {
           <InputLabel>You can inject </InputLabel>
           <Button color='primary'
             onClick={toggleExtraOpen}
-            style={{ padding: 0, textTransform: 'none' }}>
+            style={{ padding: 0 }}>
             your own external scripts
           </Button>
           <InputLabel> or predefined one: </InputLabel>
