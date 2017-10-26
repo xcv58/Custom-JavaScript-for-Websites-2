@@ -13,12 +13,16 @@ export default class includeStore {
   @observable include = ''
   @observable includes = [
     {
-      name: 'jQuery 1.11.3',
-      path: '/jquery/1.11.3/jquery.min.js'
+      name: 'jQuery 1.12.4',
+      path: '/jquery/1.12.4/jquery.min.js'
     },
     {
-      name: 'jQuery 2.1.4',
-      path: '/jquery/2.1.4/jquery.min.js'
+      name: 'jQuery 2.2.4',
+      path: '/jquery/2.2.4/jquery.min.js'
+    },
+    {
+      name: 'jQuery 3.2.1',
+      path: '/jquery/3.2.1/jquery.min.js'
     }
   ]
 
