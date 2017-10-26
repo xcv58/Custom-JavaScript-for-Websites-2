@@ -3,6 +3,7 @@ import AutoSave from 'components/AutoSave'
 import Editor from 'components/Editor'
 import RemoveDraft from 'components/RemoveDraft'
 import Goto from 'components/Goto'
+import Hosts from 'components/Hosts'
 import DonateLink from 'components/DonateLink'
 import Toggle from 'components/Toggle'
 import Include from 'components/Include'
@@ -63,7 +64,6 @@ export default class Page extends Component {
   componentDidMount = this.init
 
   render () {
-    const { hosts, domain } = this.props.AppStore
     return (
       <div style={{
         display: 'flex',
@@ -73,13 +73,7 @@ export default class Page extends Component {
       }}>
         <div style={toolbarStyle}>
           <div>
-            <select onChange={this.onSelectHost} value={domain}>
-              {
-                hosts.map((host, i) => (
-                  <option key={host} value={host}>{host}</option>
-                ))
-              }
-            </select>
+            <Hosts {...this.props} />
             <Goto goTo={this.goTo} />
           </div>
           <div>
