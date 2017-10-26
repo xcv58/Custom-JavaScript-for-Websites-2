@@ -7,7 +7,6 @@
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/92a8617dc60beef87408/maintainability)](https://codeclimate.com/github/xcv58/Custom-JavaScript-for-Websites-2/maintainability)
 [![DeepScan Grade](https://deepscan.io/api/projects/737/branches/1388/badge/grade.svg)](https://deepscan.io/dashboard/#view=project&pid=737&bid=1388)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bb5084de5fd84dd2a12c1612dcfb736b)](https://www.codacy.com/app/chenyihonglove/Custom-JavaScript-for-Websites-2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=xcv58/Custom-JavaScript-for-Websites-2&amp;utm_campaign=Badge_Grade)
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
