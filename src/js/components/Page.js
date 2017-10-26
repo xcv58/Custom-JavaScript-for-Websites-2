@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import AutoSave from 'components/AutoSave'
+import Loading from 'components/Loading'
 import Editor from 'components/Editor'
 import RemoveDraft from 'components/RemoveDraft'
 import Goto from 'components/Goto'
@@ -64,6 +65,10 @@ export default class Page extends Component {
   componentDidMount = this.init
 
   render () {
+    const { loading } = this.props.AppStore
+    if (loading) {
+      return (<Loading />)
+    }
     return (
       <div style={{
         display: 'flex',

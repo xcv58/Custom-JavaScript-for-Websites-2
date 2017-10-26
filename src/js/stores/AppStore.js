@@ -10,6 +10,8 @@ export default class AppStore {
     this.store = store
   }
 
+  @observable loading = true
+
   @observable autoSaveHandle = null
   @observable saved = false
 
@@ -112,6 +114,7 @@ export default class AppStore {
     } = customjs
     Object.assign(this, { enable, source: decodeSource(source) })
     Object.assign(this.store.IncludeStore, { include, extra })
+    this.loading = false
   }
 
   loadLocalStorage = () => {
