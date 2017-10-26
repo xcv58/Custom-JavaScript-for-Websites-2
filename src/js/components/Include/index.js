@@ -5,6 +5,7 @@ import { MenuItem } from 'material-ui/Menu'
 import { FormControl } from 'material-ui/Form'
 import Button from 'material-ui/Button'
 import Select from 'material-ui/Select'
+import Extra from './Extra'
 
 @inject('IncludeStore')
 @observer
@@ -18,7 +19,7 @@ export default class Include extends Component {
   }
 
   render () {
-    const { include, includes, extraOpen, toggleExtraOpen, extraValue } = this.props.IncludeStore
+    const { include, includes, toggleExtraOpen } = this.props.IncludeStore
     const options = includes.map(({ name, path }) => (
       <MenuItem key={name} value={path}>{name}</MenuItem>
     ))
@@ -44,12 +45,7 @@ export default class Include extends Component {
             </Select>
           </FormControl>
         </div>
-        <div className={`include__popbox ${extraOpen ? '' : 'is-hidden'}`}>
-          <div className='include__popbox__body'>
-            <textarea name='extra-scripts' value={extraValue} onChange={this.onUpdateExtra} />
-          </div>
-          <div className='include__popbox__screenmask' onClick={toggleExtraOpen} />
-        </div>
+        <Extra />
       </div>
     )
   }

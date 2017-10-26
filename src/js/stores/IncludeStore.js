@@ -24,11 +24,12 @@ export default class includeStore {
 
   @computed
   get extraValue () {
-    if (this.extra) {
-      return this.extra.replace(';', '\n')
-    } else {
-      return hint + '\n' + underscore
-    }
+    return (this.extra || '').replace(';', '\n')
+  }
+
+  @computed
+  get placeholder () {
+    return hint + '\n' + underscore
   }
 
   @action
@@ -43,7 +44,7 @@ export default class includeStore {
   }
 
   @action
-  onUpdateExtra = (value) => {
+  onUpdateExtra = (value = '') => {
     this.extra = value.replace('\n', ';')
     this.store.AppStore.autoSave()
   }

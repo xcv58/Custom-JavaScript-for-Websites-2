@@ -107,7 +107,7 @@ export default class AppStore {
       config: {
         enable = false,
         include = '',
-        extra = ''
+        extra = this.store.IncludeStore.placeholder
       } = {}
     } = customjs
     Object.assign(this, { enable, source: decodeSource(source) })
