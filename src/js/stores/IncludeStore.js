@@ -23,6 +23,14 @@ export default class includeStore {
     {
       name: 'jQuery 3.2.1',
       path: '/jquery/3.2.1/jquery.min.js'
+    },
+    {
+      name: 'Indefinite Observable 1.0.1',
+      path: '/indefinite-observable/1.0.1/indefinite-observable.js'
+    },
+    {
+      name: 'MooTools 1.6.0',
+      path: '/mootools/1.6.0/mootools.min.js'
     }
   ]
 
