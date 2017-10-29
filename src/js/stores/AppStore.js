@@ -1,5 +1,5 @@
 import { action, computed, observable } from 'mobx'
-import { encodeSource, decodeSource } from 'libs'
+import { encodeSource, decodeSource, getHosts, setHosts } from 'libs'
 import isEqual from 'lodash.isequal'
 
 const key = 'popup'
@@ -71,7 +71,7 @@ export default class AppStore {
 
   @action
   init = (domain) => {
-    chrome.runtime.sendMessage({ method: 'getData', domain }, (response) => {
+    chrome.runtime.sendMessage({ method: 'getData', domain }, async (response) => {
       if (!response || typeof response.host !== 'string') {
         throw new Error('Get no data for active tab!')
       }
@@ -84,7 +84,8 @@ export default class AppStore {
         tab
       })
 
-      this.loadLocalStorage()
+      this.hosts = await getHosts(key)
+      this.loadDraft()
 
       const hostExist = this.hosts.includes(this.domain)
       if (!hostExist) {
@@ -97,10 +98,6 @@ export default class AppStore {
       }
       this.loadCustomjs(this.draft || this.truth)
     })
-  }
-
-  saveHosts = (hosts = this.hosts) => {
-    window.localStorage.setItem(key, JSON.stringify({ hosts }))
   }
 
   loadCustomjs = (customjs = { config: {} }) => {
@@ -117,10 +114,13 @@ export default class AppStore {
     this.loading = false
   }
 
-  loadLocalStorage = () => {
+  saveHosts = async (hosts = this.hosts) => {
+    setHosts(hosts.slice())
+  }
+
+  loadDraft = () => {
     const { draft } = JSON.parse(window.localStorage.getItem(this.domainKey) || '{}')
-    const { hosts = [] } = JSON.parse(window.localStorage.getItem(key) || '{}')
-    Object.assign(this, { draft, hosts })
+    this.draft = draft
   }
 
   @action
