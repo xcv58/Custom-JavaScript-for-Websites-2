@@ -6,7 +6,7 @@ export default class Store {
     Object.entries({
       AppStore,
       IncludeStore
-    }).map(([ key, Value ]) => {
+    }).forEach(([ key, Value ]) => {
       this[key] = new Value(this)
     })
   }
