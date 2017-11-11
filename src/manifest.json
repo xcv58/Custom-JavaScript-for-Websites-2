@@ -3,7 +3,6 @@
   "name": "Custom JavaScript for Websites 2",
   "short_name": "customjs",
   "author": "xcv58",
-  "description": "Run custom JavaScript on any website.",
   "minimum_chrome_version": "52.0.2743",
   "icons": {
     "128": "img/icon-128.png"

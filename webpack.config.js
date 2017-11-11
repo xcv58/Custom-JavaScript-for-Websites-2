@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const path = require('path')
 const fileSystem = require('fs')
 const env = require('./utils/env')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const WriteFilePlugin = require('write-file-webpack-plugin')
@@ -85,13 +86,24 @@ const options = {
       .concat(['.jsx', '.js', '.css'])
   },
   plugins: [
+    new CleanWebpackPlugin([ 'build' ]),
     // expose and write the allowed env vars on the compiled bundle
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV)
     }),
     new CopyWebpackPlugin([
       { from: 'src/css', to: 'css' },
-      { from: 'src/img', to: 'img' }
+      { from: 'src/img', to: 'img' },
+      {
+        from: 'src/manifest.json',
+        transform: function (content, path) {
+          return Buffer.from(JSON.stringify({
+            description: process.env.npm_package_description,
+            version: process.env.npm_package_version,
+            ...JSON.parse(content.toString())
+          }))
+        }
+      }
     ]),
     ...HtmlFiles,
     new WriteFilePlugin()
