@@ -71,10 +71,9 @@ export default class Page extends Component {
     }
     return (
       <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        height: '100%'
+        display: 'grid',
+        gridTemplateRows: 'auto auto 1fr auto',
+        height: '100vh'
       }}>
         <div style={toolbarStyle}>
           <div>
