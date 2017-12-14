@@ -151,11 +151,6 @@ export default class AppStore {
   }
 
   @action
-  onHostChange = (newHost) => {
-    this.init({ domain: newHost })
-  }
-
-  @action
   onRemoveDraft = () => {
     this.removeDraft()
     this.loadCustomjs(this.truth)
