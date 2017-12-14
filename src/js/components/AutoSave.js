@@ -14,9 +14,9 @@ export default class NewTabLink extends Component {
       saved && <InputLabel>Draft saved</InputLabel>
     )
     return (
-      <div>
+      <span>
         {content}
-      </div>
+      </span>
     )
   }
 }

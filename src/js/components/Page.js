@@ -77,28 +77,26 @@ export default class Page extends Component {
       }}>
         <div style={toolbarStyle}>
           <div>
-            <Hosts {...this.props} />
-            <Goto goTo={this.goTo} />
+            <Save onSave={this.onSave} />
+            <Reset />
+            <NewTabLink />
           </div>
           <div>
             <Toggle />
           </div>
         </div>
         <div style={toolbarStyle}>
-          <AutoSave />
+          <div>
+            <Hosts {...this.props} />
+            <Goto goTo={this.goTo} />
+          </div>
           <Include />
         </div>
         <Editor />
         <div style={toolbarStyle}>
-          <div>
-            <Save onSave={this.onSave} />
-            <Reset />
-            <NewTabLink />
-            <RemoveDraft />
-          </div>
-          <div>
-            <DonateLink />
-          </div>
+          <RemoveDraft />
+          <AutoSave />
+          <DonateLink />
         </div>
         <div id='error' className='error is-hidden'>
           <strong>Custom JavaScript says:</strong>
