@@ -53,7 +53,7 @@ export default class Page extends Component {
   init = () => {
     const { location } = this.props
     const { domain } = queryString.parse(location.search)
-    this.props.AppStore.init(domain)
+    this.props.AppStore.init({ domain })
   }
 
   componentDidUpdate (prevProps) {

@@ -70,7 +70,7 @@ export default class AppStore {
   }
 
   @action
-  init = (domain) => {
+  init = ({ domain }) => {
     chrome.runtime.sendMessage({ method: 'getData', domain }, async (response) => {
       if (!response || typeof response.host !== 'string') {
         throw new Error('Get no data for active tab!')
@@ -152,7 +152,7 @@ export default class AppStore {
 
   @action
   onHostChange = (newHost) => {
-    this.init(newHost)
+    this.init({ domain: newHost })
   }
 
   @action
