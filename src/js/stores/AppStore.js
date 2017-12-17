@@ -95,12 +95,11 @@ export default class AppStore {
       this.loadDraft()
 
       if (!matchedHost) {
-        if (domain) {
+        if (!isRegex) {
           this.hosts.push(this.domain)
         } else {
           try {
-            const re = new RegExp(pattern)
-            console.log(re)
+            this.re = new RegExp(pattern)
           } catch (err) {
             this.error = `The patterh "${pattern}" is not a valid RegExp!`
             return
@@ -195,15 +194,21 @@ export default class AppStore {
 
   @action
   reset = () => {
-    // TODO: support regex pattern
     this.loadCustomjs()
-    chrome.runtime.sendMessage({
+    const message = {
       method: 'removeData',
       domain: this.domain,
       reload: true
-    })
-    const newHosts = this.hosts.filter(x => x !== this.domain)
+    }
+    let newHosts
+    if (typeof this.matchedHost === 'string') {
+      newHosts = this.hosts.filter(x => x !== this.domain)
+    } else {
+      Object.assign(message, this.matchedHost)
+      newHosts = this.hosts.filter(x => !x.isRegex || (x.pattern !== this.matchedHost.pattern))
+    }
     this.saveHosts(newHosts)
+    chrome.runtime.sendMessage(message)
     this.removeDraft()
   }
 

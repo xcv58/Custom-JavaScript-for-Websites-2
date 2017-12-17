@@ -26,8 +26,12 @@ const methodMap = {
     chrome.storage.sync.set({ [hostKey]: customjs })
   },
   removeData: (message, { url }) => {
-    // TODO: support regex pattern
-    chrome.storage.sync.remove(url.origin)
+    const { isRegex, pattern } = message
+    if (isRegex) {
+      chrome.storage.sync.remove(pattern)
+    } else {
+      chrome.storage.sync.remove(url.origin)
+    }
   },
   goTo: (message, { tab }) => chrome.tabs.update(tab.id, { url: message.link })
 }
