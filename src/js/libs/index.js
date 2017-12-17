@@ -78,7 +78,7 @@ export const findMatchedHosts = (hosts = [], url, message = {}) => {
   if (isRegex && pattern) {
     return hosts.filter((host) => host.isRegex && host.pattern === pattern)
   }
-  return hosts.filter(
+  const matchedHosts = hosts.filter(
     (host) => {
       if (typeof host === 'string') {
         return host === url.origin
@@ -91,6 +91,7 @@ export const findMatchedHosts = (hosts = [], url, message = {}) => {
       return false
     }
   )
+  return _.orderBy(matchedHosts, [ 'pattern' ], [ 'desc' ])
 }
 
 export const getHostKey = (host) => {
