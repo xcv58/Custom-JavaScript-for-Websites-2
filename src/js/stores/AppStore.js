@@ -28,6 +28,8 @@ export default class AppStore {
   @observable protocol = ''
   @observable matchedHost = ''
 
+  @observable error = null
+
   @computed
   get include () {
     return this.store.IncludeStore.include
@@ -92,10 +94,21 @@ export default class AppStore {
       this.hosts = await getHosts(key)
       this.loadDraft()
 
-      const hostExist = this.hosts.includes(this.domain)
-      if (!hostExist) {
-        this.hosts.push(this.domain)
+      if (!matchedHost) {
+        if (domain) {
+          this.hosts.push(this.domain)
+        } else {
+          try {
+            const re = new RegExp(pattern)
+            console.log(re)
+          } catch (err) {
+            this.error = `The patterh "${pattern}" is not a valid RegExp!`
+            return
+          }
+          this.hosts.push({ isRegex, pattern })
+        }
         this.saveHosts()
+        return this.init({ domain, isRegex, pattern })
       }
 
       if (isEqual(this.draft, this.truth)) {

@@ -65,7 +65,11 @@ export default class Page extends Component {
   componentDidMount = this.init
 
   render () {
-    const { loading } = this.props.AppStore
+    const { loading, error } = this.props.AppStore
+    // TODO: Create a standalone Error component
+    if (error) {
+      return (<div>{error}</div>)
+    }
     if (loading) {
       return (<Loading />)
     }
