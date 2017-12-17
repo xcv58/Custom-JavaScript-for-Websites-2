@@ -10,6 +10,7 @@ import Toggle from 'components/Toggle'
 import Include from 'components/Include'
 import Reset from 'components/Reset'
 import Save from 'components/Save'
+import NewPattern from 'components/NewPattern'
 import queryString from 'query-string'
 import NewTabLink from './NewTabLink'
 import { inject, observer } from 'mobx-react'
@@ -92,6 +93,7 @@ export default class Page extends Component {
         <div style={toolbarStyle}>
           <div>
             <Hosts {...this.props} />
+            <NewPattern />
             <Goto goTo={this.goTo} />
           </div>
           <Include />
