@@ -67,7 +67,7 @@ export default class AppStore {
 
   @computed
   get domainKey () {
-    if (this.matchedHost.isRegex) {
+    if (this.matchedHost && this.matchedHost.isRegex) {
       return `${key}-${this.matchedHost.pattern}`
     }
     return `${key}-${this.domain}`
