@@ -182,7 +182,7 @@ export default class AppStore {
 
   @action
   reset = () => {
-    // TODO: confirm doesn't work with popup window
+    // TODO: support regex pattern
     this.loadCustomjs()
     chrome.runtime.sendMessage({
       method: 'removeData',

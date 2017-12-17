@@ -25,7 +25,10 @@ const methodMap = {
     const hostKey = getHostKey(matchedHost)
     chrome.storage.sync.set({ [hostKey]: customjs })
   },
-  removeData: (message, { url }) => chrome.storage.sync.remove(url.origin),
+  removeData: (message, { url }) => {
+    // TODO: support regex pattern
+    chrome.storage.sync.remove(url.origin)
+  },
   goTo: (message, { tab }) => chrome.tabs.update(tab.id, { url: message.link })
 }
 
