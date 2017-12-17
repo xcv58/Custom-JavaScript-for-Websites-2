@@ -55,7 +55,8 @@ export const decodeSource = (source) => {
 export const getHosts = async (key) => {
   const result = await chrome.storage.sync.get({ hosts: [] })
   if (Array.isArray(result.hosts) && result.hosts.length > 0) {
-    return result.hosts
+    // return result.hosts
+    return [ ...result.hosts, { isRegex: true, pattern: '.*github.com' } ]
   }
   const { hosts = [] } = JSON.parse(window.localStorage.getItem(key) || '{}')
   return hosts
@@ -67,4 +68,35 @@ export const setHosts = async (hosts = []) => {
 
 export const clearHosts = () => {
   chrome.storage.sync.remove('hosts')
+}
+
+export const findMatchedHosts = (hosts = [], url, message) => {
+  const { isRegex, pattern } = message
+  if (isRegex && pattern) {
+    return hosts.filter((host) => host.isRegex && host.pattern === pattern)
+  }
+  return hosts.filter(
+    (host) => {
+      if (typeof host === 'string') {
+        return host === url.origin
+      } else if (typeof host === 'object') {
+        const { pattern, isRegex } = host
+        if (isRegex) {
+          return (new RegExp(pattern)).test(url.href)
+        }
+      }
+      return false
+    }
+  )
+}
+
+export const getHostKey = (host) => {
+  if (!host) {
+    throw new Error(`getHostKey get falsy host: ${host}!`)
+  }
+  if (typeof host === 'string') {
+    return host
+  } else {
+    return host.pattern
+  }
 }

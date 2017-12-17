@@ -26,6 +26,7 @@ export default class AppStore {
   @observable tab = { url: '' }
   @observable host = ''
   @observable protocol = ''
+  @observable matchedHost = ''
 
   @computed
   get include () {
@@ -70,16 +71,17 @@ export default class AppStore {
   }
 
   @action
-  init = ({ domain }) => {
-    chrome.runtime.sendMessage({ method: 'getData', domain }, async (response) => {
+  init = ({ domain, isRegex, pattern }) => {
+    chrome.runtime.sendMessage({ method: 'getData', domain, isRegex, pattern }, async (response) => {
       if (!response || typeof response.host !== 'string') {
         throw new Error('Get no data for active tab!')
       }
 
-      const { customjs, host, protocol, tab } = response
+      const { customjs, host, matchedHost, protocol, tab } = response
       Object.assign(this, {
         truth: customjs,
         host,
+        matchedHost,
         protocol,
         tab
       })
