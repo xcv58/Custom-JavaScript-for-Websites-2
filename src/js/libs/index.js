@@ -63,9 +63,16 @@ export const getHosts = async (key) => {
   return hosts
 }
 
+const validHost = (host) => {
+  if (typeof host === 'string') {
+    return !!host
+  }
+  return !!host.pattern
+}
+
 export const setHosts = async (hosts = []) => {
   chrome.storage.sync.set({
-    hosts: _.uniqBy(hosts, JSON.stringify)
+    hosts: _.uniqBy(hosts.filter(validHost), JSON.stringify)
   })
 }
 

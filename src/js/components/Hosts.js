@@ -21,7 +21,7 @@ export default class Hosts extends Component {
   }
 
   render () {
-    const { hosts, matchedHost } = this.props.AppStore
+    const { hosts, matchedHost = '' } = this.props.AppStore
     const options = hosts.map((host) => {
       const key = getHostKey(host)
       const { isRegex } = host

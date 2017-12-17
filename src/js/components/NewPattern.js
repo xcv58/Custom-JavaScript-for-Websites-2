@@ -9,6 +9,7 @@ import Dialog, {
   DialogContentText,
   DialogTitle
 } from 'material-ui/Dialog'
+import queryString from 'query-string'
 
 @inject('NewPatternStore')
 @observer
@@ -18,11 +19,17 @@ export default class NewPattern extends Component {
     setPattern(event.target.value)
   }
 
+  onAdd = () => {
+    const { addToHosts, host } = this.props.NewPatternStore
+    addToHosts()
+    this.props.history.push(`?${queryString.stringify(host)}`)
+  }
+
   render () {
-    // TODO: add to Hosts
-    // TODO: change URL
     // TODO: support to use current domain
-    const { openDialog, closeDialog, open, error, validPattern, pattern } = this.props.NewPatternStore
+    const {
+      openDialog, closeDialog, open, error, validPattern, pattern
+    } = this.props.NewPatternStore
     return (
       <span>
         <Button color='primary' onClick={openDialog}>New RegExp</Button>
@@ -60,7 +67,7 @@ export default class NewPattern extends Component {
             </Button>
             <Button
               color='primary'
-              onClick={this.handleClose}
+              onClick={this.onAdd}
               disabled={!validPattern}
             >
               Add

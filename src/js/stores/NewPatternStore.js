@@ -14,6 +14,14 @@ export default class NewPatternStore {
   }
 
   @computed
+  get host () {
+    return {
+      isRegex: true,
+      pattern: this.pattern
+    }
+  }
+
+  @computed
   get error () {
     if (!this.pattern) {
       return 'Empty Pattern'
@@ -35,9 +43,14 @@ export default class NewPatternStore {
   }
 
   @action
-  addToHost = () => {
-    // TODO: add to host
-    // this.extraOpen = !this.extraOpen
+  addToHosts = () => {
+    if (this.error) {
+      throw new Error(`addToHost failed, pattern "${this.pattern}" is invalid!`)
+    }
+    const { hosts, saveHosts } = this.store.AppStore
+    hosts.push(this.host)
+    saveHosts()
+    this.closeDialog()
   }
 
   @action

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import AutoSave from 'components/AutoSave'
 import Loading from 'components/Loading'
 import Editor from 'components/Editor'
+import Error from 'components/Error'
 import RemoveDraft from 'components/RemoveDraft'
 import Goto from 'components/Goto'
 import Hosts from 'components/Hosts'
@@ -67,9 +68,8 @@ export default class Page extends Component {
 
   render () {
     const { loading, error } = this.props.AppStore
-    // TODO: Create a standalone Error component
     if (error) {
-      return (<div>{error}</div>)
+      return (<Error error={error} {...this.props} />)
     }
     if (loading) {
       return (<Loading />)
@@ -93,7 +93,7 @@ export default class Page extends Component {
         <div style={toolbarStyle}>
           <div>
             <Hosts {...this.props} />
-            <NewPattern />
+            <NewPattern {...this.props} />
             <Goto goTo={this.goTo} />
           </div>
           <Include />

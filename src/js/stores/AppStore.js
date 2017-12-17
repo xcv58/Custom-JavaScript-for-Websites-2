@@ -95,19 +95,14 @@ export default class AppStore {
       this.loadDraft()
 
       if (!matchedHost) {
-        if (!isRegex) {
-          this.hosts.push(this.domain)
+        if (isRegex) {
+          this.error = `There is no pattern of "${pattern}"`
+          return
         } else {
-          try {
-            this.re = new RegExp(pattern)
-          } catch (err) {
-            this.error = `The patterh "${pattern}" is not a valid RegExp!`
-            return
-          }
-          this.hosts.push({ isRegex, pattern })
+          this.hosts.push(this.domain)
+          this.saveHosts()
+          return this.init({ domain, isRegex, pattern })
         }
-        this.saveHosts()
-        return this.init({ domain, isRegex, pattern })
       }
 
       if (isEqual(this.draft, this.truth)) {
@@ -128,6 +123,7 @@ export default class AppStore {
     } = customjs
     Object.assign(this, { enable, source: decodeSource(source) })
     Object.assign(this.store.IncludeStore, { include, extra })
+    this.error = ''
     this.loading = false
   }
 
