@@ -73,7 +73,7 @@ export const clearHosts = () => {
   chrome.storage.sync.remove('hosts')
 }
 
-export const findMatchedHosts = (hosts = [], url, message) => {
+export const findMatchedHosts = (hosts = [], url, message = {}) => {
   const { isRegex, pattern } = message
   if (isRegex && pattern) {
     return hosts.filter((host) => host.isRegex && host.pattern === pattern)

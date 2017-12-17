@@ -1,13 +1,24 @@
+import 'chrome-extension-async'
+import { getHosts, getHostKey, findMatchedHosts } from 'libs'
+
+const injectedSet = new Set()
+
+const baseURL = chrome.runtime.getURL('base.js')
+
 const injectScript = (src, where) => {
+  if (injectedSet.has(src)) {
+    return
+  }
+  injectedSet.add(src)
+  if (!injectedSet.has(baseURL)) {
+    injectScript(baseURL)
+  }
   const elm = document.createElement('script')
   elm.src = src
   document[where || 'head'].appendChild(elm)
 }
 
-const website = window.location.protocol + '//' + window.location.host
-
-chrome.storage.sync.get(website, (obj) => {
-  const customjs = obj[website]
+const executeScript = (customjs) => {
   if (!customjs) {
     return
   }
@@ -17,7 +28,6 @@ chrome.storage.sync.get(website, (obj) => {
   }
 
   // base.js to provide useful functions
-  injectScript(chrome.runtime.getURL('base.js'))
 
   // Predefined include
   if (include) {
@@ -37,4 +47,15 @@ chrome.storage.sync.get(website, (obj) => {
       injectScript(source, 'body')
     }, 250)
   }
-})
+}
+
+const loadScripts = async (location) => {
+  const hosts = await getHosts()
+  const matchedHosts = findMatchedHosts(hosts, location)
+  matchedHosts.forEach((host) => {
+    const hostKey = getHostKey(host)
+    chrome.storage.sync.get(hostKey, (obj) => executeScript(obj[hostKey]))
+  })
+}
+
+loadScripts(window.location)
