@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 export const setLastFocusedWindowId = (lastFocusedWindowId) => {
   chrome.storage.local.set({ lastFocusedWindowId })
 }
@@ -55,15 +57,16 @@ export const decodeSource = (source) => {
 export const getHosts = async (key) => {
   const result = await chrome.storage.sync.get({ hosts: [] })
   if (Array.isArray(result.hosts) && result.hosts.length > 0) {
-    // return result.hosts
-    return [ ...result.hosts, { isRegex: true, pattern: '.*github.com' } ]
+    return result.hosts
   }
   const { hosts = [] } = JSON.parse(window.localStorage.getItem(key) || '{}')
   return hosts
 }
 
 export const setHosts = async (hosts = []) => {
-  chrome.storage.sync.set({ hosts })
+  chrome.storage.sync.set({
+    hosts: _.uniqBy(hosts, JSON.stringify)
+  })
 }
 
 export const clearHosts = () => {

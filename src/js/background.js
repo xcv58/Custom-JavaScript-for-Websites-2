@@ -20,9 +20,11 @@ const methodMap = {
       sendResponse({ customjs, host, protocol, tab, matchedHost })
     }
   },
-  setData: (message, { url }) => chrome.storage.sync.set(
-    { [url.origin]: message.customjs }
-  ),
+  setData: (message) => {
+    const { matchedHost, customjs } = message
+    const hostKey = getHostKey(matchedHost)
+    chrome.storage.sync.set({ [hostKey]: customjs })
+  },
   removeData: (message, { url }) => chrome.storage.sync.remove(url.origin),
   goTo: (message, { tab }) => chrome.tabs.update(tab.id, { url: message.link })
 }

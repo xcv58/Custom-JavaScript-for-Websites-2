@@ -67,6 +67,9 @@ export default class AppStore {
 
   @computed
   get domainKey () {
+    if (this.matchedHost.isRegex) {
+      return `${key}-${this.matchedHost.pattern}`
+    }
     return `${key}-${this.domain}`
   }
 
@@ -167,10 +170,11 @@ export default class AppStore {
   @action
   save = () => {
     this.removeDraft()
-    const { domain, customjs } = this
+    const { domain, customjs, matchedHost } = this
     chrome.runtime.sendMessage({
       method: 'setData',
       domain,
+      matchedHost,
       customjs,
       reload: true
     })
