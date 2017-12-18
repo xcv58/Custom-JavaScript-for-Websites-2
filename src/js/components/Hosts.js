@@ -5,7 +5,7 @@ import { FormControl } from 'material-ui/Form'
 import Select from 'material-ui/Select'
 import { getHostKey } from 'libs'
 import { withRouter } from 'react-router'
-import queryString from 'queryString'
+import queryString from 'query-string'
 
 @withRouter
 @inject('AppStore')
