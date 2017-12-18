@@ -37,26 +37,19 @@ class NewPatternDialog extends Component {
   }
 
   render () {
-    const { closeDialog, open, error, validPattern, pattern } = this.props.NewPatternStore
-    if (!open) {
-      return null
-    }
+    const { closeDialog, error, validPattern, pattern } = this.props.NewPatternStore
     return (
       <Dialog open onClose={closeDialog}>
         <DialogTitle>New RegExp Pattern</DialogTitle>
         <DialogContent>
           <Content />
           <FormControl fullWidth error={!validPattern}>
-            <TextField
-              autoFocus
-              error={!validPattern}
-              margin='dense'
-              label='RegExp Pattern'
+            <TextField autoFocus margin='dense' type='text'
               placeholder='.*github.com'
-              type='text'
+              label='RegExp Pattern'
+              error={!validPattern}
               value={pattern}
-              onChange={this.onChange}
-            />
+              onChange={this.onChange} />
             <FormHelperText>{error}</FormHelperText>
           </FormControl>
         </DialogContent>
@@ -74,11 +67,11 @@ class NewPatternDialog extends Component {
 export default class NewPattern extends Component {
   render () {
     // TODO: support to use current domain
-    const { openDialog } = this.props.NewPatternStore
+    const { openDialog, open } = this.props.NewPatternStore
     return (
       <span>
         <Button color='primary' onClick={openDialog}>New RegExp</Button>
-        <NewPatternDialog />
+        {open && <NewPatternDialog />}
       </span>
     )
   }
