@@ -85,19 +85,14 @@ export const findMatchedHosts = (hosts = [], url, message = {}) => {
   if (isRegex && pattern) {
     return hosts.filter((host) => host.isRegex && host.pattern === pattern)
   }
-  const matchedHosts = hosts.filter(
-    (host) => {
-      if (typeof host === 'string') {
-        return host === url.origin
-      } else if (typeof host === 'object') {
-        const { pattern, isRegex } = host
-        if (isRegex) {
-          return (new RegExp(pattern)).test(url.href)
-        }
-      }
-      return false
+  const matchedHosts = hosts.filter((host) => {
+    if (typeof host === 'string') {
+      return host === url.origin
+    } else if (typeof host === 'object') {
+      return (new RegExp(host.pattern)).test(url.href)
     }
-  )
+    return false
+  })
   return _.orderBy(matchedHosts, [ 'pattern' ], [ 'desc' ])
 }
 
