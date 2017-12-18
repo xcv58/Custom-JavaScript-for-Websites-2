@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 export const setLastFocusedWindowId = (lastFocusedWindowId) => {
   chrome.storage.local.set({ lastFocusedWindowId })
 }
@@ -61,10 +63,46 @@ export const getHosts = async (key) => {
   return hosts
 }
 
+const validHost = (host) => {
+  if (typeof host === 'string') {
+    return !!host
+  }
+  return !!host.pattern
+}
+
 export const setHosts = async (hosts = []) => {
-  chrome.storage.sync.set({ hosts })
+  chrome.storage.sync.set({
+    hosts: _.uniqBy(hosts.filter(validHost), JSON.stringify)
+  })
 }
 
 export const clearHosts = () => {
   chrome.storage.sync.remove('hosts')
+}
+
+export const findMatchedHosts = (hosts = [], url, message = {}) => {
+  const { isRegex, pattern } = message
+  if (isRegex && pattern) {
+    return hosts.filter((host) => host.isRegex && host.pattern === pattern)
+  }
+  const matchedHosts = hosts.filter((host) => {
+    if (typeof host === 'string') {
+      return host === url.origin
+    } else if (typeof host === 'object') {
+      return (new RegExp(host.pattern)).test(url.href)
+    }
+    return false
+  })
+  return _.orderBy(matchedHosts, [ 'pattern' ], [ 'desc' ])
+}
+
+export const getHostKey = (host) => {
+  if (!host) {
+    throw new Error(`getHostKey get falsy host: ${host}!`)
+  }
+  if (typeof host === 'string') {
+    return host
+  } else {
+    return host.pattern
+  }
 }

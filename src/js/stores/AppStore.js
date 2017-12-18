@@ -26,6 +26,9 @@ export default class AppStore {
   @observable tab = { url: '' }
   @observable host = ''
   @observable protocol = ''
+  @observable matchedHost = ''
+
+  @observable error = null
 
   @computed
   get include () {
@@ -66,20 +69,24 @@ export default class AppStore {
 
   @computed
   get domainKey () {
+    if (this.matchedHost && this.matchedHost.isRegex) {
+      return `${key}-${this.matchedHost.pattern}`
+    }
     return `${key}-${this.domain}`
   }
 
   @action
-  init = ({ domain }) => {
-    chrome.runtime.sendMessage({ method: 'getData', domain }, async (response) => {
+  init = ({ domain, isRegex, pattern }) => {
+    chrome.runtime.sendMessage({ method: 'getData', domain, isRegex, pattern }, async (response) => {
       if (!response || typeof response.host !== 'string') {
         throw new Error('Get no data for active tab!')
       }
 
-      const { customjs, host, protocol, tab } = response
+      const { customjs, host, matchedHost, protocol, tab } = response
       Object.assign(this, {
         truth: customjs,
         host,
+        matchedHost,
         protocol,
         tab
       })
@@ -87,10 +94,15 @@ export default class AppStore {
       this.hosts = await getHosts(key)
       this.loadDraft()
 
-      const hostExist = this.hosts.includes(this.domain)
-      if (!hostExist) {
-        this.hosts.push(this.domain)
-        this.saveHosts()
+      if (!matchedHost) {
+        if (isRegex) {
+          this.error = `There is no pattern of "${pattern}"`
+          return
+        } else {
+          this.hosts.push(this.domain)
+          this.saveHosts()
+          return this.init({ domain, isRegex, pattern })
+        }
       }
 
       if (isEqual(this.draft, this.truth)) {
@@ -111,6 +123,7 @@ export default class AppStore {
     } = customjs
     Object.assign(this, { enable, source: decodeSource(source) })
     Object.assign(this.store.IncludeStore, { include, extra })
+    this.error = ''
     this.loading = false
   }
 
@@ -165,10 +178,11 @@ export default class AppStore {
   @action
   save = () => {
     this.removeDraft()
-    const { domain, customjs } = this
+    const { domain, customjs, matchedHost } = this
     chrome.runtime.sendMessage({
       method: 'setData',
       domain,
+      matchedHost,
       customjs,
       reload: true
     })
@@ -176,15 +190,21 @@ export default class AppStore {
 
   @action
   reset = () => {
-    // TODO: confirm doesn't work with popup window
     this.loadCustomjs()
-    chrome.runtime.sendMessage({
+    const message = {
       method: 'removeData',
       domain: this.domain,
       reload: true
-    })
-    const newHosts = this.hosts.filter(x => x !== this.domain)
+    }
+    let newHosts
+    if (typeof this.matchedHost === 'string') {
+      newHosts = this.hosts.filter(x => x !== this.domain)
+    } else {
+      Object.assign(message, this.matchedHost)
+      newHosts = this.hosts.filter(x => !x.isRegex || (x.pattern !== this.matchedHost.pattern))
+    }
     this.saveHosts(newHosts)
+    chrome.runtime.sendMessage(message)
     this.removeDraft()
   }
 

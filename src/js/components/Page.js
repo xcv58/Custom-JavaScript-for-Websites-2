@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import AutoSave from 'components/AutoSave'
 import Loading from 'components/Loading'
 import Editor from 'components/Editor'
+import Error from 'components/Error'
 import RemoveDraft from 'components/RemoveDraft'
 import Goto from 'components/Goto'
 import Hosts from 'components/Hosts'
@@ -10,6 +11,7 @@ import Toggle from 'components/Toggle'
 import Include from 'components/Include'
 import Reset from 'components/Reset'
 import Save from 'components/Save'
+import NewPattern from 'components/NewPattern'
 import queryString from 'query-string'
 import NewTabLink from './NewTabLink'
 import { inject, observer } from 'mobx-react'
@@ -52,8 +54,8 @@ export default class Page extends Component {
 
   init = () => {
     const { location } = this.props
-    const { domain } = queryString.parse(location.search)
-    this.props.AppStore.init({ domain })
+    const query = queryString.parse(location.search)
+    this.props.AppStore.init(query)
   }
 
   componentDidUpdate (prevProps) {
@@ -65,7 +67,10 @@ export default class Page extends Component {
   componentDidMount = this.init
 
   render () {
-    const { loading } = this.props.AppStore
+    const { loading, error } = this.props.AppStore
+    if (error) {
+      return (<Error error={error} />)
+    }
     if (loading) {
       return (<Loading />)
     }
@@ -87,7 +92,8 @@ export default class Page extends Component {
         </div>
         <div style={toolbarStyle}>
           <div>
-            <Hosts {...this.props} />
+            <Hosts />
+            <NewPattern />
             <Goto goTo={this.goTo} />
           </div>
           <Include />
