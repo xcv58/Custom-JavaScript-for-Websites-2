@@ -18,7 +18,7 @@ export default class Error extends Component {
             Please choose a valid host from below or click the extension icon in the webpage you
             want to inject:
           </DialogContentText>
-          <Hosts {...this.props} />
+          <Hosts />
         </DialogContent>
       </Dialog>
     )

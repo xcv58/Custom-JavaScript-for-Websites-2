@@ -69,7 +69,7 @@ export default class Page extends Component {
   render () {
     const { loading, error } = this.props.AppStore
     if (error) {
-      return (<Error error={error} {...this.props} />)
+      return (<Error error={error} />)
     }
     if (loading) {
       return (<Loading />)
@@ -92,8 +92,8 @@ export default class Page extends Component {
         </div>
         <div style={toolbarStyle}>
           <div>
-            <Hosts {...this.props} />
-            <NewPattern {...this.props} />
+            <Hosts />
+            <NewPattern />
             <Goto goTo={this.goTo} />
           </div>
           <Include />

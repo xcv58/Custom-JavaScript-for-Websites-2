@@ -9,11 +9,22 @@ import Dialog, {
   DialogContentText,
   DialogTitle
 } from 'material-ui/Dialog'
+import { withRouter } from 'react-router'
 import queryString from 'query-string'
 
+const Content = () => (
+  <DialogContentText>
+    To use regular expression match websites, please enter a valid regular expression here.
+    You can use <a href='https://regex101.com/' target='_blank' rel='noopener noreferrer'>
+      Regex101
+    </a> to validate your regular expression.
+  </DialogContentText>
+)
+
+@withRouter
 @inject('NewPatternStore')
 @observer
-export default class NewPattern extends Component {
+class NewPatternDialog extends Component {
   onChange = (event) => {
     const { setPattern } = this.props.NewPatternStore
     setPattern(event.target.value)
@@ -26,54 +37,48 @@ export default class NewPattern extends Component {
   }
 
   render () {
+    const { closeDialog, open, error, validPattern, pattern } = this.props.NewPatternStore
+    if (!open) {
+      return null
+    }
+    return (
+      <Dialog open onClose={closeDialog}>
+        <DialogTitle>New RegExp Pattern</DialogTitle>
+        <DialogContent>
+          <Content />
+          <FormControl fullWidth error={!validPattern}>
+            <TextField
+              autoFocus
+              error={!validPattern}
+              margin='dense'
+              label='RegExp Pattern'
+              placeholder='.*github.com'
+              type='text'
+              value={pattern}
+              onChange={this.onChange}
+            />
+            <FormHelperText>{error}</FormHelperText>
+          </FormControl>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeDialog}>Cancel</Button>
+          <Button color='primary' onClick={this.onAdd} disabled={!validPattern}>Add</Button>
+        </DialogActions>
+      </Dialog>
+    )
+  }
+}
+
+@inject('NewPatternStore')
+@observer
+export default class NewPattern extends Component {
+  render () {
     // TODO: support to use current domain
-    const {
-      openDialog, closeDialog, open, error, validPattern, pattern
-    } = this.props.NewPatternStore
+    const { openDialog } = this.props.NewPatternStore
     return (
       <span>
         <Button color='primary' onClick={openDialog}>New RegExp</Button>
-        <Dialog
-          open={open}
-          onClose={closeDialog}
-        >
-          <DialogTitle>New RegExp Pattern</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              To use regular expression match websites, please enter a valid regular expression here.
-              You can use <a href='https://regex101.com/' target='_blank' rel='noopener noreferrer'>
-                Regex101
-              </a> to validate your regular expression.
-            </DialogContentText>
-            <FormControl
-              fullWidth
-              error={!validPattern}>
-              <TextField
-                autoFocus
-                error={!validPattern}
-                margin='dense'
-                label='RegExp Pattern'
-                placeholder='.*github.com'
-                type='text'
-                value={pattern}
-                onChange={this.onChange}
-              />
-              <FormHelperText>{error}</FormHelperText>
-            </FormControl>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={closeDialog}>
-              Cancel
-            </Button>
-            <Button
-              color='primary'
-              onClick={this.onAdd}
-              disabled={!validPattern}
-            >
-              Add
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <NewPatternDialog />
       </span>
     )
   }

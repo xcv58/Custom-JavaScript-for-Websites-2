@@ -4,8 +4,10 @@ import { MenuItem } from 'material-ui/Menu'
 import { FormControl } from 'material-ui/Form'
 import Select from 'material-ui/Select'
 import { getHostKey } from 'libs'
+import { withRouter } from 'react-router'
 import queryString from 'queryString'
 
+@withRouter
 @inject('AppStore')
 @observer
 export default class Hosts extends Component {
