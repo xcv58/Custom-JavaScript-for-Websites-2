@@ -20,10 +20,15 @@ const methodMap = {
       sendResponse({ customjs, host, protocol, tab, matchedHost })
     }
   },
-  setData: (message) => {
+  setData: async (message, _, sendResponse) => {
     const { matchedHost, customjs } = message
     const hostKey = getHostKey(matchedHost)
-    chrome.storage.sync.set({ [hostKey]: customjs })
+    try {
+      await chrome.storage.sync.set({ [hostKey]: customjs })
+      sendResponse()
+    } catch (err) {
+      sendResponse(err)
+    }
   },
   removeData: (message, { url }) => {
     const { isRegex, pattern } = message

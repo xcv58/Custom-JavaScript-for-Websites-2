@@ -1,6 +1,7 @@
 import { action, computed, observable } from 'mobx'
 import { encodeSource, decodeSource, getHosts, setHosts } from 'libs'
 import isEqual from 'lodash.isequal'
+import sizeof from 'object-sizeof'
 
 const key = 'popup'
 const defaultSource = '// Here You can type your custom JavaScript...'
@@ -29,6 +30,7 @@ export default class AppStore {
   @observable matchedHost = ''
 
   @observable error = null
+  @observable saveError = null
 
   @computed
   get include () {
@@ -65,6 +67,11 @@ export default class AppStore {
       },
       source: encodeSource(this.source)
     }
+  }
+
+  @computed
+  get size () {
+    return sizeof(this.source)
   }
 
   @computed
@@ -177,14 +184,19 @@ export default class AppStore {
 
   @action
   save = () => {
-    this.removeDraft()
     const { domain, customjs, matchedHost } = this
     chrome.runtime.sendMessage({
       method: 'setData',
       domain,
       matchedHost,
       customjs,
-      reload: true
+      reload: !this.tabMode
+    }, (err) => {
+      if (err) {
+        this.saveError = err
+      } else {
+        this.removeDraft()
+      }
     })
   }
 

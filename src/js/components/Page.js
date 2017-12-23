@@ -11,6 +11,7 @@ import Toggle from 'components/Toggle'
 import Include from 'components/Include'
 import Reset from 'components/Reset'
 import Save from 'components/Save'
+import Size from 'components/Size'
 import NewPattern from 'components/NewPattern'
 import queryString from 'query-string'
 import NewTabLink from './NewTabLink'
@@ -32,7 +33,6 @@ export default class Page extends Component {
 
   onSave = () => {
     this.props.AppStore.save()
-    this.closePopup()
   }
 
   onSelectHost = (e) => {
@@ -100,8 +100,11 @@ export default class Page extends Component {
         </div>
         <Editor />
         <div style={toolbarStyle}>
-          <RemoveDraft />
-          <AutoSave />
+          <span>
+            <RemoveDraft />
+            <AutoSave />
+          </span>
+          <Size />
           <DonateLink />
         </div>
         <div id='error' className='error is-hidden'>
