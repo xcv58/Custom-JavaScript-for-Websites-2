@@ -225,6 +225,11 @@ export default class AppStore {
     chrome.runtime.sendMessage({ method: 'goTo', link: this.domain })
   }
 
+  @action
+  clearSaveError = () => {
+    this.saveError = null
+  }
+
   autoSave = () => {
     if (this.autoSaveHandle) {
       clearTimeout(this.autoSaveHandle)

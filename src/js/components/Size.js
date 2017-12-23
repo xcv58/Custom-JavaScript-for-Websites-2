@@ -14,14 +14,10 @@ const chromeDocLink = 'https://developer.chrome.com/apps/storage#property-sync'
 @inject('AppStore')
 @observer
 export default class Size extends Component {
-  handleClose = () => {
-    window.location.reload()
-  }
-
   render () {
-    const { saveError, size } = this.props.AppStore
+    const { clearSaveError, saveError, size } = this.props.AppStore
     const alert = saveError && (
-      <Dialog open onClose={this.handleClose}>
+      <Dialog open onClose={clearSaveError}>
         <DialogTitle>Script Save Failure</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -38,8 +34,8 @@ export default class Size extends Component {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleClose} color='primary' autoFocus>
-            Refresh
+          <Button onClick={clearSaveError} color='primary' autoFocus>
+            Try again
           </Button>
         </DialogActions>
       </Dialog>
