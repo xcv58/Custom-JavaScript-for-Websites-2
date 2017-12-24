@@ -195,6 +195,7 @@ export default class AppStore {
       if (err) {
         this.saveError = err
       } else {
+        this.truth = this.customjs
         this.removeDraft()
       }
     })
