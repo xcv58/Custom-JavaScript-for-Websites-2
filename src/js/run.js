@@ -1,24 +1,24 @@
 import 'chrome-extension-async'
 import { getHosts, getHostKey, findMatchedHosts } from 'libs'
 
-const injectedSet = new Set()
-
 const baseURL = chrome.runtime.getURL('base.js')
 
-const injectScript = (src, where) => {
-  if (injectedSet.has(src)) {
-    return
-  }
-  injectedSet.add(src)
-  if (!injectedSet.has(baseURL)) {
-    injectScript(baseURL)
-  }
-  const elm = document.createElement('script')
-  elm.src = src
-  document[where || 'head'].appendChild(elm)
+const catchErr = (e) => {
+  console.error('Failed to inject scripts:', e)
 }
 
-const executeScript = (customjs) => {
+const injectScriptPromise = (src, where) => {
+  return new Promise((resolve, reject) => {
+    const elm = document.createElement('script')
+    document[where || 'head'].appendChild(elm)
+    elm.onload = () => {
+      resolve(`Inject ${src} complete!`)
+    }
+    elm.src = src
+  })
+}
+
+const extractScripts = (customjs, injections) => {
   if (!customjs) {
     return
   }
@@ -28,34 +28,45 @@ const executeScript = (customjs) => {
   }
 
   // base.js to provide useful functions
+  injections.add(baseURL)
 
   // Predefined include
   if (include) {
-    injectScript('https://ajax.googleapis.com/ajax/libs' + include)
+    injections.add('https://ajax.googleapis.com/ajax/libs' + include)
   }
 
   // Extra include
   (extra || '').split(';').map(x => x.trim()).forEach((line) => {
     if (line && line.substr(0, 1) !== '#') {
-      injectScript(line)
+      injections.add(line)
     }
   })
 
-  // User defined Script
-  if (source) {
-    setTimeout(function () {
-      injectScript(source, 'body')
-    }, 250)
-  }
+  return source
 }
 
 const loadScripts = async (location) => {
   const hosts = await getHosts()
   const matchedHosts = findMatchedHosts(hosts, location)
-  matchedHosts.forEach((host) => {
-    const hostKey = getHostKey(host)
-    chrome.storage.sync.get(hostKey, (obj) => executeScript(obj[hostKey]))
+  const injections = new Set()
+  Promise.all(matchedHosts.map(
+    async (host) => {
+      const hostKey = getHostKey(host)
+      const obj = await chrome.storage.sync.get(hostKey)
+      return extractScripts(obj[hostKey], injections)
+    }
+  ))
+  .then((values) => {
+    return Promise.all([ ...injections ].map(
+      (src) => injectScriptPromise(src)
+    ))
+    .then(() => values)
+    .catch(catchErr)
   })
+  .then((values) => values.map(
+    (src) => injectScriptPromise(src, 'body')
+  ))
+  .catch(catchErr)
 }
 
 loadScripts(window.location)
