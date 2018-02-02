@@ -1,7 +1,7 @@
 import { action, computed, observable } from 'mobx'
 
-const hint = '# Uncomment address of script below or type your own (one per line)'
-const underscore = '# //cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'
+const hint = '# Uncomment address of script below or type your own (one per line and must end with ;)'
+const underscore = '# //cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js;'
 
 export default class IncludeStore {
   constructor (store) {
