@@ -37,7 +37,7 @@ const extractScripts = (customjs, injections) => {
 
   // Extra include
   (extra || '').split(';').map(x => x.trim()).forEach((line) => {
-    if (line && line.substr(0, 1) !== '#') {
+    if (line && line.startsWith('//')) {
       injections.add(line)
     }
   })
