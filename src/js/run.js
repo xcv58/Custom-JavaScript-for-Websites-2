@@ -56,17 +56,17 @@ const loadScripts = async (location) => {
       return extractScripts(obj[hostKey], injections)
     }
   ))
-  .then((values) => {
-    return Promise.all([ ...injections ].map(
-      (src) => injectScriptPromise(src)
+    .then((values) => {
+      return Promise.all([ ...injections ].map(
+        (src) => injectScriptPromise(src)
+      ))
+        .then(() => values)
+        .catch(catchErr)
+    })
+    .then((values) => values.map(
+      (src) => injectScriptPromise(src, 'body')
     ))
-    .then(() => values)
     .catch(catchErr)
-  })
-  .then((values) => values.map(
-    (src) => injectScriptPromise(src, 'body')
-  ))
-  .catch(catchErr)
 }
 
 loadScripts(window.location)
