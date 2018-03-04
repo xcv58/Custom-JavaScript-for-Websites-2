@@ -15,7 +15,7 @@ export default class Toggle extends Component {
             <span>Enable <em className='blue-text'>cjs</em> for this host</span>
           }
           control={
-            <Switch checked={enable} onChange={toggleEnable} />
+            <Switch color='primary' checked={enable} onChange={toggleEnable} />
           }
         />
       </FormGroup>
