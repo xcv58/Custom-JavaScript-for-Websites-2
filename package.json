@@ -14,9 +14,9 @@
   },
   "dependencies": {
     "chrome-extension-async": "^3.2.4",
-    "clean-webpack-plugin": "^0.1.18",
+    "clean-webpack-plugin": "^0.1.19",
     "lodash": "^4.17.5",
-    "material-ui": "^1.0.0-beta.18",
+    "material-ui": "^1.0.0-beta.41",
     "mobx": "^4.1.1",
     "mobx-react": "^5.0.0",
     "object-sizeof": "^1.2.0",
