@@ -83,7 +83,7 @@ export default class Page extends Component {
         <div style={toolbarStyle}>
           <div>
             <Save onSave={this.onSave} />
-            <Reset />
+            <Reset closePopup={this.closePopup} />
             <NewTabLink />
           </div>
           <div>
