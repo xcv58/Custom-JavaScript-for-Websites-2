@@ -21,7 +21,7 @@
     "mobx-react": "^4.4.2",
     "object-sizeof": "^1.2.0",
     "query-string": "^6.0.0",
-    "react": "^16.2.0",
+    "react": "^16.3.1",
     "react-ace": "^5.10.0",
     "react-dom": "^16.3.1",
     "react-router-dom": "^4.2.2",
