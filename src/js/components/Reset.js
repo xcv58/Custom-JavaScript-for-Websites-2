@@ -20,7 +20,7 @@ export default class Reset extends Component {
   }
 
   render () {
-    const { domain } = this.props.AppStore
+    const { target } = this.props.AppStore
     return [
       <Button onClick={this.openDialog} key='reset'>
         Reset
@@ -30,7 +30,7 @@ export default class Reset extends Component {
         <DialogContent>
           <DialogContentText>
             Reset will remove your codes and external scripts, and delete
-            current domain: {domain} from domain lists.
+            current domain/pattern: "{target}".
           </DialogContentText>
         </DialogContent>
         <DialogActions>

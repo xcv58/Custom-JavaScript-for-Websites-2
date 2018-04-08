@@ -48,6 +48,14 @@ export default class AppStore {
   }
 
   @computed
+  get target () {
+    if (this.matchedHost && this.matchedHost.isRegex) {
+      return this.matchedHost.pattern
+    }
+    return this.domain
+  }
+
+  @computed
   get differentURL () {
     return !this.tab.url.startsWith(this.domain)
   }
