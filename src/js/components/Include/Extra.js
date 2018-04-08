@@ -20,7 +20,7 @@ export default class Include extends Component {
       extraOpen, extraValue, placeholder, toggleExtraOpen
     } = this.props.IncludeStore
     return (
-      <Dialog fullWidth open={extraOpen} onRequestClose={toggleExtraOpen}>
+      <Dialog fullWidth open={extraOpen} onClose={toggleExtraOpen}>
         <DialogTitle>External Scripts</DialogTitle>
         <DialogContent>
           <TextField

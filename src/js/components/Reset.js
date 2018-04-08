@@ -17,6 +17,7 @@ export default class Reset extends Component {
   handleReset = () => {
     this.props.AppStore.reset()
     this.closeDialog()
+    this.props.closePopup()
   }
 
   render () {
@@ -25,7 +26,7 @@ export default class Reset extends Component {
       <Button onClick={this.openDialog} key='reset'>
         Reset
       </Button>,
-      <Dialog open={this.state.open} onRequestClose={this.closeDialog} key='dialog'>
+      <Dialog open={this.state.open} onClose={this.closeDialog} key='dialog'>
         <DialogTitle>Remove all codes and external scripts?</DialogTitle>
         <DialogContent>
           <DialogContentText>
