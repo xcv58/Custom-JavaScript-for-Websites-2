@@ -11,8 +11,8 @@ export default class NewTabLink extends Component {
     const content = (
       autoSaveHandle && <CircularProgress size={24} />
     ) || (
-        saved && <InputLabel>Draft saved</InputLabel>
-      )
+      saved && <InputLabel>Draft saved</InputLabel>
+    )
     return (
       <span>
         {content}
