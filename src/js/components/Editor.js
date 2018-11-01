@@ -6,6 +6,7 @@ import 'brace/theme/tomorrow'
 import 'brace/mode/javascript'
 import 'brace/mode/css'
 import 'brace/snippets/javascript'
+import 'brace/snippets/css'
 import 'brace/ext/language_tools'
 import 'brace/ext/searchbox'
 
