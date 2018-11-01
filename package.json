@@ -1,6 +1,6 @@
 {
   "name": "custom-javaScript-for-websites-2",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Run custom JavaScript on any website.",
   "scripts": {
     "analyze": "NODE_ENV=production node utils/analyze.js",
