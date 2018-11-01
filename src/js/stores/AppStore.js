@@ -11,6 +11,8 @@ export default class AppStore {
     this.store = store
   }
 
+  @observable mode = 'javascript'
+
   @observable loading = true
 
   @observable autoSaveHandle = null
@@ -249,5 +251,10 @@ export default class AppStore {
       clearTimeout(this.autoSaveHandle)
     }
     this.autoSaveHandle = setTimeout(this.saveDraft, 500)
+  }
+
+  @action
+  setMode = (mode) => {
+    this.mode = mode
   }
 }

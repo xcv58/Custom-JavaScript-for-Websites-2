@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react'
 import AceEditor from 'react-ace'
 import 'brace/theme/tomorrow'
 import 'brace/mode/javascript'
+import 'brace/mode/css'
 import 'brace/snippets/javascript'
 import 'brace/ext/language_tools'
 import 'brace/ext/searchbox'
@@ -34,21 +35,19 @@ export default class Editor extends Component {
   }
 
   render () {
-    const { source, onChangeSource } = this.props.AppStore
+    const { source, onChangeSource, mode } = this.props.AppStore
     return (
       <AceEditor
-        mode='javascript'
         theme='tomorrow'
         value={source}
         onChange={onChangeSource}
-        style={style}
         showGutter
         showPrintMargin
         highlightActiveLine
         editorProps={{
           $blockScrolling: Infinity
         }}
-        setOptions={setOptions}
+        {...{ mode, style, setOptions }}
       />
     )
   }

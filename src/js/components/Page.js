@@ -10,6 +10,7 @@ import DonateLink from 'components/DonateLink'
 import Toggle from 'components/Toggle'
 import Include from 'components/Include'
 import Reset from 'components/Reset'
+import ModeSelect from 'components/ModeSelect'
 import Save from 'components/Save'
 import Size from 'components/Size'
 import NewPattern from 'components/NewPattern'
@@ -84,6 +85,7 @@ export default class Page extends Component {
           <div>
             <Save onSave={this.onSave} />
             <Reset closePopup={this.closePopup} />
+            <ModeSelect />
             <NewTabLink />
           </div>
           <div>
