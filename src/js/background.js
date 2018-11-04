@@ -43,20 +43,24 @@ const methodMap = {
 
 const onMessage = async (message, sender, sendResponse) => {
   const { domain } = message
-  const tab = await getActiveTab()
-  const url = domain ? getURL({ url: domain }) : getURL(tab)
-  const { method, reload } = message
+  try {
+    const tab = await getActiveTab()
+    const url = domain ? getURL({ url: domain }) : getURL(tab)
+    const { method, reload } = message
 
-  const func = methodMap[method]
-  if (func && typeof func === 'function') {
-    func(message, { tab, url }, sendResponse)
-  } else {
-    console.error(`Unknown method: ${method}`)
-    sendResponse({ source: '', config: {} })
-  }
+    const func = methodMap[method]
+    if (func && typeof func === 'function') {
+      func(message, { tab, url }, sendResponse)
+    } else {
+      console.error(`Unknown method: ${method}`)
+      sendResponse({ source: '', config: {} })
+    }
 
-  if (reload) {
-    reloadTab(tab)
+    if (reload) {
+      reloadTab(tab)
+    }
+  } catch (e) {
+    sendResponse({ error: e.message })
   }
 }
 
@@ -73,3 +77,13 @@ chrome.runtime.onMessage.addListener((...args) => {
 })
 
 chrome.windows.onFocusChanged.addListener(onFocusChanged)
+
+chrome.runtime.onInstalled.addListener((details) => {
+  chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
+    if (tabs.length <= 0) {
+      return
+    }
+    const { windowId } = tabs[0]
+    setLastFocusedWindowId(windowId)
+  })
+})

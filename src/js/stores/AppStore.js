@@ -31,6 +31,7 @@ export default class AppStore {
   @observable protocol = ''
   @observable matchedHost = ''
 
+  @observable loadError = null
   @observable error = null
   @observable saveError = null
 
@@ -101,6 +102,10 @@ export default class AppStore {
   init = ({ domain, isRegex, pattern }) => {
     chrome.runtime.sendMessage({ method: 'getData', domain, isRegex, pattern }, async (response) => {
       if (!response || typeof response.host !== 'string') {
+        if (response.error) {
+          this.loadError = response.error
+          return
+        }
         throw new Error('Get no data for active tab!')
       }
 

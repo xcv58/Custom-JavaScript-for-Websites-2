@@ -3,6 +3,7 @@ import AutoSave from 'components/AutoSave'
 import Loading from 'components/Loading'
 import Editor from 'components/Editor'
 import Error from 'components/Error'
+import LoadError from 'components/LoadError'
 import RemoveDraft from 'components/RemoveDraft'
 import Goto from 'components/Goto'
 import Hosts from 'components/Hosts'
@@ -68,7 +69,10 @@ export default class Page extends Component {
   componentDidMount = this.init
 
   render () {
-    const { loading, error } = this.props.AppStore
+    const { loading, error, loadError } = this.props.AppStore
+    if (loadError) {
+      return (<LoadError error={loadError} />)
+    }
     if (error) {
       return (<Error error={error} />)
     }

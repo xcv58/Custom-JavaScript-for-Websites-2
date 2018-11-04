@@ -21,7 +21,6 @@ export const getActiveTab = async () => {
   const queryInfo = getQueryInfo(windowId)
   const tabs = await chrome.tabs.query({ ...queryInfo, active: true })
   if (tabs.length <= 0) {
-    // TODO: handle this in UI
     throw new Error('No active tab! This is impossible')
   }
   return tabs[0]
