@@ -52,6 +52,7 @@
   "standard": {
     "parser": "babel-eslint",
     "ignore": [
+      "src/js/chrome-extension-async.js",
       "src/lib"
     ],
     "globals": [
