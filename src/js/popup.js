@@ -1,4 +1,4 @@
-import 'chrome-extension-async'
+import './chrome-extension-async'
 import 'typeface-roboto'
 import React from 'react'
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
