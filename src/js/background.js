@@ -1,4 +1,4 @@
-import './chrome-extension-async'
+import 'chrome-extension-async'
 import { findMatchedHosts, getHostKey, getActiveTab, getHosts, setLastFocusedWindowId } from 'libs'
 
 const getURL = ({ url }) => new window.URL(url)

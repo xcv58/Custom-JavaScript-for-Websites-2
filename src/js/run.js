@@ -1,4 +1,4 @@
-import './chrome-extension-async'
+import 'chrome-extension-async'
 import { getHosts, getHostKey, findMatchedHosts } from 'libs'
 
 const baseURL = chrome.runtime.getURL('base.js')
