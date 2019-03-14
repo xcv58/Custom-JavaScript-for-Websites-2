@@ -5,7 +5,12 @@
   "author": "xcv58",
   "minimum_chrome_version": "52.0.2743",
   "icons": {
-    "128": "img/icon-128.png"
+    "128": "img/icon-128.png",
+    "48": "img/icon-48.png",
+    "38": "img/icon-38.png",
+    "32": "img/icon-32.png",
+    "19": "img/icon-19.png",
+    "16": "img/icon-16.png"
   },
   "background": {
     "scripts": [ "background.js" ],
@@ -21,7 +26,7 @@
     "base.js"
   ],
   "browser_action": {
-    "default_icon": "img/icon.png",
+    "default_icon": "img/icon-48.png",
     "default_popup": "popup.html"
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://*.googleapis.com; object-src 'self'",
