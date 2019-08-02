@@ -69,5 +69,5 @@ const loadScripts = async (location) => {
     .catch(catchErr)
 }
 
-console.info("Custom JavaScript for websites enabled.\nPlease visit https://xcv58.xyz/inject-js if you have any issue.");
+console.info('Custom JavaScript for websites enabled.\nPlease visit https://xcv58.xyz/inject-js if you have any issue.')
 loadScripts(window.location)
