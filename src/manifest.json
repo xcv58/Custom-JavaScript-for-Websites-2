@@ -22,7 +22,7 @@
     "matches": [ "\u003Call_urls>" ]
   } ],
   "web_accessible_resources": [
-    "css/*.css",
+    "*.css",
     "base.js"
   ],
   "browser_action": {
