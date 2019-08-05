@@ -6,8 +6,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const WriteFilePlugin = require('write-file-webpack-plugin')
-// const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
-// const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
@@ -151,10 +149,6 @@ const options = {
       }
     ]),
     ...HtmlFiles,
-    // new ForkTsCheckerWebpackPlugin({
-    //   tsconfig: path.join(__dirname, 'tsconfig.json')
-    // }),
-    // new HardSourceWebpackPlugin(),
     new ProgressBarPlugin(),
     new WriteFilePlugin()
   ]
