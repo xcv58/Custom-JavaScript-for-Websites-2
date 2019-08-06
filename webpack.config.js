@@ -2,13 +2,25 @@ const webpack = require('webpack')
 const path = require('path')
 const fileSystem = require('fs')
 const env = require('./utils/env')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const WriteFilePlugin = require('write-file-webpack-plugin')
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-// load the secrets
-const alias = {}
+const srcPath = subdir => {
+  return path.join(__dirname, 'src/js', subdir)
+}
+
+const alias = {
+  background: srcPath('background'),
+  components: srcPath('components'),
+  libs: srcPath('libs'),
+  stores: srcPath('stores'),
+  svgIcons: srcPath('svgIcons'),
+  img: path.join(__dirname, 'src/img')
+}
 
 const secretsPath = path.join(__dirname, 'secrets.' + env.NODE_ENV + '.js')
 
@@ -29,25 +41,32 @@ if (fileSystem.existsSync(secretsPath)) {
   alias['secrets'] = secretsPath
 }
 
-const HtmlFiles = [
-  // 'options',
-  // 'background',
-  'popup'
-].map(
-  (name) => new HtmlWebpackPlugin({
-    template: path.join(__dirname, 'src', `${name}.html`),
-    filename: `${name}.html`,
-    chunks: [ name ]
-  })
+const imgDir = path.join(__dirname, 'src/img')
+const images = fileSystem
+  .readdirSync(imgDir)
+  .filter(x => x.endsWith('.png'))
+  .map(x => path.join(imgDir, x))
+
+const HtmlFiles = ['popup'].map(
+  name =>
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src', `${name}.html`),
+      filename: `${name}.html`,
+      chunks: [name],
+      minify: {
+        collapseWhitespace: true
+      }
+    })
+)
+
+const entry = Object.assign(
+  ...['popup', 'background', 'run', 'base'].map(name => ({
+    [name]: path.join(__dirname, 'src', 'js', `${name}.tsx`)
+  }))
 )
 
 const options = {
-  entry: {
-    popup: path.join(__dirname, 'src', 'js', 'popup.js'),
-    run: path.join(__dirname, 'src', 'js', 'run.js'),
-    base: path.join(__dirname, 'src', 'js', 'base.js'),
-    background: path.join(__dirname, 'src', 'js', 'background.js')
-  },
+  entry,
   output: {
     path: path.join(__dirname, 'build'),
     filename: '[name].js'
@@ -56,56 +75,81 @@ const options = {
     rules: [
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader'
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // you can specify a publicPath here
+              // by default it uses publicPath in webpackOptions.output
+              hmr: process.env.NODE_ENV === 'development',
+              reloadAll: true
+            }
+          },
+          'css-loader'
+        ],
+        include: path.resolve(__dirname, 'src'),
+        exclude: /node_modules/
       },
       {
         test: new RegExp(`\\.(${fileExtensions.join('|')})$`),
-        loader: 'file-loader?name=[name].[ext]'
+        loader: 'file-loader?name=[name].[ext]',
+        include: path.resolve(__dirname, 'src'),
+        exclude: /node_modules/
       },
       {
         test: /\.html$/,
         loader: 'html-loader',
+        include: path.resolve(__dirname, 'src'),
         exclude: /node_modules/
       },
       {
-        test: /\.(js|jsx)$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
+        test: /\.(js|ts)x?$/,
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+              experimentalWatchApi: true
+            }
+          }
+        ],
+        include: path.resolve(__dirname, 'src')
       }
     ]
   },
   resolve: {
-    alias: alias,
-    modules: [
-      'node_modules',
-      'src',
-      'src/js'
-    ],
+    alias,
     extensions: fileExtensions
       .map(extension => '.' + extension)
-      .concat(['.jsx', '.js', '.css'])
+      .concat(['.css', '.jsx', '.js', '.tsx', 'ts'])
   },
   plugins: [
-    new CleanWebpackPlugin([ 'build' ]),
     // expose and write the allowed env vars on the compiled bundle
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css'
+    }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV)
     }),
     new CopyWebpackPlugin([
-      { from: 'src/css', to: 'css' },
-      { from: 'src/img', to: 'img' },
+      ...images,
       {
         from: 'src/manifest.json',
         transform: function (content, path) {
-          return Buffer.from(JSON.stringify({
-            description: process.env.npm_package_description,
-            version: process.env.npm_package_version,
-            ...JSON.parse(content.toString())
-          }))
+          return Buffer.from(
+            JSON.stringify({
+              description: process.env.npm_package_description,
+              version: process.env.npm_package_version,
+              ...JSON.parse(content.toString())
+            })
+          )
         }
       }
     ]),
     ...HtmlFiles,
+    new ProgressBarPlugin(),
     new WriteFilePlugin()
   ]
 }
@@ -114,4 +158,7 @@ if (env.NODE_ENV === 'development') {
   options.devtool = 'cheap-module-eval-source-map'
 }
 
-module.exports = options
+module.exports = (plugins = []) => ({
+  ...options,
+  plugins: [...options.plugins, ...plugins]
+})

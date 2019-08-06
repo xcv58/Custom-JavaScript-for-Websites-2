@@ -1,13 +1,10 @@
 const webpack = require('webpack')
 const config = require('../webpack.config')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
 
-const { plugins } = config
-
-webpack({
-  ...config,
-  plugins: [
-    ...plugins,
+webpack(
+  config([
     new BundleAnalyzerPlugin({
       analyzerMode: 'server',
       analyzerHost: '127.0.0.1',
@@ -17,7 +14,8 @@ webpack({
       generateStatsFile: false,
       logLevel: 'info'
     })
-  ]
-}, function (err) {
-  if (err) throw err
-})
+  ]),
+  function (err) {
+    if (err) throw err
+  }
+)
