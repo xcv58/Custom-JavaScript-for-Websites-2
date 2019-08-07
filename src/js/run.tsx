@@ -3,7 +3,7 @@ import { getHosts, getHostKey, findMatchedHosts } from 'libs'
 
 const baseURL = chrome.runtime.getURL('base.js')
 
-const catchErr = (e) => {
+const catchErr = e => {
   console.error('Failed to inject scripts:', e)
 }
 
@@ -22,7 +22,10 @@ const extractScripts = (customjs, injections) => {
   if (!customjs) {
     return
   }
-  const { config: { enable, include, extra }, source } = customjs
+  const {
+    config: { enable, include, extra },
+    source
+  } = customjs
   if (!enable) {
     return
   }
@@ -36,38 +39,39 @@ const extractScripts = (customjs, injections) => {
   }
 
   // Extra include
-  (extra || '').split(';').map(x => x.trim()).forEach((line) => {
-    if (line && line.startsWith('//')) {
-      injections.add(line)
-    }
-  })
+  ;(extra || '')
+    .split(';')
+    .map(x => x.trim())
+    .forEach(line => {
+      if (line && line.startsWith('//')) {
+        injections.add(line)
+      }
+    })
 
   return source
 }
 
-const loadScripts = async (location) => {
+const loadScripts = async location => {
   const hosts = await getHosts()
   const matchedHosts = findMatchedHosts(hosts, location)
   const injections = new Set()
-  Promise.all(matchedHosts.map(
-    async (host) => {
+  Promise.all(
+    matchedHosts.map(async host => {
       const hostKey = getHostKey(host)
       const obj = await chrome.storage.sync.get(hostKey)
       return extractScripts(obj[hostKey], injections)
-    }
-  ))
-    .then((values) => {
-      return Promise.all([ ...injections ].map(
-        (src) => injectScriptPromise(src)
-      ))
+    })
+  )
+    .then(values => {
+      return Promise.all([...injections].map(src => injectScriptPromise(src)))
         .then(() => values)
         .catch(catchErr)
     })
-    .then((values) => values.map(
-      (src) => injectScriptPromise(src, 'body')
-    ))
+    .then(values => values.map(src => injectScriptPromise(src, 'body')))
     .catch(catchErr)
 }
 
-console.info('Custom JavaScript for websites enabled.\nPlease visit https://xcv58.xyz/inject-js if you have any issue.')
+console.info(
+  'Custom JavaScript for websites enabled.\nPlease visit https://xcv58.xyz/inject-js if you have any issue.'
+)
 loadScripts(window.location)

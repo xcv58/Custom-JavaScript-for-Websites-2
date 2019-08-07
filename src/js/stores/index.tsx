@@ -3,13 +3,15 @@ import IncludeStore from './IncludeStore'
 import NewPatternStore from './NewPatternStore'
 
 export default class Store {
+  AppStore: AppStore
+
+  IncludeStore: IncludeStore
+
+  NewPatternStore: NewPatternStore
+
   constructor () {
-    Object.entries({
-      AppStore,
-      IncludeStore,
-      NewPatternStore
-    }).forEach(([ key, Value ]) => {
-      this[key] = new Value(this)
-    })
+    this.AppStore = new AppStore(this)
+    this.IncludeStore = new IncludeStore(this)
+    this.NewPatternStore = new NewPatternStore(this)
   }
 }

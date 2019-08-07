@@ -1,11 +1,12 @@
 import React from 'react'
-import Button from 'material-ui/Button'
-import Dialog, {
+import {
+  Button,
+  Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle
-} from 'material-ui/Dialog'
+} from '@material-ui/core'
 
 export default () => {
   return (
@@ -17,11 +18,16 @@ export default () => {
         </DialogContentText>
         <DialogActions>
           <Button onClick={() => window.close()}>Cancel</Button>
-          <Button color='primary' onClick={() => {
-            chrome.windows.create({}, () => {
-              window.close()
-            })
-          }}>Open new window</Button>
+          <Button
+            color='primary'
+            onClick={() => {
+              chrome.windows.create({}, () => {
+                window.close()
+              })
+            }}
+          >
+            Open new window
+          </Button>
         </DialogActions>
       </DialogContent>
     </Dialog>

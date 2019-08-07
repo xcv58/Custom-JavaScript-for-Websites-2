@@ -1,48 +1,46 @@
-import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
-import Button from 'material-ui/Button'
-import Dialog, {
-  DialogActions, DialogContent, DialogContentText, DialogTitle
-} from 'material-ui/Dialog'
+import React, { useState } from 'react'
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
+} from '@material-ui/core'
+import { useStore } from './StoreContext'
+import { observer } from 'mobx-react'
 
-@inject('AppStore')
-@observer
-export default class Reset extends Component {
-  state = { open: false }
+export default observer(({ closePopup }) => {
+  const [open, setOpen] = useState(false)
+  const { AppStore } = useStore()
+  const { target } = AppStore
+  const closeDialog = () => setOpen(false)
 
-  openDialog = () => this.setState({ open: true })
-
-  closeDialog = () => this.setState({ open: false })
-
-  handleReset = () => {
-    this.props.AppStore.reset()
-    this.closeDialog()
-    this.props.closePopup()
-  }
-
-  render () {
-    const { target } = this.props.AppStore
-    return [
-      <Button onClick={this.openDialog} key='reset'>
-        Reset
-      </Button>,
-      <Dialog open={this.state.open} onClose={this.closeDialog} key='dialog'>
-        <DialogTitle>Remove all codes and external scripts?</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Reset will remove your codes and external scripts, and delete
-            current domain/pattern: "{target}".
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={this.closeDialog}>
-            Cancel
-          </Button>
-          <Button color='primary' onClick={this.handleReset}>
-            Reset
-          </Button>
-        </DialogActions>
-      </Dialog>
-    ]
-  }
-}
+  return [
+    <Button onClick={() => setOpen(true)} key='reset'>
+      Reset
+    </Button>,
+    <Dialog open={open} onClose={closeDialog} key='dialog'>
+      <DialogTitle>Remove all codes and external scripts?</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Reset will remove your codes and external scripts, and delete current
+          domain/pattern: "{target}".
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={closeDialog}>Cancel</Button>
+        <Button
+          color='primary'
+          onClick={() => {
+            AppStore.reset()
+            closeDialog()
+            closePopup()
+          }}
+        >
+          Reset
+        </Button>
+      </DialogActions>
+    </Dialog>
+  ]
+})

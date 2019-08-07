@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { CircularProgress } from 'material-ui/Progress'
+import { CircularProgress } from '@material-ui/core'
 
 export default class Loading extends Component {
   state = { tooLong: false }
@@ -19,12 +19,14 @@ export default class Loading extends Component {
       return 'Loading...'
     }
     return (
-      <div style={{
-        display: 'flex',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          height: '100%',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
         <CircularProgress size={128} />
       </div>
     )

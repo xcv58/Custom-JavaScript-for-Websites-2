@@ -1,24 +1,23 @@
-import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
-import { FormGroup, FormControlLabel } from 'material-ui/Form'
-import Switch from 'material-ui/Switch'
+import React from 'react'
+import { useStore } from './StoreContext'
+import { observer } from 'mobx-react'
+import { FormGroup, FormControlLabel, Switch } from '@material-ui/core'
 
-@inject('AppStore')
-@observer
-export default class Toggle extends Component {
-  render () {
-    const { enable, toggleEnable } = this.props.AppStore
-    return (
-      <FormGroup>
-        <FormControlLabel
-          label={
-            <span>Enable <em className='blue-text'>cjs</em> for this host</span>
-          }
-          control={
-            <Switch color='primary' checked={enable} onChange={toggleEnable} />
-          }
-        />
-      </FormGroup>
-    )
-  }
-}
+export default observer(() => {
+  const { AppStore } = useStore()
+  const { enable, toggleEnable } = AppStore
+  return (
+    <FormGroup>
+      <FormControlLabel
+        label={
+          <span>
+            Enable <em className='blue-text'>cjs</em> for this host
+          </span>
+        }
+        control={
+          <Switch color='primary' checked={enable} onChange={toggleEnable} />
+        }
+      />
+    </FormGroup>
+  )
+})
