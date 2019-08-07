@@ -4,8 +4,7 @@ import { observer } from 'mobx-react'
 import { FormGroup, FormControlLabel, Switch } from '@material-ui/core'
 
 export default observer(() => {
-  const { AppStore } = useStore()
-  const { enable, toggleEnable } = AppStore
+  const { enable, toggleEnable } = useStore().AppStore
   return (
     <FormGroup>
       <FormControlLabel

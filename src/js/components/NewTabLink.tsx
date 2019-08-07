@@ -5,9 +5,7 @@ import { useStore } from './StoreContext'
 import { observer } from 'mobx-react'
 
 export default observer(() => {
-  const { AppStore } = useStore()
-
-  const { tabMode, domain, isRegex, target: pattern } = AppStore
+  const { tabMode, domain, isRegex, target: pattern } = useStore().AppStore
   if (tabMode) {
     return null
   }

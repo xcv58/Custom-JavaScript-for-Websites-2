@@ -4,8 +4,7 @@ import { useStore } from './StoreContext'
 import { observer } from 'mobx-react'
 
 export default observer(() => {
-  const { AppStore } = useStore()
-  const { mode, setMode } = AppStore
+  const { mode, setMode } = useStore().AppStore
   const options = ['javascript', 'css'].map(option => {
     return (
       <MenuItem key={option} value={option}>

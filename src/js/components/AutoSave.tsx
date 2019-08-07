@@ -4,8 +4,7 @@ import { useStore } from './StoreContext'
 import { observer } from 'mobx-react'
 
 export default observer(() => {
-  const { AppStore } = useStore()
-  const { saved, autoSaveHandle } = AppStore
+  const { saved, autoSaveHandle } = useStore().AppStore
   const content =
     (autoSaveHandle && <CircularProgress size={24} />) ||
     (saved && <InputLabel>Draft saved</InputLabel>)

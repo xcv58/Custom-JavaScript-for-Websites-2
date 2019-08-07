@@ -9,8 +9,12 @@ import { useStore } from '../StoreContext'
 import { observer } from 'mobx-react'
 
 export default observer(() => {
-  const { IncludeStore } = useStore()
-  const { include, includes, toggleExtraOpen, onSelect } = IncludeStore
+  const {
+    include,
+    includes,
+    toggleExtraOpen,
+    onSelect
+  } = useStore().IncludeStore
   const options = includes.map(({ name, path }) => (
     <MenuItem key={name} value={path}>
       {name}

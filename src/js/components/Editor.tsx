@@ -27,8 +27,7 @@ const setOptions = {
 }
 
 export default observer(() => {
-  const { AppStore } = useStore()
-  const { source, onChangeSource, mode } = AppStore
+  const { source, onChangeSource, mode } = useStore().AppStore
   return (
     <AceEditor
       theme='tomorrow'

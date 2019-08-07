@@ -4,8 +4,7 @@ import { useStore } from './StoreContext'
 import { observer } from 'mobx-react'
 
 export default observer(() => {
-  const { AppStore } = useStore()
-  const { differentURL, goTo } = AppStore
+  const { differentURL, goTo } = useStore().AppStore
   if (!differentURL) {
     return null
   }

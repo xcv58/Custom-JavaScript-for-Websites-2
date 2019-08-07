@@ -7,8 +7,7 @@ import { observer } from 'mobx-react'
 import { MenuItem, FormControl, Select } from '@material-ui/core'
 
 const Hosts = observer(props => {
-  const { AppStore } = useStore()
-  const { hosts, matchedHost = '' } = AppStore
+  const { hosts, matchedHost = '' } = useStore().AppStore
   const options = hosts.map(host => {
     const key = getHostKey(host)
     const { isRegex } = host

@@ -15,8 +15,7 @@ const issueLink =
 const chromeDocLink = 'https://developer.chrome.com/apps/storage#property-sync'
 
 export default observer(() => {
-  const { AppStore } = useStore()
-  const { clearSaveError, saveError, size } = AppStore
+  const { clearSaveError, saveError, size } = useStore().AppStore
   const alert = saveError && (
     <Dialog open onClose={clearSaveError}>
       <DialogTitle>Script Save Failure</DialogTitle>

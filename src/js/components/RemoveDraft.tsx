@@ -4,8 +4,7 @@ import { useStore } from './StoreContext'
 import { observer } from 'mobx-react'
 
 export default observer(() => {
-  const { AppStore } = useStore()
-  const { draft, onRemoveDraft } = AppStore
+  const { draft, onRemoveDraft } = useStore().AppStore
   if (!draft) {
     return null
   }

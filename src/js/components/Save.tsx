@@ -4,8 +4,7 @@ import { useStore } from './StoreContext'
 import { observer } from 'mobx-react'
 
 export default observer(({ onSave }) => {
-  const { AppStore } = useStore()
-  const { differentURL, tabMode } = AppStore
+  const { differentURL, tabMode } = useStore().AppStore
   return (
     <Button
       color='primary'
