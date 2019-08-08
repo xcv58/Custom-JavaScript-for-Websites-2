@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import AutoSave from 'components/AutoSave'
 import Loading from 'components/Loading'
 import Editor from 'components/Editor'
@@ -17,7 +17,8 @@ import Size from 'components/Size'
 import NewPattern from 'components/NewPattern'
 import queryString from 'query-string'
 import NewTabLink from './NewTabLink'
-import { inject, observer } from 'mobx-react'
+import { useStore } from './StoreContext'
+import { observer } from 'mobx-react'
 
 const toolbarStyle = {
   display: 'flex',
@@ -25,100 +26,80 @@ const toolbarStyle = {
   alignItems: 'center'
 }
 
-@inject('AppStore')
-@observer
-export default class Page extends Component {
-  onReset = (e) => {
-    e.preventDefault()
-    this.props.AppStore.reset()
-  }
+export default observer(props => {
+  const { AppStore } = useStore()
+  const { location } = props
+  useEffect(() => {
+    const { location } = props
+    const query = queryString.parse(location.search)
+    AppStore.init(query)
+  }, [location.search])
 
-  onSave = () => {
-    this.props.AppStore.save()
-  }
+  const { loading, error, loadError } = AppStore
 
-  onSelectHost = (e) => {
-    e.preventDefault()
-    const newHost = e.target.value
-    this.props.history.push(`?domain=${newHost}`)
-  }
-
-  goTo = () => {
-    this.props.AppStore.goTo()
-    this.closePopup()
-  }
-
-  closePopup = () => {
-    if (!this.props.AppStore.tabMode) {
+  const closePopup = () => {
+    if (!AppStore.tabMode) {
       window.close()
     }
   }
 
-  init = () => {
-    const { location } = this.props
-    const query = queryString.parse(location.search)
-    this.props.AppStore.init(query)
+  if (loadError) {
+    return <LoadError error={loadError} />
   }
-
-  componentDidUpdate (prevProps) {
-    if (this.props.location.search !== prevProps.location.search) {
-      this.init()
-    }
+  if (error) {
+    return <Error error={error} />
   }
-
-  componentDidMount = this.init
-
-  render () {
-    const { loading, error, loadError } = this.props.AppStore
-    if (loadError) {
-      return (<LoadError error={loadError} />)
-    }
-    if (error) {
-      return (<Error error={error} />)
-    }
-    if (loading) {
-      return (<Loading />)
-    }
-    return (
-      <div style={{
+  if (loading) {
+    return <Loading />
+  }
+  return (
+    <div
+      style={{
         display: 'grid',
         gridTemplateRows: 'auto auto 1fr auto',
         height: '100vh'
-      }}>
-        <div style={toolbarStyle}>
-          <div>
-            <Save onSave={this.onSave} />
-            <Reset closePopup={this.closePopup} />
-            <ModeSelect />
-            <NewTabLink />
-          </div>
-          <div>
-            <Toggle />
-          </div>
+      }}
+    >
+      <div style={toolbarStyle}>
+        <div>
+          <Save onSave={() => AppStore.save()} />
+          <Reset closePopup={closePopup} />
+          <ModeSelect />
+          <NewTabLink />
         </div>
-        <div style={toolbarStyle}>
-          <div>
-            <Hosts />
-            <NewPattern />
-            <Goto goTo={this.goTo} />
-          </div>
-          <Include />
-        </div>
-        <Editor />
-        <div style={toolbarStyle}>
-          <span>
-            <RemoveDraft />
-            <AutoSave />
-          </span>
-          <Size />
-          <DonateLink />
-        </div>
-        <div id='error' className='error is-hidden'>
-          <strong>Custom JavaScript says:</strong>
-          <p className='red-text'>It seems that this page cannot be modified with me..</p>
-          <span>tip: Try refresh page</span>
+        <div>
+          <Toggle />
         </div>
       </div>
-    )
-  }
-}
+      <div style={toolbarStyle}>
+        <div>
+          <Hosts />
+          <NewPattern />
+          <Goto
+            goTo={() => {
+              AppStore.goTo()
+              closePopup()
+            }}
+          />
+        </div>
+        <Include />
+      </div>
+      <Editor />
+      <div style={toolbarStyle}>
+        <span>
+          <RemoveDraft />
+          <AutoSave />
+        </span>
+        <Size />
+        <DonateLink />
+      </div>
+      <div id='error' className='error is-hidden'>
+        <strong>Custom JavaScript says:</strong>
+        <p className='red-text'>
+          It seems that this page cannot be modified with me..
+        </p>
+        <span>tip: Try refresh page</span>
+      </div>
+    </div>
+  )
+})

@@ -1,47 +1,38 @@
-import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
-import TextField from 'material-ui/TextField'
-import Button from 'material-ui/Button'
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogTitle
-} from 'material-ui/Dialog'
+import React from 'react'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import { useStore } from 'components/StoreContext'
+import { observer } from 'mobx-react'
 
-@inject('IncludeStore')
-@observer
-export default class Include extends Component {
-  onUpdateExtra = (e) => {
-    this.props.IncludeStore.onUpdateExtra(e.target.value)
-  }
-
-  render () {
-    const {
-      extraOpen, extraValue, placeholder, toggleExtraOpen
-    } = this.props.IncludeStore
-    return (
-      <Dialog fullWidth open={extraOpen} onClose={toggleExtraOpen}>
-        <DialogTitle>External Scripts</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            fullWidth
-            multiline
-            rows={2}
-            rowsMax={100}
-            placeholder={placeholder}
-            onChange={this.onUpdateExtra}
-            margin='none'
-            type='text'
-            value={extraValue}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={toggleExtraOpen} color='primary'>
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
-    )
-  }
-}
+export default observer(() => {
+  const { IncludeStore } = useStore()
+  const { extraOpen, extraValue, placeholder, toggleExtraOpen } = IncludeStore
+  return (
+    <Dialog fullWidth open={extraOpen} onClose={toggleExtraOpen}>
+      <DialogTitle>External Scripts</DialogTitle>
+      <DialogContent>
+        <TextField
+          autoFocus
+          fullWidth
+          multiline
+          rows={2}
+          rowsMax={100}
+          placeholder={placeholder}
+          onChange={e => IncludeStore.onUpdateExtra(e.target.value)}
+          margin='none'
+          type='text'
+          value={extraValue}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={toggleExtraOpen} color='primary'>
+          Save
+        </Button>
+      </DialogActions>
+    </Dialog>
+  )
+})

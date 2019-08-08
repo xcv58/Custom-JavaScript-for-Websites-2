@@ -16,23 +16,31 @@ export default class AppStore {
   @observable loading = true
 
   @observable autoSaveHandle = null
+
   @observable saved = false
 
   @observable hosts = []
 
   @observable enable = false
+
   @observable source = defaultSource
 
   @observable draft = null
+
   @observable truth = null
 
   @observable tab = { url: '' }
+
   @observable host = ''
+
   @observable protocol = ''
+
   @observable matchedHost = ''
 
   @observable loadError = null
+
   @observable error = null
+
   @observable saveError = null
 
   @computed
@@ -100,43 +108,46 @@ export default class AppStore {
 
   @action
   init = ({ domain, isRegex, pattern }) => {
-    chrome.runtime.sendMessage({ method: 'getData', domain, isRegex, pattern }, async (response) => {
-      if (!response || typeof response.host !== 'string') {
-        if (response.error) {
-          this.loadError = response.error
-          return
+    chrome.runtime.sendMessage(
+      { method: 'getData', domain, isRegex, pattern },
+      async response => {
+        if (!response || typeof response.host !== 'string') {
+          if (response.error) {
+            this.loadError = response.error
+            return
+          }
+          throw new Error('Get no data for active tab!')
         }
-        throw new Error('Get no data for active tab!')
-      }
 
-      const { customjs, host, matchedHost, protocol, tab } = response
-      Object.assign(this, {
-        truth: customjs,
-        host,
-        matchedHost,
-        protocol,
-        tab
-      })
+        const { customjs, host, matchedHost, protocol, tab } = response
+        Object.assign(this, {
+          truth: customjs,
+          host,
+          matchedHost,
+          protocol,
+          tab
+        })
 
-      this.hosts = await getHosts(key)
-      this.loadDraft()
+        this.hosts = await getHosts(key)
+        this.loadDraft()
 
-      if (!matchedHost) {
-        if (isRegex) {
-          this.error = `There is no pattern of "${pattern}"`
-          return
-        } else {
-          this.hosts.push(this.domain)
-          this.saveHosts()
-          return this.init({ domain, isRegex, pattern })
+        if (!matchedHost) {
+          if (isRegex) {
+            this.error = `There is no pattern of "${pattern}"`
+            return
+          } else {
+            this.hosts.push(this.domain)
+            this.saveHosts()
+            return this.init({ domain, isRegex, pattern })
+          }
         }
-      }
 
-      if (isEqual(this.draft, this.truth)) {
-        this.draft = null
+        if (isEqual(this.draft, this.truth)) {
+          this.draft = null
+        }
+        this.loadCustomjs(this.draft || this.truth)
       }
-      this.loadCustomjs(this.draft || this.truth)
-    })
+    )
   }
 
   loadCustomjs = (customjs = { config: {} }) => {
@@ -159,7 +170,9 @@ export default class AppStore {
   }
 
   loadDraft = () => {
-    const { draft } = JSON.parse(window.localStorage.getItem(this.domainKey) || '{}')
+    const { draft } = JSON.parse(
+      window.localStorage.getItem(this.domainKey) || '{}'
+    )
     this.draft = draft
   }
 
@@ -182,7 +195,7 @@ export default class AppStore {
   }
 
   @action
-  onChangeSource = (value) => {
+  onChangeSource = value => {
     this.source = value
     if (!this.enable) {
       this.enable = true
@@ -205,20 +218,23 @@ export default class AppStore {
   @action
   save = () => {
     const { domain, customjs, matchedHost } = this
-    chrome.runtime.sendMessage({
-      method: 'setData',
-      domain,
-      matchedHost,
-      customjs,
-      reload: !this.tabMode
-    }, (err) => {
-      if (err) {
-        this.saveError = err
-      } else {
-        this.truth = this.customjs
-        this.removeDraft()
+    chrome.runtime.sendMessage(
+      {
+        method: 'setData',
+        domain,
+        matchedHost,
+        customjs,
+        reload: !this.tabMode
+      },
+      err => {
+        if (err) {
+          this.saveError = err
+        } else {
+          this.truth = this.customjs
+          this.removeDraft()
+        }
       }
-    })
+    )
   }
 
   @action
@@ -234,7 +250,9 @@ export default class AppStore {
       newHosts = this.hosts.filter(x => x !== this.domain)
     } else {
       Object.assign(message, this.matchedHost)
-      newHosts = this.hosts.filter(x => !x.isRegex || (x.pattern !== this.matchedHost.pattern))
+      newHosts = this.hosts.filter(
+        x => !x.isRegex || x.pattern !== this.matchedHost.pattern
+      )
     }
     this.saveHosts(newHosts)
     chrome.runtime.sendMessage(message)
@@ -259,7 +277,7 @@ export default class AppStore {
   }
 
   @action
-  setMode = (mode) => {
+  setMode = mode => {
     this.mode = mode
   }
 }

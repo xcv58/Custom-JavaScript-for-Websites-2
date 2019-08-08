@@ -6,6 +6,7 @@ export default class NewPatternStore {
   }
 
   @observable open = false
+
   @observable pattern = ''
 
   @computed
@@ -32,13 +33,13 @@ export default class NewPatternStore {
       return err.message
     }
     const { hosts } = this.store.AppStore
-    if (hosts.find(x => x.isRegex && (x.pattern === this.pattern))) {
+    if (hosts.find(x => x.isRegex && x.pattern === this.pattern)) {
       return `Pattern ${this.pattern} already exists`
     }
   }
 
   @action
-  setPattern = (value) => {
+  setPattern = value => {
     this.pattern = value
   }
 

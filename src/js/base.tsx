@@ -1,14 +1,15 @@
 // inspired by http://ryanmorr.com/using-mutation-observers-to-watch-for-element-availability/
 const listeners = []
 const doc = window.document
-const MutationObserver = window.MutationObserver || window.WebKitMutationObserver
+const MutationObserver =
+  window.MutationObserver || window.WebKitMutationObserver
 let observer = null
 
 const check = () => {
   // Check the DOM for elements matching a stored selector
-  listeners.map((listener) => {
+  listeners.map(listener => {
     const elements = doc.querySelectorAll(listener.selector)
-    elements.forEach((ele) => {
+    elements.forEach(ele => {
       if (!ele.ready) {
         ele.ready = true
         listener.fn.call(ele, ele)

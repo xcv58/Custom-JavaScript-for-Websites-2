@@ -1,15 +1,17 @@
 import _ from 'lodash'
 
-export const setLastFocusedWindowId = (lastFocusedWindowId) => {
+export const setLastFocusedWindowId = lastFocusedWindowId => {
   chrome.storage.local.set({ lastFocusedWindowId })
 }
 
 export const getLastFocusedWindowId = async () => {
-  const { lastFocusedWindowId } = await chrome.storage.local.get({ lastFocusedWindowId: null })
+  const { lastFocusedWindowId } = await chrome.storage.local.get({
+    lastFocusedWindowId: null
+  })
   return lastFocusedWindowId
 }
 
-const getQueryInfo = (windowId) => {
+const getQueryInfo = windowId => {
   if (windowId) {
     return { windowId }
   }
@@ -30,17 +32,17 @@ const SOURCE_PREFIX = 'data:text/javascript'
 const BASE64_PREFIX = SOURCE_PREFIX + ';base64,'
 const UTF8_PREFIX = SOURCE_PREFIX + ';charset=utf-8,'
 
-export const encodeSource = (script) => {
+export const encodeSource = script => {
   // base64 may be smaller, but does not handle unicode characters
   // attempt base64 first, fall back to escaped text
   try {
-    return (BASE64_PREFIX + window.btoa(script))
+    return BASE64_PREFIX + window.btoa(script)
   } catch (e) {
-    return (UTF8_PREFIX + encodeURIComponent(script))
+    return UTF8_PREFIX + encodeURIComponent(script)
   }
 }
 
-export const decodeSource = (source) => {
+export const decodeSource = source => {
   if (source.startsWith(BASE64_PREFIX)) {
     return window.atob(source.replace(BASE64_PREFIX, ''))
   }
@@ -53,7 +55,7 @@ export const decodeSource = (source) => {
   return source
 }
 
-export const getHosts = async (key) => {
+export const getHosts = async key => {
   const result = await chrome.storage.sync.get({ hosts: [] })
   if (Array.isArray(result.hosts) && result.hosts.length > 0) {
     return result.hosts
@@ -62,7 +64,7 @@ export const getHosts = async (key) => {
   return hosts
 }
 
-const validHost = (host) => {
+const validHost = host => {
   if (typeof host === 'string') {
     return !!host
   }
@@ -82,20 +84,20 @@ export const clearHosts = () => {
 export const findMatchedHosts = (hosts = [], url, message = {}) => {
   const { isRegex, pattern } = message
   if (isRegex && pattern) {
-    return hosts.filter((host) => host.isRegex && host.pattern === pattern)
+    return hosts.filter(host => host.isRegex && host.pattern === pattern)
   }
-  const matchedHosts = hosts.filter((host) => {
+  const matchedHosts = hosts.filter(host => {
     if (typeof host === 'string') {
       return host === url.origin
     } else if (typeof host === 'object') {
-      return (new RegExp(host.pattern)).test(url.href)
+      return new RegExp(host.pattern).test(url.href)
     }
     return false
   })
-  return _.orderBy(matchedHosts, [ 'pattern' ], [ 'desc' ])
+  return _.orderBy(matchedHosts, ['pattern'], ['desc'])
 }
 
-export const getHostKey = (host) => {
+export const getHostKey = host => {
   if (!host) {
     throw new Error(`getHostKey get falsy host: ${host}!`)
   }
