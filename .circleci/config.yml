@@ -1,18 +1,28 @@
 version: 2
+references:
+  yarn_key: &yarn_key
+    v1-dependencies-{{ checksum "yarn.lock" }}
+
+  save_yarn_cache: &save_yarn_cache
+    save_cache:
+      key: *yarn_key
+      paths:
+        - node_modules
+
+  restore_yarn_cache: &restore_yarn_cache
+    restore_cache:
+      key: *yarn_key
+
 jobs:
-  build:
+  build-test:
     docker:
-      - image: circleci/node:latest
+      - image: circleci/node:10
     steps:
       - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
+      - *restore_yarn_cache
       - run: yarn --ignore-engines
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      - *save_yarn_cache
+      - run: yarn lint:ts
       - run: yarn test
       - run: yarn deploy
       - run: ls -l build/* build.zip
@@ -23,3 +33,32 @@ jobs:
       - store_artifacts:
           path: dist
           destination: dist
+
+  publish:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - *restore_yarn_cache
+      - run: yarn install
+      - *save_yarn_cache
+      - run: yarn deploy
+      - run: yarn upload:chrome
+      - run: yarn publish-extension
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build-test:
+          filters:
+            tags:
+              only: /^v.*/
+      - publish:
+          requires:
+            - build-test
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/

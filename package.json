@@ -12,6 +12,9 @@
     "lint": "standard",
     "lintfix": "yarn prettier 'src/**/*.{js,ts,tsx}' && yarn lint --fix && yarn lint:ts --fix",
     "start": "node utils/webserver.js",
+    "upload:chrome": "node -r dotenv/config ./node_modules/.bin/webstore upload --source build.zip",
+    "publish:chrome": "node -r dotenv/config ./node_modules/.bin/webstore publish",
+    "publish-extension": "yarn publish:chrome",
     "release": "standard-version",
     "test": "yarn lint && yarn build"
   },
