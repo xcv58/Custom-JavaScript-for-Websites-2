@@ -38,7 +38,7 @@ const fileExtensions = [
 ]
 
 if (fileSystem.existsSync(secretsPath)) {
-  alias['secrets'] = secretsPath
+  alias.secrets = secretsPath
 }
 
 const imgDir = path.join(__dirname, 'src/img')
