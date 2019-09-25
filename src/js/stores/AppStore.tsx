@@ -2,6 +2,7 @@ import { action, computed, observable } from 'mobx'
 import { encodeSource, decodeSource, getHosts, setHosts } from 'libs'
 import isEqual from 'lodash.isequal'
 import sizeof from 'object-sizeof'
+import { js } from 'js-beautify'
 
 const key = 'popup'
 const defaultSource = '// Here You can type your custom JavaScript...'
@@ -192,6 +193,12 @@ export default class AppStore {
     this.draft = null
     this.saved = false
     window.localStorage.removeItem(this.domainKey)
+  }
+
+  @action
+  beautify = () => {
+    const value = js(this.source, { indent_size: 2 })
+    this.onChangeSource(value)
   }
 
   @action

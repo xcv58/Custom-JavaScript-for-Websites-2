@@ -19,6 +19,7 @@ import queryString from 'query-string'
 import NewTabLink from './NewTabLink'
 import { useStore } from './StoreContext'
 import { observer } from 'mobx-react'
+import Format from './Format'
 
 const toolbarStyle = {
   display: 'flex',
@@ -65,6 +66,7 @@ export default observer(props => {
           <Save onSave={() => AppStore.save()} />
           <Reset closePopup={closePopup} />
           <ModeSelect />
+          <Format />
           <NewTabLink />
         </div>
         <div>
