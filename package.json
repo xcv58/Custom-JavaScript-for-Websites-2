@@ -81,7 +81,7 @@
     "typescript": "^3.6.3",
     "typescript-eslint-parser": "^22.0.0",
     "web-ext": "^3.1.1",
-    "webpack": "^4.39.3",
+    "webpack": "4.39.3",
     "webpack-bundle-analyzer": "^3.5.1",
     "webpack-dev-server": "^3.8.1",
     "write-file-webpack-plugin": "^4.5.1"
