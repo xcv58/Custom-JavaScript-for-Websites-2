@@ -125,7 +125,7 @@ const options = {
   },
   plugins: [
     // expose and write the allowed env vars on the compiled bundle
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css'
