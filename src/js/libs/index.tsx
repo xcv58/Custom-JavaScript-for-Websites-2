@@ -55,10 +55,13 @@ export const decodeSource = source => {
   return source
 }
 
-export const getHosts = async key => {
+export const getHosts = async (key = '') => {
   const result = await chrome.storage.sync.get({ hosts: [] })
   if (Array.isArray(result.hosts) && result.hosts.length > 0) {
     return result.hosts
+  }
+  if (!key) {
+    return []
   }
   const { hosts = [] } = JSON.parse(window.localStorage.getItem(key) || '{}')
   return hosts

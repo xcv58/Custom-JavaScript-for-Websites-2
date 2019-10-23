@@ -7,10 +7,11 @@ const catchErr = e => {
   console.error('Failed to inject scripts:', e)
 }
 
-const injectScriptPromise = (src, where) => {
+const injectScriptPromise = (src, where = 'head') => {
   return new Promise((resolve, reject) => {
     const elm = document.createElement('script')
-    document[where || 'head'].appendChild(elm)
+    const targetElement = document[where] ? document[where] : document.head
+    targetElement.appendChild(elm)
     elm.onload = () => {
       resolve(`Inject ${src} complete!`)
     }
@@ -62,8 +63,20 @@ const loadScripts = async location => {
       return extractScripts(obj[hostKey], injections)
     })
   )
+    .then(values => values.filter(x => x))
     .then(values => {
-      return Promise.all([...injections].map(src => injectScriptPromise(src)))
+      if (values.length) {
+        console.info(
+          'Custom JavaScript for websites enabled.\nPlease visit https://xcv58.xyz/inject-js if you have any issue.'
+        )
+      }
+      return Promise.all(
+        [...injections].map(src => {
+          if (src) {
+            injectScriptPromise(src)
+          }
+        })
+      )
         .then(() => values)
         .catch(catchErr)
     })
@@ -71,7 +84,4 @@ const loadScripts = async location => {
     .catch(catchErr)
 }
 
-console.info(
-  'Custom JavaScript for websites enabled.\nPlease visit https://xcv58.xyz/inject-js if you have any issue.'
-)
 loadScripts(window.location)
