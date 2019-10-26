@@ -73,7 +73,7 @@ const loadScripts = async location => {
       return Promise.all(
         [...injections].map(src => {
           if (src) {
-            injectScriptPromise(src)
+            return injectScriptPromise(src)
           }
         })
       )
