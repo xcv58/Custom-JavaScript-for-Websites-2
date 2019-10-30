@@ -3,11 +3,16 @@ import { encodeSource, decodeSource, getHosts, setHosts } from 'libs'
 import isEqual from 'lodash.isequal'
 import sizeof from 'object-sizeof'
 import { js } from 'js-beautify'
+import Store from 'stores'
+
+type Host = { isRegex: boolean; pattern: string } | string
 
 const key = 'popup'
 const defaultSource = '// Here You can type your custom JavaScript...'
 
 export default class AppStore {
+  store: Store
+
   constructor (store) {
     this.store = store
   }
@@ -20,7 +25,7 @@ export default class AppStore {
 
   @observable saved = false
 
-  @observable hosts = []
+  @observable hosts: Host[] = []
 
   @observable enable = false
 
@@ -36,7 +41,7 @@ export default class AppStore {
 
   @observable protocol = ''
 
-  @observable matchedHost = ''
+  @observable matchedHost: Host = ''
 
   @observable loadError = null
 
@@ -61,15 +66,10 @@ export default class AppStore {
 
   @computed
   get target () {
-    if (this.isRegex) {
+    if (typeof this.matchedHost === 'object' && this.matchedHost.isRegex) {
       return this.matchedHost.pattern
     }
     return this.domain
-  }
-
-  @computed
-  get isRegex () {
-    return this.matchedHost && this.matchedHost.isRegex
   }
 
   @computed
@@ -101,7 +101,7 @@ export default class AppStore {
 
   @computed
   get domainKey () {
-    if (this.isRegex) {
+    if (typeof this.matchedHost === 'object' && this.matchedHost.isRegex) {
       return `${key}-${this.matchedHost.pattern}`
     }
     return `${key}-${this.domain}`
@@ -257,8 +257,9 @@ export default class AppStore {
       newHosts = this.hosts.filter(x => x !== this.domain)
     } else {
       Object.assign(message, this.matchedHost)
+      const { pattern } = this.matchedHost
       newHosts = this.hosts.filter(
-        x => !x.isRegex || x.pattern !== this.matchedHost.pattern
+        x => typeof x === 'string' || (!x.isRegex || x.pattern !== pattern)
       )
     }
     this.saveHosts(newHosts)

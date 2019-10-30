@@ -1,6 +1,10 @@
 import { action, computed, observable } from 'mobx'
+import Store from 'stores'
 
 export default class NewPatternStore {
+  store: Store
+  re: RegExp
+
   constructor (store) {
     this.store = store
   }
@@ -33,7 +37,11 @@ export default class NewPatternStore {
       return err.message
     }
     const { hosts } = this.store.AppStore
-    if (hosts.find(x => x.isRegex && x.pattern === this.pattern)) {
+    if (
+      hosts.find(
+        x => typeof x === 'object' && (x.isRegex && x.pattern === this.pattern)
+      )
+    ) {
       return `Pattern ${this.pattern} already exists`
     }
   }
