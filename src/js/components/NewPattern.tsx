@@ -1,5 +1,5 @@
 import React from 'react'
-import { withRouter } from 'react-router'
+import { useHistory } from 'react-router-dom'
 import queryString from 'query-string'
 import { useStore } from './StoreContext'
 import { observer } from 'mobx-react'
@@ -26,49 +26,48 @@ const Content = () => (
   </DialogContentText>
 )
 
-const NewPatternDialog = withRouter(
-  observer(props => {
-    const { NewPatternStore } = useStore()
-    const { closeDialog, error, validPattern, pattern } = NewPatternStore
-    return (
-      <Dialog open onClose={closeDialog}>
-        <DialogTitle>New RegExp Pattern</DialogTitle>
-        <DialogContent>
-          <Content />
-          <FormControl fullWidth error={!validPattern}>
-            <TextField
-              autoFocus
-              margin='dense'
-              type='text'
-              placeholder='.*github.com'
-              label='RegExp Pattern'
-              error={!validPattern}
-              value={pattern}
-              onChange={e => {
-                NewPatternStore.setPattern(e.target.value)
-              }}
-            />
-            <FormHelperText>{error}</FormHelperText>
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeDialog}>Cancel</Button>
-          <Button
-            color='primary'
-            onClick={() => {
-              const { addToHosts, host } = NewPatternStore
-              addToHosts()
-              props.history.push(`?${queryString.stringify(host)}`)
+const NewPatternDialog = observer(() => {
+  const history = useHistory()
+  const { NewPatternStore } = useStore()
+  const { closeDialog, error, validPattern, pattern } = NewPatternStore
+  return (
+    <Dialog open onClose={closeDialog}>
+      <DialogTitle>New RegExp Pattern</DialogTitle>
+      <DialogContent>
+        <Content />
+        <FormControl fullWidth error={!validPattern}>
+          <TextField
+            autoFocus
+            margin='dense'
+            type='text'
+            placeholder='.*github.com'
+            label='RegExp Pattern'
+            error={!validPattern}
+            value={pattern}
+            onChange={e => {
+              NewPatternStore.setPattern(e.target.value)
             }}
-            disabled={!validPattern}
-          >
-            Add
-          </Button>
-        </DialogActions>
-      </Dialog>
-    )
-  })
-)
+          />
+          <FormHelperText>{error}</FormHelperText>
+        </FormControl>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={closeDialog}>Cancel</Button>
+        <Button
+          color='primary'
+          onClick={() => {
+            const { addToHosts, host } = NewPatternStore
+            addToHosts()
+            history.push(`?${queryString.stringify(host)}`)
+          }}
+          disabled={!validPattern}
+        >
+          Add
+        </Button>
+      </DialogActions>
+    </Dialog>
+  )
+})
 
 export default observer(() => {
   // TODO: support to use current domain
