@@ -7,10 +7,9 @@ export default observer(({ onSave }) => {
   const { differentURL, tabMode, saved, draft } = useStore().AppStore
   return (
     <Button
-      color='primary'
+      color={saved || draft ? 'secondary' : 'primary'}
       disabled={differentURL && !tabMode}
       onClick={onSave}
-      style={(saved || draft) && { backgroundColor: '#f50057', color: 'white' }}
     >
       Save
     </Button>
