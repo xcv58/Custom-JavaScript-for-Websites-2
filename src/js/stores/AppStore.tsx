@@ -107,6 +107,13 @@ export default class AppStore {
     return `${key}-${this.domain}`
   }
 
+  getDomainKey = (host: Host) => {
+    if (typeof host === 'object' && host.isRegex) {
+      return `${key}-${host.pattern}`
+    }
+    return `${key}-${host}`
+  }
+
   @action
   init = ({ domain, isRegex, pattern }) => {
     chrome.runtime.sendMessage(
@@ -189,10 +196,14 @@ export default class AppStore {
   }
 
   @action
-  removeDraft = () => {
-    this.draft = null
-    this.saved = false
-    window.localStorage.removeItem(this.domainKey)
+  removeDraft = (domainKey = '') => {
+    if (domainKey) {
+      window.localStorage.removeItem(domainKey)
+    } else {
+      this.draft = null
+      this.saved = false
+      window.localStorage.removeItem(this.domainKey)
+    }
   }
 
   @action
@@ -259,12 +270,37 @@ export default class AppStore {
       Object.assign(message, this.matchedHost)
       const { pattern } = this.matchedHost
       newHosts = this.hosts.filter(
-        x => typeof x === 'string' || (!x.isRegex || x.pattern !== pattern)
+        x => typeof x === 'string' || !x.isRegex || x.pattern !== pattern
       )
     }
     this.saveHosts(newHosts)
     chrome.runtime.sendMessage(message)
     this.removeDraft()
+  }
+
+  @action
+  removeHost = (host: Host) => {
+    this.loadCustomjs()
+    const message = {
+      method: 'removeData',
+      reload: false
+    }
+    let newHosts
+    if (typeof host === 'string') {
+      Object.assign(message, { domain: host })
+      newHosts = this.hosts.filter(x => x !== host)
+    } else {
+      Object.assign(message, host)
+      Object.assign(message, { domain: this.domain })
+      const { pattern } = host
+      newHosts = this.hosts.filter(
+        x => typeof x === 'string' || !x.isRegex || x.pattern !== pattern
+      )
+    }
+    this.saveHosts(newHosts)
+    chrome.runtime.sendMessage(message)
+    this.hosts = newHosts
+    this.removeDraft(this.getDomainKey(host))
   }
 
   @action
