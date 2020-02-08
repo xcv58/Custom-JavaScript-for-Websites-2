@@ -49,41 +49,34 @@ export default class AppStore {
 
   @observable saveError = null
 
-  @computed
-  get include () {
+  @computed get include () {
     return this.store.IncludeStore.include
   }
 
-  @computed
-  get extra () {
+  @computed get extra () {
     return this.store.IncludeStore.extra
   }
 
-  @computed
-  get domain () {
+  @computed get domain () {
     return `${this.protocol}//${this.host}`
   }
 
-  @computed
-  get target () {
+  @computed get target () {
     if (typeof this.matchedHost === 'object' && this.matchedHost.isRegex) {
       return this.matchedHost.pattern
     }
     return this.domain
   }
 
-  @computed
-  get differentURL () {
+  @computed get differentURL () {
     return !this.tab.url.startsWith(this.domain)
   }
 
-  @computed
-  get tabMode () {
+  @computed get tabMode () {
     return this.tab.url === window.location.href
   }
 
-  @computed
-  get customjs () {
+  @computed get customjs () {
     return {
       config: {
         enable: this.enable,
@@ -94,13 +87,11 @@ export default class AppStore {
     }
   }
 
-  @computed
-  get size () {
+  @computed get size () {
     return sizeof(this.source)
   }
 
-  @computed
-  get domainKey () {
+  @computed get domainKey () {
     if (typeof this.matchedHost === 'object' && this.matchedHost.isRegex) {
       return `${key}-${this.matchedHost.pattern}`
     }
@@ -158,7 +149,7 @@ export default class AppStore {
     )
   }
 
-  loadCustomjs = (customjs = { config: {} }) => {
+  loadCustomjs = (customjs: any = { config: {} }) => {
     const {
       source = defaultSource,
       config: {
