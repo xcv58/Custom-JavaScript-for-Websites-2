@@ -20,6 +20,7 @@ import NewTabLink from './NewTabLink'
 import { useStore } from './StoreContext'
 import { observer } from 'mobx-react'
 import Format from './Format'
+import HostTableLink from './HostTableLink'
 
 const toolbarStyle = {
   display: 'flex',
@@ -68,6 +69,7 @@ export default observer(props => {
           <ModeSelect />
           <Format />
           <NewTabLink />
+          <HostTableLink />
         </div>
         <div>
           <Toggle />

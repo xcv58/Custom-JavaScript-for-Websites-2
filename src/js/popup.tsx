@@ -5,6 +5,7 @@ import { render } from 'react-dom'
 import App from 'components/App'
 import { StoreContext, store } from 'components/StoreContext'
 import '../css/style.css'
+import 'antd/dist/antd.css'
 
 const theme = createMuiTheme({
   typography: {

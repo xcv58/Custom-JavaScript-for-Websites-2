@@ -76,6 +76,7 @@ const options = {
       {
         test: /\.css$/,
         use: [
+          'style-loader',
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
@@ -86,9 +87,7 @@ const options = {
             }
           },
           'css-loader'
-        ],
-        include: path.resolve(__dirname, 'src'),
-        exclude: /node_modules/
+        ]
       },
       {
         test: new RegExp(`\\.(${fileExtensions.join('|')})$`),

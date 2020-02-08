@@ -10,6 +10,13 @@ type Host = { isRegex: boolean; pattern: string } | string
 const key = 'popup'
 const defaultSource = '// Here You can type your custom JavaScript...'
 
+const getDomainKey = (host: Host) => {
+  if (typeof host === 'object' && host.isRegex) {
+    return `${key}-${host.pattern}`
+  }
+  return `${key}-${host}`
+}
+
 export default class AppStore {
   store: Store
 
@@ -49,41 +56,34 @@ export default class AppStore {
 
   @observable saveError = null
 
-  @computed
-  get include () {
+  @computed get include () {
     return this.store.IncludeStore.include
   }
 
-  @computed
-  get extra () {
+  @computed get extra () {
     return this.store.IncludeStore.extra
   }
 
-  @computed
-  get domain () {
+  @computed get domain () {
     return `${this.protocol}//${this.host}`
   }
 
-  @computed
-  get target () {
+  @computed get target () {
     if (typeof this.matchedHost === 'object' && this.matchedHost.isRegex) {
       return this.matchedHost.pattern
     }
     return this.domain
   }
 
-  @computed
-  get differentURL () {
+  @computed get differentURL () {
     return !this.tab.url.startsWith(this.domain)
   }
 
-  @computed
-  get tabMode () {
+  @computed get tabMode () {
     return this.tab.url === window.location.href
   }
 
-  @computed
-  get customjs () {
+  @computed get customjs () {
     return {
       config: {
         enable: this.enable,
@@ -94,17 +94,12 @@ export default class AppStore {
     }
   }
 
-  @computed
-  get size () {
+  @computed get size () {
     return sizeof(this.source)
   }
 
-  @computed
-  get domainKey () {
-    if (typeof this.matchedHost === 'object' && this.matchedHost.isRegex) {
-      return `${key}-${this.matchedHost.pattern}`
-    }
-    return `${key}-${this.domain}`
+  @computed get domainKey () {
+    return getDomainKey(this.matchedHost)
   }
 
   @action
@@ -151,7 +146,7 @@ export default class AppStore {
     )
   }
 
-  loadCustomjs = (customjs = { config: {} }) => {
+  loadCustomjs = (customjs: any = { config: {} }) => {
     const {
       source = defaultSource,
       config: {
@@ -189,10 +184,14 @@ export default class AppStore {
   }
 
   @action
-  removeDraft = () => {
-    this.draft = null
-    this.saved = false
-    window.localStorage.removeItem(this.domainKey)
+  removeDraft = (domainKey = '') => {
+    if (domainKey) {
+      window.localStorage.removeItem(domainKey)
+    } else {
+      this.draft = null
+      this.saved = false
+      window.localStorage.removeItem(this.domainKey)
+    }
   }
 
   @action
@@ -245,32 +244,32 @@ export default class AppStore {
   }
 
   @action
-  reset = () => {
-    this.loadCustomjs()
-    const message = {
-      method: 'removeData',
-      domain: this.domain,
-      reload: true
+  removeHost = (host: Host | undefined) => {
+    const reload = !host
+    if (!host) {
+      host = this.matchedHost
     }
+    this.loadCustomjs()
+    const message = { method: 'removeData', reload }
     let newHosts
-    if (typeof this.matchedHost === 'string') {
-      newHosts = this.hosts.filter(x => x !== this.domain)
+    if (typeof host === 'string') {
+      Object.assign(message, { domain: host })
+      newHosts = this.hosts.filter(x => x !== host)
     } else {
-      Object.assign(message, this.matchedHost)
-      const { pattern } = this.matchedHost
+      Object.assign(message, host, { domain: this.domain })
+      const { pattern } = host
       newHosts = this.hosts.filter(
-        x => typeof x === 'string' || (!x.isRegex || x.pattern !== pattern)
+        x => typeof x === 'string' || !x.isRegex || x.pattern !== pattern
       )
     }
     this.saveHosts(newHosts)
     chrome.runtime.sendMessage(message)
-    this.removeDraft()
+    this.hosts = newHosts
+    this.removeDraft(getDomainKey(host))
   }
 
   @action
-  goTo = () => {
-    chrome.runtime.sendMessage({ method: 'goTo', link: this.domain })
-  }
+  goTo = () => chrome.runtime.sendMessage({ method: 'goTo', link: this.domain })
 
   @action
   clearSaveError = () => {

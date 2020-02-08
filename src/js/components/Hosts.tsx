@@ -1,5 +1,5 @@
 import React from 'react'
-import { getHostKey } from 'libs'
+import { getHostName } from 'libs'
 import { useHistory } from 'react-router-dom'
 import queryString from 'query-string'
 import { useStore } from './StoreContext'
@@ -10,11 +10,10 @@ export default observer(props => {
   const history = useHistory()
   const { hosts, matchedHost = '' } = useStore().AppStore
   const options = hosts.map(host => {
-    const key = getHostKey(host)
-    const { isRegex } = host
+    const name = getHostName(host)
     return (
-      <MenuItem key={key} value={JSON.stringify(host)}>
-        {isRegex && 'RegExp:'} {key}
+      <MenuItem key={name} value={JSON.stringify(host)}>
+        {name}
       </MenuItem>
     )
   })

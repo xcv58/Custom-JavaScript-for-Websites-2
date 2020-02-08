@@ -1,9 +1,11 @@
 import React from 'react'
 import Page from './Page'
-import { BrowserRouter, Route } from 'react-router-dom'
+import { HashRouter, Route } from 'react-router-dom'
+import HostTable from './HostTable'
 
 export default () => (
-  <BrowserRouter>
-    <Route path='/' component={Page} />
-  </BrowserRouter>
+  <HashRouter>
+    <Route path='/list' component={HostTable} />
+    <Route path='/' exact component={Page} />
+  </HashRouter>
 )

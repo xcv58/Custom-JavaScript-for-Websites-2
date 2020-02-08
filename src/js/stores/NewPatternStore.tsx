@@ -39,7 +39,7 @@ export default class NewPatternStore {
     const { hosts } = this.store.AppStore
     if (
       hosts.find(
-        x => typeof x === 'object' && (x.isRegex && x.pattern === this.pattern)
+        x => typeof x === 'object' && x.isRegex && x.pattern === this.pattern
       )
     ) {
       return `Pattern ${this.pattern} already exists`

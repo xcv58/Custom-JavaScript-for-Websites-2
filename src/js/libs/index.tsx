@@ -110,3 +110,11 @@ export const getHostKey = host => {
     return host.pattern
   }
 }
+
+export const getHostName = host => {
+  const { isRegex, pattern } = host
+  if (isRegex) {
+    return `RegExp: ${pattern}`
+  }
+  return host
+}
