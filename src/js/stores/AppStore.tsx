@@ -262,17 +262,13 @@ export default class AppStore {
       host = this.matchedHost
     }
     this.loadCustomjs()
-    const message = {
-      method: 'removeData',
-      reload
-    }
+    const message = { method: 'removeData', reload }
     let newHosts
     if (typeof host === 'string') {
       Object.assign(message, { domain: host })
       newHosts = this.hosts.filter(x => x !== host)
     } else {
-      Object.assign(message, host)
-      Object.assign(message, { domain: this.domain })
+      Object.assign(message, host, { domain: this.domain })
       const { pattern } = host
       newHosts = this.hosts.filter(
         x => typeof x === 'string' || !x.isRegex || x.pattern !== pattern
@@ -285,9 +281,7 @@ export default class AppStore {
   }
 
   @action
-  goTo = () => {
-    chrome.runtime.sendMessage({ method: 'goTo', link: this.domain })
-  }
+  goTo = () => chrome.runtime.sendMessage({ method: 'goTo', link: this.domain })
 
   @action
   clearSaveError = () => {
