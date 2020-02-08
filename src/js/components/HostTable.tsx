@@ -64,13 +64,13 @@ export default observer(props => {
       title: 'Action',
       key: 'action',
       render: ({ host, isRegex }) => {
+        const name = getHostName(host)
         return (
           <Popconfirm
-            title='Are you sure delete this host'
+            title={`Are you sure delete this host: ${name}`}
             onConfirm={() => {
-              console.log('remove:', host)
               AppStore.removeHost(host)
-              message.success(`Successfully remove host: ${getHostName(host)}`)
+              message.success(`Successfully remove host: ${name}`)
             }}
             okText='Yes'
             cancelText='No'

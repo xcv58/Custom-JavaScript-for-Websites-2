@@ -256,34 +256,15 @@ export default class AppStore {
   }
 
   @action
-  reset = () => {
+  removeHost = (host: Host | undefined) => {
+    const reload = !host
+    if (!host) {
+      host = this.matchedHost
+    }
     this.loadCustomjs()
     const message = {
       method: 'removeData',
-      domain: this.domain,
-      reload: true
-    }
-    let newHosts
-    if (typeof this.matchedHost === 'string') {
-      newHosts = this.hosts.filter(x => x !== this.domain)
-    } else {
-      Object.assign(message, this.matchedHost)
-      const { pattern } = this.matchedHost
-      newHosts = this.hosts.filter(
-        x => typeof x === 'string' || !x.isRegex || x.pattern !== pattern
-      )
-    }
-    this.saveHosts(newHosts)
-    chrome.runtime.sendMessage(message)
-    this.removeDraft()
-  }
-
-  @action
-  removeHost = (host: Host) => {
-    this.loadCustomjs()
-    const message = {
-      method: 'removeData',
-      reload: false
+      reload
     }
     let newHosts
     if (typeof host === 'string') {

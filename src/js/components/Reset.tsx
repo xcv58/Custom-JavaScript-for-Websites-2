@@ -33,7 +33,7 @@ export default observer(({ closePopup }) => {
         <Button
           color='primary'
           onClick={() => {
-            AppStore.reset()
+            AppStore.removeHost()
             closeDialog()
             closePopup()
           }}
