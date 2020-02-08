@@ -58,6 +58,7 @@ const onMessage = async (message, sender, sendResponse) => {
     if (func && typeof func === 'function') {
       func(message, { tab, url }, sendResponse)
     } else {
+      console.error(`Unknown method: ${method}`)
       sendResponse({ source: '', config: {} })
     }
 
