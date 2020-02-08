@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
-import { getHostKey } from 'libs'
+import { getHostKey, getHostName } from 'libs'
 import Loading from 'components/Loading'
 import queryString from 'query-string'
 import { useStore } from './StoreContext'
 import { observer } from 'mobx-react'
-import { Button, Table } from 'antd'
+import { Button, Table, message, Popconfirm } from 'antd'
 import { Link } from 'react-router-dom'
 
 const Host = props => {
@@ -15,11 +15,7 @@ const Host = props => {
     pathname: '/',
     search: queryString.stringify(query)
   }
-  return (
-    <Link to={to}>
-      {isRegex && 'RegExp:'} {key}
-    </Link>
-  )
+  return <Link to={to}>{getHostName(props)}</Link>
 }
 
 const Regex = isRegex => {
@@ -69,15 +65,18 @@ export default observer(props => {
       key: 'action',
       render: ({ host, isRegex }) => {
         return (
-          <Button
-            onClick={() => {
+          <Popconfirm
+            title='Are you sure delete this host'
+            onConfirm={() => {
               console.log('remove:', host)
               AppStore.removeHost(host)
+              message.success(`Successfully remove host: ${getHostName(host)}`)
             }}
-            type='danger'
+            okText='Yes'
+            cancelText='No'
           >
-            Delete
-          </Button>
+            <Button type='danger'>Delete</Button>
+          </Popconfirm>
         )
       }
     }
