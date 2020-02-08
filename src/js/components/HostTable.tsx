@@ -81,5 +81,5 @@ export default observer(props => {
       }
     }
   ]
-  return <Table columns={columns} dataSource={data} />
+  return <Table columns={columns} dataSource={data} pagination={false} />
 })
