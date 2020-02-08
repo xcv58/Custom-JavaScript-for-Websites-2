@@ -10,6 +10,13 @@ type Host = { isRegex: boolean; pattern: string } | string
 const key = 'popup'
 const defaultSource = '// Here You can type your custom JavaScript...'
 
+const getDomainKey = (host: Host) => {
+  if (typeof host === 'object' && host.isRegex) {
+    return `${key}-${host.pattern}`
+  }
+  return `${key}-${host}`
+}
+
 export default class AppStore {
   store: Store
 
@@ -92,17 +99,7 @@ export default class AppStore {
   }
 
   @computed get domainKey () {
-    if (typeof this.matchedHost === 'object' && this.matchedHost.isRegex) {
-      return `${key}-${this.matchedHost.pattern}`
-    }
-    return `${key}-${this.domain}`
-  }
-
-  getDomainKey = (host: Host) => {
-    if (typeof host === 'object' && host.isRegex) {
-      return `${key}-${host.pattern}`
-    }
-    return `${key}-${host}`
+    return getDomainKey(this.matchedHost)
   }
 
   @action
@@ -268,7 +265,7 @@ export default class AppStore {
     this.saveHosts(newHosts)
     chrome.runtime.sendMessage(message)
     this.hosts = newHosts
-    this.removeDraft(this.getDomainKey(host))
+    this.removeDraft(getDomainKey(host))
   }
 
   @action
