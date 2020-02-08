@@ -3,19 +3,21 @@ import Button from '@material-ui/core/Button'
 import queryString from 'query-string'
 import { useStore } from './StoreContext'
 import { observer } from 'mobx-react'
+import { Link } from 'react-router-dom'
 
 export default observer(() => {
-  const { tabMode, domain, isRegex, target: pattern } = useStore().AppStore
+  const { tabMode, domain, matchedHost } = useStore().AppStore
   if (tabMode) {
     return null
   }
-  const query = isRegex ? { isRegex, pattern } : { domain }
-  const href = `${chrome.runtime.getURL('popup.html')}?${queryString.stringify(
-    query
-  )}`
+  const query = typeof matchedHost === 'string' ? { domain } : matchedHost
+  const to = {
+    pathname: '/',
+    search: queryString.stringify(query)
+  }
   return (
-    <Button href={href} target='_blank'>
-      Open in New Tab
-    </Button>
+    <Link to={to} target='_blank'>
+      <Button>Open in New Tab</Button>
+    </Link>
   )
 })
