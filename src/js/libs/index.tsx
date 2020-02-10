@@ -1,4 +1,5 @@
-import _ from 'lodash'
+import orderBy from 'lodash.orderby'
+import uniqBy from 'lodash.uniqby'
 
 export const setLastFocusedWindowId = lastFocusedWindowId => {
   chrome.storage.local.set({ lastFocusedWindowId })
@@ -76,7 +77,7 @@ const validHost = host => {
 
 export const setHosts = async (hosts = []) => {
   chrome.storage.sync.set({
-    hosts: _.uniqBy(hosts.filter(validHost), JSON.stringify)
+    hosts: uniqBy(hosts.filter(validHost), JSON.stringify)
   })
 }
 
@@ -97,7 +98,7 @@ export const findMatchedHosts = (hosts = [], url, message = {}) => {
     }
     return false
   })
-  return _.orderBy(matchedHosts, ['pattern'], ['desc'])
+  return orderBy(matchedHosts, ['pattern'], ['desc'])
 }
 
 export const getHostKey = host => {
