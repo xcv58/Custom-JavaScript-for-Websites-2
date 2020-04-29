@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.4.5](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/compare/v3.4.0...v3.4.5) (2020-04-29)
+
+
+### Bug Fixes
+
+* Add https://cdnjs.cloudflare.com and https://gitcdn.link in the CSP ([ca3b295](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/ca3b295a582c1817167551ea494ab9edf123dc7a))
+* External scripts do not inject in strict time order ([dd86352](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/dd86352623397ca0ec7778e0c4fd26bee8255f00))
+* Show log message only if the website is enabled ([775c856](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/775c856008d644eb3730b1b49458dec3bb685841))
+* Upgrade dependencies ([8e1c37e](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/8e1c37ebdadb3ca14bc2e64d85e52f135ffd52f5))
+* Use Ant Design 4.0 ([3e2fdee](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/3e2fdeeaca476efe9fadf548a33f289ca78cc582))
+
 ### [3.4.4](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/compare/v3.4.3...v3.4.4) (2020-01-11)
 
 ### Bug Fixes
