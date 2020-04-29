@@ -13,22 +13,21 @@
     "16": "icon-16.png"
   },
   "background": {
-    "scripts": [ "background.js" ],
+    "scripts": ["background.js"],
     "persistent": false
   },
-  "content_scripts": [ {
-    "all_frames": true,
-    "js": [ "run.js" ],
-    "matches": [ "\u003Call_urls>" ]
-  } ],
-  "web_accessible_resources": [
-    "*.css",
-    "base.js"
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "js": ["run.js"],
+      "matches": ["\u003Call_urls>"]
+    }
   ],
+  "web_accessible_resources": ["*.css", "base.js"],
   "browser_action": {
     "default_icon": "icon-48.png",
     "default_popup": "popup.html"
   },
-  "content_security_policy": "script-src 'self' 'unsafe-eval' https://*.googleapis.com; object-src 'self'",
-  "permissions": [ "storage", "http://*/", "https://*/", "tabs" ]
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://*.googleapis.com https://gitcdn.link https://cdnjs.cloudflare.com; object-src 'self'",
+  "permissions": ["storage", "http://*/", "https://*/", "tabs"]
 }
