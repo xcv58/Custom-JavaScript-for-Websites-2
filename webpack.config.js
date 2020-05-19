@@ -9,7 +9,7 @@ const WriteFilePlugin = require('write-file-webpack-plugin')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-const srcPath = subdir => {
+const srcPath = (subdir) => {
   return path.join(__dirname, 'src/js', subdir)
 }
 
@@ -44,11 +44,11 @@ if (fileSystem.existsSync(secretsPath)) {
 const imgDir = path.join(__dirname, 'src/img')
 const images = fileSystem
   .readdirSync(imgDir)
-  .filter(x => x.endsWith('.png'))
-  .map(x => path.join(imgDir, x))
+  .filter((x) => x.endsWith('.png'))
+  .map((x) => path.join(imgDir, x))
 
 const HtmlFiles = ['popup'].map(
-  name =>
+  (name) =>
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', `${name}.html`),
       filename: `${name}.html`,
@@ -60,7 +60,7 @@ const HtmlFiles = ['popup'].map(
 )
 
 const entry = Object.assign(
-  ...['popup', 'background', 'run', 'base'].map(name => ({
+  ...['popup', 'background', 'run', 'base'].map((name) => ({
     [name]: path.join(__dirname, 'src', 'js', `${name}.tsx`)
   }))
 )
@@ -119,7 +119,7 @@ const options = {
   resolve: {
     alias,
     extensions: fileExtensions
-      .map(extension => '.' + extension)
+      .map((extension) => '.' + extension)
       .concat(['.css', '.jsx', '.js', '.tsx', 'ts'])
   },
   plugins: [
@@ -132,21 +132,23 @@ const options = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV)
     }),
-    new CopyWebpackPlugin([
-      ...images,
-      {
-        from: 'src/manifest.json',
-        transform: function (content, path) {
-          return Buffer.from(
-            JSON.stringify({
-              description: process.env.npm_package_description,
-              version: process.env.npm_package_version,
-              ...JSON.parse(content.toString())
-            })
-          )
+    new CopyWebpackPlugin({
+      patterns: [
+        ...images,
+        {
+          from: 'src/manifest.json',
+          transform: function (content, path) {
+            return Buffer.from(
+              JSON.stringify({
+                description: process.env.npm_package_description,
+                version: process.env.npm_package_version,
+                ...JSON.parse(content.toString())
+              })
+            )
+          }
         }
-      }
-    ]),
+      ]
+    }),
     ...HtmlFiles,
     new ProgressBarPlugin(),
     new WriteFilePlugin()
