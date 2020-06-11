@@ -30,7 +30,7 @@
     "mobx": "5.15.4",
     "mobx-react": "6.2.2",
     "object-sizeof": "1.6.0",
-    "query-string": "6.12.1",
+    "query-string": "6.13.1",
     "react": "16.13.1",
     "react-ace": "8.1.0",
     "react-dom": "16.13.1",
