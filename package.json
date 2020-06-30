@@ -19,8 +19,8 @@
     "test": "yarn lint && yarn build"
   },
   "dependencies": {
-    "@material-ui/core": "4.9.14",
-    "@material-ui/styles": "4.9.14",
+    "@material-ui/core": "4.11.0",
+    "@material-ui/styles": "4.10.0",
     "antd": "4.2.4",
     "chrome-extension-async": "3.4.1",
     "clean-webpack-plugin": "3.0.0",
