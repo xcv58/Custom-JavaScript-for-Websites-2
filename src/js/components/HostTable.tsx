@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getHostKey, getHostName } from 'libs'
 import Loading from 'components/Loading'
 import queryString from 'query-string'
@@ -30,6 +30,13 @@ export default observer((props) => {
     AppStore.init({})
   }, [])
   const history = useHistory()
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: setSelectedRowKeys,
+    selections: [Table.SELECTION_ALL, Table.SELECTION_INVERT]
+  }
+
   const { AppStore } = useStore()
   const { hosts, loading } = AppStore
   if (loading) {
@@ -38,6 +45,7 @@ export default observer((props) => {
 
   const data = hosts.map((host) => {
     return {
+      key: getHostKey(host),
       host,
       isRegex: Boolean(host.isRegex)
     }
@@ -64,7 +72,7 @@ export default observer((props) => {
     {
       title: 'Action',
       key: 'action',
-      render: ({ host, isRegex }) => {
+      render: ({ host }) => {
         const name = getHostName(host)
         return (
           <Popconfirm
@@ -82,6 +90,7 @@ export default observer((props) => {
       }
     }
   ]
+  const hasSelected = selectedRowKeys.length > 0
   return (
     <div style={{ overflow: 'scroll', height: '100vh' }}>
       <Affix offsetTop={0.01}>
@@ -89,9 +98,49 @@ export default observer((props) => {
           ghost={false}
           onBack={() => history.goBack()}
           title='All Hosts & Patterns'
+          extra={
+            <>
+              <span style={{ marginLeft: 8 }}>
+                {hasSelected
+                  ? `Selected ${selectedRowKeys.length} host${
+                      selectedRowKeys.length > 1 ? 's' : ''
+                    }`
+                  : ''}
+              </span>
+              <Popconfirm
+                disabled={!hasSelected}
+                title={`Are you sure delete all selected host${
+                  selectedRowKeys.length > 1 ? 's' : ''
+                }`}
+                onConfirm={() => {
+                  const toDelete = new Set(selectedRowKeys)
+                  data
+                    .filter((x) => toDelete.has(x.key))
+                    .map((x) => x.host)
+                    .forEach((host) => AppStore.removeHost({ host }))
+                  message.success(
+                    `Successfully remove all selected host${
+                      selectedRowKeys.length > 1 ? 's' : ''
+                    }`
+                  )
+                }}
+                okText='Yes'
+                cancelText='No'
+              >
+                <Button type='danger' disabled={!hasSelected}>
+                  Delete
+                </Button>
+              </Popconfirm>
+            </>
+          }
         />
       </Affix>
-      <Table columns={columns} dataSource={data} pagination={false} />
+      <Table
+        columns={columns}
+        rowSelection={rowSelection}
+        dataSource={data}
+        pagination={false}
+      />
     </div>
   )
 })
