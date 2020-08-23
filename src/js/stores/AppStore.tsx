@@ -106,7 +106,7 @@ export default class AppStore {
   init = ({ domain, isRegex, pattern }) => {
     chrome.runtime.sendMessage(
       { method: 'getData', domain, isRegex, pattern },
-      async response => {
+      async (response) => {
         if (!response || typeof response.host !== 'string') {
           if (response.error) {
             this.loadError = response.error
@@ -201,7 +201,7 @@ export default class AppStore {
   }
 
   @action
-  onChangeSource = value => {
+  onChangeSource = (value) => {
     this.source = value
     if (!this.enable) {
       this.enable = true
@@ -232,7 +232,7 @@ export default class AppStore {
         customjs,
         reload: !this.tabMode
       },
-      err => {
+      (err) => {
         if (err) {
           this.saveError = err
         } else {
@@ -244,8 +244,10 @@ export default class AppStore {
   }
 
   @action
-  removeHost = (host: Host | undefined) => {
-    const reload = !host
+  removeHost = ({
+    host,
+    reload = false
+  }: { host?: Host; reload?: boolean } = {}) => {
     if (!host) {
       host = this.matchedHost
     }
@@ -254,12 +256,12 @@ export default class AppStore {
     let newHosts
     if (typeof host === 'string') {
       Object.assign(message, { domain: host })
-      newHosts = this.hosts.filter(x => x !== host)
+      newHosts = this.hosts.filter((x) => x !== host)
     } else {
       Object.assign(message, host, { domain: this.domain })
       const { pattern } = host
       newHosts = this.hosts.filter(
-        x => typeof x === 'string' || !x.isRegex || x.pattern !== pattern
+        (x) => typeof x === 'string' || !x.isRegex || x.pattern !== pattern
       )
     }
     this.saveHosts(newHosts)
@@ -284,7 +286,7 @@ export default class AppStore {
   }
 
   @action
-  setMode = mode => {
+  setMode = (mode) => {
     this.mode = mode
   }
 }

@@ -7,7 +7,7 @@ import { observer } from 'mobx-react'
 import { Button, Table, message, Popconfirm } from 'antd'
 import { Link } from 'react-router-dom'
 
-const Host = props => {
+const Host = (props) => {
   const key = getHostKey(props)
   const { isRegex, pattern } = props
   const query = isRegex ? { isRegex, pattern } : { domain: key }
@@ -18,14 +18,14 @@ const Host = props => {
   return <Link to={to}>{getHostName(props)}</Link>
 }
 
-const Regex = isRegex => {
+const Regex = (isRegex) => {
   if (isRegex) {
     return 'Yes'
   }
   return 'No'
 }
 
-export default observer(props => {
+export default observer((props) => {
   useEffect(() => {
     AppStore.init({})
   }, [])
@@ -35,7 +35,7 @@ export default observer(props => {
     return <Loading />
   }
 
-  const data = hosts.map(host => {
+  const data = hosts.map((host) => {
     return {
       host,
       isRegex: Boolean(host.isRegex)
@@ -69,7 +69,7 @@ export default observer(props => {
           <Popconfirm
             title={`Are you sure delete this host: ${name}`}
             onConfirm={() => {
-              AppStore.removeHost(host)
+              AppStore.removeHost({ host })
               message.success(`Successfully remove host: ${name}`)
             }}
             okText='Yes'

@@ -33,12 +33,22 @@ export default observer(({ closePopup }) => {
         <Button
           color='primary'
           onClick={() => {
-            AppStore.removeHost()
+            AppStore.removeHost({ reload: false })
             closeDialog()
             closePopup()
           }}
         >
           Reset
+        </Button>
+        <Button
+          color='secondary'
+          onClick={() => {
+            AppStore.removeHost({ reload: true })
+            closeDialog()
+            closePopup()
+          }}
+        >
+          Reset & Refresh
         </Button>
       </DialogActions>
     </Dialog>
