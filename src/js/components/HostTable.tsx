@@ -4,8 +4,8 @@ import Loading from 'components/Loading'
 import queryString from 'query-string'
 import { useStore } from './StoreContext'
 import { observer } from 'mobx-react'
-import { Button, Table, message, Popconfirm } from 'antd'
-import { Link } from 'react-router-dom'
+import { Button, Table, message, PageHeader, Popconfirm } from 'antd'
+import { Link, useHistory } from 'react-router-dom'
 
 const Host = (props) => {
   const key = getHostKey(props)
@@ -29,6 +29,7 @@ export default observer((props) => {
   useEffect(() => {
     AppStore.init({})
   }, [])
+  const history = useHistory()
   const { AppStore } = useStore()
   const { hosts, loading } = AppStore
   if (loading) {
@@ -81,5 +82,13 @@ export default observer((props) => {
       }
     }
   ]
-  return <Table columns={columns} dataSource={data} pagination={false} />
+  return (
+    <>
+      <PageHeader
+        onBack={() => history.goBack()}
+        title='All Hosts & Patterns'
+      />
+      <Table columns={columns} dataSource={data} pagination={false} />
+    </>
+  )
 })

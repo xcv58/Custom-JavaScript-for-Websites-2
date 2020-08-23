@@ -17,7 +17,7 @@ export default observer(() => {
   }
   return (
     <Link to={to} target='_blank'>
-      <Button>Open in New Tab</Button>
+      <Button color='primary'>Open in New Tab</Button>
     </Link>
   )
 })
