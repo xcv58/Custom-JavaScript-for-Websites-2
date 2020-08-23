@@ -4,7 +4,7 @@ import Loading from 'components/Loading'
 import queryString from 'query-string'
 import { useStore } from './StoreContext'
 import { observer } from 'mobx-react'
-import { Button, Table, message, PageHeader, Popconfirm } from 'antd'
+import { Affix, Button, Table, message, PageHeader, Popconfirm } from 'antd'
 import { Link, useHistory } from 'react-router-dom'
 
 const Host = (props) => {
@@ -83,12 +83,15 @@ export default observer((props) => {
     }
   ]
   return (
-    <>
-      <PageHeader
-        onBack={() => history.goBack()}
-        title='All Hosts & Patterns'
-      />
+    <div style={{ overflow: 'scroll', height: '100vh' }}>
+      <Affix offsetTop={0.01}>
+        <PageHeader
+          ghost={false}
+          onBack={() => history.goBack()}
+          title='All Hosts & Patterns'
+        />
+      </Affix>
       <Table columns={columns} dataSource={data} pagination={false} />
-    </>
+    </div>
   )
 })
