@@ -2,16 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [3.4.5](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/compare/v3.4.0...v3.4.5) (2020-04-29)
-
+### [3.4.6](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/compare/v3.4.5...v3.4.6) (2020-08-23)
 
 ### Bug Fixes
 
-* Add https://cdnjs.cloudflare.com and https://gitcdn.link in the CSP ([ca3b295](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/ca3b295a582c1817167551ea494ab9edf123dc7a))
-* External scripts do not inject in strict time order ([dd86352](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/dd86352623397ca0ec7778e0c4fd26bee8255f00))
-* Show log message only if the website is enabled ([775c856](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/775c856008d644eb3730b1b49458dec3bb685841))
-* Upgrade dependencies ([8e1c37e](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/8e1c37ebdadb3ca14bc2e64d85e52f135ffd52f5))
-* Use Ant Design 4.0 ([3e2fdee](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/3e2fdeeaca476efe9fadf548a33f289ca78cc582))
+- Add multiple selection & delete in Hosts Table ([c7e6e35](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/c7e6e353203402c944a05dddcf73d41f428ea451))
+- Fix the hosts table navigation ([34babeb](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/34babeb2769bcb68118e5360c0dec91055e2891b))
+- Host Tables page is not scrollable ([cfb8c96](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/cfb8c962413f96744680de8f7f490c93da7e6e13))
+- Update the rest popup to include Cancel, Reset, Reset & Refresh ([5252267](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/52522670ce10c91d879ce0b87f0dbd59ad8c71e0))
+- **deps:** pin dependencies ([#96](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/issues/96)) ([c004649](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/c004649f4b46fce0de75707d2efa39598299fc8d))
+
+### [3.4.5](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/compare/v3.4.0...v3.4.5) (2020-04-29)
+
+### Bug Fixes
+
+- Add https://cdnjs.cloudflare.com and https://gitcdn.link in the CSP ([ca3b295](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/ca3b295a582c1817167551ea494ab9edf123dc7a))
+- External scripts do not inject in strict time order ([dd86352](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/dd86352623397ca0ec7778e0c4fd26bee8255f00))
+- Show log message only if the website is enabled ([775c856](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/775c856008d644eb3730b1b49458dec3bb685841))
+- Upgrade dependencies ([8e1c37e](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/8e1c37ebdadb3ca14bc2e64d85e52f135ffd52f5))
+- Use Ant Design 4.0 ([3e2fdee](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/3e2fdeeaca476efe9fadf548a33f289ca78cc582))
 
 ### [3.4.4](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/compare/v3.4.3...v3.4.4) (2020-01-11)
 
