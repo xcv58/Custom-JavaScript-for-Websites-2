@@ -66,7 +66,7 @@
     "lint-staged": "10.2.11",
     "mini-css-extract-plugin": "0.10.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
-    "prettier": "2.0.5",
+    "prettier": "2.1.2",
     "progress-bar-webpack-plugin": "2.1.0",
     "react-axe": "3.5.3",
     "react-test-renderer": "16.13.1",
