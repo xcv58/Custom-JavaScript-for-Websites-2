@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.4.7](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/compare/v3.4.6...v3.4.7) (2020-11-10)
+
+### Bug Fixes
+
+- Remove the start with // check for 'your own external scripts' ([21e91a1](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/21e91a1a2dc9b8a54330781b836101cbfc5be3fd))
+
 ### [3.4.6](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/compare/v3.4.5...v3.4.6) (2020-08-23)
 
 ### Bug Fixes
