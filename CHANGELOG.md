@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.4.8](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/compare/v3.4.7...v3.4.8) (2020-11-10)
+
+### Bug Fixes
+
+- Crash issue because invalid custom external script injection ([a77d137](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/commit/a77d137cd15b3088bef3321eae5624d3555e185e))
+
 ### [3.4.7](https://github.com/xcv58/Custom-JavaScript-for-Websites-2/compare/v3.4.6...v3.4.7) (2020-11-10)
 
 ### Bug Fixes
