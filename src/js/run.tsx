@@ -3,6 +3,15 @@ import { getHosts, getHostKey, findMatchedHosts } from 'libs'
 
 const baseURL = chrome.runtime.getURL('base.js')
 
+const isValidURL = (url) => {
+  return (
+    url &&
+    (url.startsWith('//') ||
+      url.startsWith('https://') ||
+      url.startsWith('http://'))
+  )
+}
+
 const catchErr = (e) => {
   console.error('Failed to inject scripts:', e)
 }
@@ -44,7 +53,7 @@ const extractScripts = (customjs, injections) => {
     .split(';')
     .map((x) => x.trim())
     .forEach((line) => {
-      if (line) {
+      if (isValidURL(line)) {
         injections.add(line)
       }
     })
