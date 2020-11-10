@@ -3,7 +3,7 @@ import { getHosts, getHostKey, findMatchedHosts } from 'libs'
 
 const baseURL = chrome.runtime.getURL('base.js')
 
-const catchErr = e => {
+const catchErr = (e) => {
   console.error('Failed to inject scripts:', e)
 }
 
@@ -42,9 +42,9 @@ const extractScripts = (customjs, injections) => {
   // Extra include
   ;(extra || '')
     .split(';')
-    .map(x => x.trim())
-    .forEach(line => {
-      if (line && line.startsWith('//')) {
+    .map((x) => x.trim())
+    .forEach((line) => {
+      if (line) {
         injections.add(line)
       }
     })
@@ -52,26 +52,26 @@ const extractScripts = (customjs, injections) => {
   return source
 }
 
-const loadScripts = async location => {
+const loadScripts = async (location) => {
   const hosts = await getHosts()
   const matchedHosts = findMatchedHosts(hosts, location)
   const injections = new Set()
   Promise.all(
-    matchedHosts.map(async host => {
+    matchedHosts.map(async (host) => {
       const hostKey = getHostKey(host)
       const obj = await chrome.storage.sync.get(hostKey)
       return extractScripts(obj[hostKey], injections)
     })
   )
-    .then(values => values.filter(x => x))
-    .then(values => {
+    .then((values) => values.filter((x) => x))
+    .then((values) => {
       if (values.length) {
         console.info(
           'Custom JavaScript for websites enabled.\nPlease visit https://xcv58.xyz/inject-js if you have any issue.'
         )
       }
       return Promise.all(
-        [...injections].map(src => {
+        [...injections].map((src) => {
           if (src) {
             return injectScriptPromise(src)
           }
@@ -80,7 +80,7 @@ const loadScripts = async location => {
         .then(() => values)
         .catch(catchErr)
     })
-    .then(values => values.map(src => injectScriptPromise(src, 'body')))
+    .then((values) => values.map((src) => injectScriptPromise(src, 'body')))
     .catch(catchErr)
 }
 
