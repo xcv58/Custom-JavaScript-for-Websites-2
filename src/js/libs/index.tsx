@@ -1,7 +1,7 @@
 import orderBy from 'lodash.orderby'
 import uniqBy from 'lodash.uniqby'
 
-export const setLastFocusedWindowId = lastFocusedWindowId => {
+export const setLastFocusedWindowId = (lastFocusedWindowId) => {
   chrome.storage.local.set({ lastFocusedWindowId })
 }
 
@@ -12,7 +12,7 @@ export const getLastFocusedWindowId = async () => {
   return lastFocusedWindowId
 }
 
-const getQueryInfo = windowId => {
+const getQueryInfo = (windowId) => {
   if (windowId) {
     return { windowId }
   }
@@ -33,7 +33,7 @@ const SOURCE_PREFIX = 'data:text/javascript'
 const BASE64_PREFIX = SOURCE_PREFIX + ';base64,'
 const UTF8_PREFIX = SOURCE_PREFIX + ';charset=utf-8,'
 
-export const encodeSource = script => {
+export const encodeSource = (script) => {
   // base64 may be smaller, but does not handle unicode characters
   // attempt base64 first, fall back to escaped text
   try {
@@ -43,7 +43,7 @@ export const encodeSource = script => {
   }
 }
 
-export const decodeSource = source => {
+export const decodeSource = (source) => {
   if (source.startsWith(BASE64_PREFIX)) {
     return window.atob(source.replace(BASE64_PREFIX, ''))
   }
@@ -68,7 +68,7 @@ export const getHosts = async (key = '') => {
   return hosts
 }
 
-const validHost = host => {
+const validHost = (host) => {
   if (typeof host === 'string') {
     return !!host
   }
@@ -85,12 +85,12 @@ export const clearHosts = () => {
   chrome.storage.sync.remove('hosts')
 }
 
-export const findMatchedHosts = (hosts = [], url, message = {}) => {
+export const findMatchedHosts = (hosts = [], url = {}, message = {}) => {
   const { isRegex, pattern } = message
   if (isRegex && pattern) {
-    return hosts.filter(host => host.isRegex && host.pattern === pattern)
+    return hosts.filter((host) => host.isRegex && host.pattern === pattern)
   }
-  const matchedHosts = hosts.filter(host => {
+  const matchedHosts = hosts.filter((host) => {
     if (typeof host === 'string') {
       return host === url.origin
     } else if (typeof host === 'object') {
@@ -101,7 +101,7 @@ export const findMatchedHosts = (hosts = [], url, message = {}) => {
   return orderBy(matchedHosts, ['pattern'], ['desc'])
 }
 
-export const getHostKey = host => {
+export const getHostKey = (host) => {
   if (!host) {
     throw new Error(`getHostKey get falsy host: ${host}!`)
   }
@@ -112,7 +112,7 @@ export const getHostKey = host => {
   }
 }
 
-export const getHostName = host => {
+export const getHostName = (host) => {
   const { isRegex, pattern } = host
   if (isRegex) {
     return `RegExp: ${pattern}`

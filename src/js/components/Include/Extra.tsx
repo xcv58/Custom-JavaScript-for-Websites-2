@@ -22,7 +22,7 @@ export default observer(() => {
           rows={2}
           rowsMax={100}
           placeholder={placeholder}
-          onChange={e => IncludeStore.onUpdateExtra(e.target.value)}
+          onChange={(e) => IncludeStore.onUpdateExtra(e.target.value)}
           margin='none'
           type='text'
           value={extraValue}

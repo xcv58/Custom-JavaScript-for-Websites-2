@@ -9,7 +9,7 @@ import {
 
 const getURL = ({ url }) => new window.URL(url)
 
-const reloadTab = tab => chrome.tabs.reload(tab.id)
+const reloadTab = (tab) => chrome.tabs.reload(tab.id)
 
 const methodMap = {
   getData: async (message, { tab, url }, sendResponse) => {
@@ -70,7 +70,7 @@ const onMessage = async (message, sender, sendResponse) => {
   }
 }
 
-const onFocusChanged = windowId => {
+const onFocusChanged = (windowId) => {
   if (windowId < 0) {
     return
   }
@@ -84,8 +84,8 @@ chrome.runtime.onMessage.addListener((...args) => {
 
 chrome.windows.onFocusChanged.addListener(onFocusChanged)
 
-chrome.runtime.onInstalled.addListener(details => {
-  chrome.tabs.query({ currentWindow: true, active: true }, tabs => {
+chrome.runtime.onInstalled.addListener((details) => {
+  chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
     if (tabs.length <= 0) {
       return
     }

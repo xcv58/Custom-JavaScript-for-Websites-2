@@ -5,7 +5,6 @@ const env = require('./utils/env')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const WriteFilePlugin = require('write-file-webpack-plugin')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
@@ -74,16 +73,20 @@ const options = {
   module: {
     rules: [
       {
+        test: /\.m?js/,
+        type: 'javascript/auto',
+        resolve: {
+          fullySpecified: false
+        }
+      },
+      {
         test: /\.css$/,
         use: [
           'style-loader',
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              // you can specify a publicPath here
-              // by default it uses publicPath in webpackOptions.output
-              hmr: process.env.NODE_ENV === 'development',
-              reloadAll: true
+              publicPath: ''
             }
           },
           'css-loader'
@@ -91,7 +94,10 @@ const options = {
       },
       {
         test: new RegExp(`\\.(${fileExtensions.join('|')})$`),
-        loader: 'file-loader?name=[name].[ext]',
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]'
+        },
         include: path.resolve(__dirname, 'src'),
         exclude: /node_modules/
       },
@@ -150,13 +156,12 @@ const options = {
       ]
     }),
     ...HtmlFiles,
-    new ProgressBarPlugin(),
-    new WriteFilePlugin()
+    new ProgressBarPlugin()
   ]
 }
 
 if (env.NODE_ENV === 'development') {
-  options.devtool = 'cheap-module-eval-source-map'
+  options.devtool = 'eval-cheap-source-map'
 }
 
 module.exports = (plugins = []) => ({

@@ -44,7 +44,7 @@ const NewPatternDialog = observer(() => {
             label='RegExp Pattern'
             error={!validPattern}
             value={pattern}
-            onChange={e => {
+            onChange={(e) => {
               NewPatternStore.setPattern(e.target.value)
             }}
           />

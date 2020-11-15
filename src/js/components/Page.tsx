@@ -28,7 +28,7 @@ const toolbarStyle = {
   alignItems: 'center'
 }
 
-export default observer(props => {
+export default observer((props) => {
   const { AppStore } = useStore()
   const { location } = props
   useEffect(() => {

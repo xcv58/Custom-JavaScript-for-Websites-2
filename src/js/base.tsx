@@ -7,9 +7,9 @@ let observer = null
 
 const check = () => {
   // Check the DOM for elements matching a stored selector
-  listeners.map(listener => {
+  listeners.forEach((listener) => {
     const elements = doc.querySelectorAll(listener.selector)
-    elements.forEach(ele => {
+    elements.forEach((ele) => {
       if (!ele.ready) {
         ele.ready = true
         listener.fn.call(ele, ele)

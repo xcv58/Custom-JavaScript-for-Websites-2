@@ -42,7 +42,7 @@ export default observer(() => {
             value={include}
             displayEmpty
             autoWidth
-            onChange={e => onSelect(e.target.value)}
+            onChange={(e) => onSelect(e.target.value)}
           >
             <MenuItem value=''>
               <em>None</em>

@@ -5,7 +5,7 @@ import { observer } from 'mobx-react'
 
 export default observer(() => {
   const { mode, setMode } = useStore().AppStore
-  const options = ['javascript', 'css'].map(option => {
+  const options = ['javascript', 'css'].map((option) => {
     return (
       <MenuItem key={option} value={option}>
         {option}
@@ -16,7 +16,7 @@ export default observer(() => {
     <FormControl>
       <Select
         value={mode}
-        onChange={e => {
+        onChange={(e) => {
           const value = e.target.value
           setMode(value)
         }}

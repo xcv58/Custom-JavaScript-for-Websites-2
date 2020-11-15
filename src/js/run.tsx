@@ -80,11 +80,7 @@ const loadScripts = async (location) => {
         )
       }
       return Promise.all(
-        [...injections].map((src) => {
-          if (src) {
-            return injectScriptPromise(src)
-          }
-        })
+        [...injections].map((src) => src && injectScriptPromise(src))
       )
         .then(() => values)
         .catch(catchErr)
