@@ -81,16 +81,7 @@ const options = {
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: ''
-            }
-          },
-          'css-loader'
-        ]
+        use: ['style-loader', 'css-loader']
       },
       {
         test: new RegExp(`\\.(${fileExtensions.join('|')})$`),
