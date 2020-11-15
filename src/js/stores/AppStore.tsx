@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx'
+import { action, computed, observable, makeObservable } from 'mobx'
 import { encodeSource, decodeSource, getHosts, setHosts } from 'libs'
 import isEqual from 'lodash.isequal'
 import sizeof from 'object-sizeof'
@@ -21,69 +21,109 @@ export default class AppStore {
   store: Store
 
   constructor (store) {
+    makeObservable(this, {
+      mode: observable,
+      loading: observable,
+      autoSaveHandle: observable,
+      saved: observable,
+      hosts: observable,
+      enable: observable,
+      source: observable,
+      draft: observable,
+      truth: observable,
+      tab: observable,
+      host: observable,
+      protocol: observable,
+      matchedHost: observable,
+      loadError: observable,
+      error: observable,
+      saveError: observable,
+      include: computed,
+      extra: computed,
+      domain: computed,
+      target: computed,
+      differentURL: computed,
+      tabMode: computed,
+      customjs: computed,
+      size: computed,
+      domainKey: computed,
+      init: action,
+      saveDraft: action,
+      removeDraft: action,
+      beautify: action,
+      onChangeSource: action,
+      onRemoveDraft: action,
+      toggleEnable: action,
+      save: action,
+      removeHost: action,
+      goTo: action,
+      clearSaveError: action,
+      setMode: action
+    })
+
     this.store = store
   }
 
-  @observable mode = 'javascript'
+  mode = 'javascript'
 
-  @observable loading = true
+  loading = true
 
-  @observable autoSaveHandle = null
+  autoSaveHandle = null
 
-  @observable saved = false
+  saved = false
 
-  @observable hosts: Host[] = []
+  hosts: Host[] = []
 
-  @observable enable = false
+  enable = false
 
-  @observable source = defaultSource
+  source = defaultSource
 
-  @observable draft = null
+  draft = null
 
-  @observable truth = null
+  truth = null
 
-  @observable tab = { url: '' }
+  tab = { url: '' }
 
-  @observable host = ''
+  host = ''
 
-  @observable protocol = ''
+  protocol = ''
 
-  @observable matchedHost: Host = ''
+  matchedHost: Host = ''
 
-  @observable loadError = null
+  loadError = null
 
-  @observable error = null
+  error = null
 
-  @observable saveError = null
+  saveError = null
 
-  @computed get include () {
+  get include () {
     return this.store.IncludeStore.include
   }
 
-  @computed get extra () {
+  get extra () {
     return this.store.IncludeStore.extra
   }
 
-  @computed get domain () {
+  get domain () {
     return `${this.protocol}//${this.host}`
   }
 
-  @computed get target () {
+  get target () {
     if (typeof this.matchedHost === 'object' && this.matchedHost.isRegex) {
       return this.matchedHost.pattern
     }
     return this.domain
   }
 
-  @computed get differentURL () {
+  get differentURL () {
     return !this.tab.url.startsWith(this.domain)
   }
 
-  @computed get tabMode () {
+  get tabMode () {
     return this.tab.url === window.location.href
   }
 
-  @computed get customjs () {
+  get customjs () {
     return {
       config: {
         enable: this.enable,
@@ -94,15 +134,14 @@ export default class AppStore {
     }
   }
 
-  @computed get size () {
+  get size () {
     return sizeof(this.source)
   }
 
-  @computed get domainKey () {
+  get domainKey () {
     return getDomainKey(this.matchedHost)
   }
 
-  @action
   init = ({ domain, isRegex, pattern }) => {
     chrome.runtime.sendMessage(
       { method: 'getData', domain, isRegex, pattern },
@@ -172,7 +211,6 @@ export default class AppStore {
     this.draft = draft
   }
 
-  @action
   saveDraft = () => {
     this.draft = this.customjs
     window.localStorage.setItem(
@@ -183,7 +221,6 @@ export default class AppStore {
     this.autoSaveHandle = null
   }
 
-  @action
   removeDraft = (domainKey = '') => {
     if (domainKey) {
       window.localStorage.removeItem(domainKey)
@@ -194,13 +231,11 @@ export default class AppStore {
     }
   }
 
-  @action
   beautify = () => {
     const value = js(this.source, { indent_size: 2 })
     this.onChangeSource(value)
   }
 
-  @action
   onChangeSource = (value) => {
     this.source = value
     if (!this.enable) {
@@ -209,19 +244,16 @@ export default class AppStore {
     this.autoSave()
   }
 
-  @action
   onRemoveDraft = () => {
     this.removeDraft()
     this.loadCustomjs(this.truth)
   }
 
-  @action
   toggleEnable = () => {
     this.enable = !this.enable
     this.autoSave()
   }
 
-  @action
   save = () => {
     const { domain, customjs, matchedHost } = this
     chrome.runtime.sendMessage(
@@ -243,7 +275,6 @@ export default class AppStore {
     )
   }
 
-  @action
   removeHost = ({
     host,
     reload = false
@@ -270,10 +301,8 @@ export default class AppStore {
     this.removeDraft(getDomainKey(host))
   }
 
-  @action
   goTo = () => chrome.runtime.sendMessage({ method: 'goTo', link: this.domain })
 
-  @action
   clearSaveError = () => {
     this.saveError = null
   }
@@ -285,7 +314,6 @@ export default class AppStore {
     this.autoSaveHandle = setTimeout(this.saveDraft, 500)
   }
 
-  @action
   setMode = (mode) => {
     this.mode = mode
   }

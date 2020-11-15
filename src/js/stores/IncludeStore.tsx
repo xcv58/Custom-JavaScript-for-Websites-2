@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx'
+import { action, computed, observable, makeObservable } from 'mobx'
 import Store from 'stores'
 
 const hint =
@@ -10,16 +10,28 @@ export default class IncludeStore {
   store: Store
 
   constructor (store) {
+    makeObservable(this, {
+      extraOpen: observable,
+      extra: observable,
+      include: observable,
+      includes: observable,
+      extraValue: computed,
+      placeholder: computed,
+      onSelect: action,
+      toggleExtraOpen: action,
+      onUpdateExtra: action
+    })
+
     this.store = store
   }
 
-  @observable extraOpen = false
+  extraOpen = false
 
-  @observable extra = ''
+  extra = ''
 
-  @observable include = ''
+  include = ''
 
-  @observable includes = [
+  includes = [
     {
       name: 'jQuery 1.12.4',
       path: '/jquery/1.12.4/jquery.min.js'
@@ -42,28 +54,23 @@ export default class IncludeStore {
     }
   ]
 
-  @computed
   get extraValue () {
     return (this.extra || '').replace(';', '\n')
   }
 
-  @computed
   get placeholder () {
     return hint + '\n' + underscore
   }
 
-  @action
   onSelect = (include) => {
     this.include = include
     this.store.AppStore.autoSave()
   }
 
-  @action
   toggleExtraOpen = () => {
     this.extraOpen = !this.extraOpen
   }
 
-  @action
   onUpdateExtra = (value = '') => {
     this.extra = value.replace('\n', ';')
     this.store.AppStore.autoSave()

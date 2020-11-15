@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx'
+import { action, computed, observable, makeObservable } from 'mobx'
 import Store from 'stores'
 
 export default class NewPatternStore {
@@ -6,19 +6,29 @@ export default class NewPatternStore {
   re: RegExp
 
   constructor (store) {
+    makeObservable(this, {
+      open: observable,
+      pattern: observable,
+      validPattern: computed,
+      host: computed,
+      error: computed,
+      setPattern: action,
+      addToHosts: action,
+      closeDialog: action,
+      openDialog: action
+    })
+
     this.store = store
   }
 
-  @observable open = false
+  open = false
 
-  @observable pattern = ''
+  pattern = ''
 
-  @computed
   get validPattern () {
     return !this.error
   }
 
-  @computed
   get host () {
     return {
       isRegex: true,
@@ -26,7 +36,6 @@ export default class NewPatternStore {
     }
   }
 
-  @computed
   get error () {
     if (!this.pattern) {
       return 'Empty Pattern'
@@ -46,12 +55,10 @@ export default class NewPatternStore {
     }
   }
 
-  @action
   setPattern = (value) => {
     this.pattern = value
   }
 
-  @action
   addToHosts = () => {
     if (this.error) {
       throw new Error(`addToHost failed, pattern "${this.pattern}" is invalid!`)
@@ -62,13 +69,11 @@ export default class NewPatternStore {
     this.closeDialog()
   }
 
-  @action
   closeDialog = () => {
     this.open = false
     this.clear()
   }
 
-  @action
   openDialog = () => {
     this.clear()
     this.open = true
