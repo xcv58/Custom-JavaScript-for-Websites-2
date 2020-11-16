@@ -2,7 +2,9 @@ import { ALL, EACH } from '../util'
 
 describe('The Extension page should', () => {
   beforeAll(ALL)
+  afterAll(ALL)
   beforeEach(EACH)
+  afterEach(EACH)
 
   it('have title ends with the extension name', async () => {
     await expect(page.title()).resolves.toMatch('Custom JavaScript')
