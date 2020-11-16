@@ -40,7 +40,7 @@ jobs:
     steps:
       - checkout
       - *restore_yarn_cache
-      - run: yarn install
+      - run: yarn --ignore-engines
       - *save_yarn_cache
       - run: yarn build
       - run: cd integration_test && yarn install && yarn test
