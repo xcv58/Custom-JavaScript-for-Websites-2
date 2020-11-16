@@ -43,7 +43,7 @@ jobs:
       - run: yarn install
       - *save_yarn_cache
       - run: yarn build
-      - run: cd test && yarn install && yarn test
+      - run: cd integration_test && yarn install && yarn test
 
   publish:
     docker:
