@@ -34,6 +34,17 @@ jobs:
           path: dist
           destination: dist
 
+  integration-test:
+    docker:
+      - image: circleci/node:14.15-browsers
+    steps:
+      - checkout
+      - *restore_yarn_cache
+      - run: yarn --ignore-engines
+      - *save_yarn_cache
+      - run: yarn build
+      - run: cd integration_test && yarn install && yarn test
+
   publish:
     docker:
       - image: circleci/node:12
@@ -54,9 +65,14 @@ workflows:
           filters:
             tags:
               only: /^v.*/
+      - integration-test:
+          filters:
+            tags:
+              only: /^v.*/
       - publish:
           requires:
             - build-test
+            - integration-test
           filters:
             branches:
               ignore: /.*/
