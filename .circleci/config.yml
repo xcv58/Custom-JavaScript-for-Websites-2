@@ -42,7 +42,7 @@ jobs:
       - *restore_yarn_cache
       - run: yarn --ignore-engines
       - *save_yarn_cache
-      - run: yarn build
+      - run: yarn deploy
       - run: cd integration_test && yarn install && yarn test
 
   publish:

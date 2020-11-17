@@ -13,7 +13,20 @@ describe('The Extension page should', () => {
 console.log('abc')
 document.querySelector('body').style.background = 'red'`)
     })
-    await page.waitForTimeout(1000)
+    await page.evaluate(() => {
+      document.querySelectorAll('button')[6].click()
+    })
+    await page.waitForTimeout(100)
+    const input = await page.$$('textarea')
+    await input[1].evaluate((node) => (node.value = ''))
+    await input[1].type(
+      'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.11.0/underscore-min.js',
+      { delay: 10 }
+    )
+    await page.waitForTimeout(100)
+    const allButtons = await page.$$('button')
+    await allButtons[allButtons.length - 1].click()
+    await page.waitForTimeout(100)
     await page.$eval('button', (x) => x.click())
 
     const newPage = await browser.newPage()
@@ -24,6 +37,9 @@ document.querySelector('body').style.background = 'red'`)
       (node) => node.style.background
     )
     expect(background).toBe('red')
+    expect(await newPage.$eval('body', (node) => window._.VERSION)).toBe(
+      '1.11.0'
+    )
 
     page.bringToFront()
     const buttons = await page.$$('button')
