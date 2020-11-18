@@ -21,7 +21,7 @@ document.querySelector('body').style.background = 'red'`)
     await input[1].evaluate((node) => (node.value = ''))
     await input[1].type(
       'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.11.0/underscore-min.js',
-      { delay: 10 }
+      { delay: 5 }
     )
     await page.waitForTimeout(100)
     const allButtons = await page.$$('button')
@@ -48,5 +48,6 @@ document.querySelector('body').style.background = 'red'`)
     const dialogButtons = await page.$$('.MuiDialogActions-root > button')
     expect(dialogButtons).toHaveLength(3)
     await dialogButtons[1].click()
+    await page.waitForTimeout(500)
   })
 })
