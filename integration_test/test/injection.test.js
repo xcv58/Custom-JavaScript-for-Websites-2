@@ -21,7 +21,7 @@ document.querySelector('body').style.background = 'red'`)
     await input[1].evaluate((node) => (node.value = ''))
     await input[1].type(
       'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.11.0/underscore-min.js',
-      { delay: 5 }
+      { delay: 2 }
     )
     await page.waitForTimeout(100)
     const allButtons = await page.$$('button')
