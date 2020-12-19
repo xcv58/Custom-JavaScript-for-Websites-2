@@ -5,7 +5,7 @@
   "scripts": {
     "launch": "babel-node launch.js",
     "test-ci": "yarn test || yarn test",
-    "test": "jest",
+    "test": "jest --maxWorkers=1",
     "test-watch": "yarn test --watch"
   },
   "devDependencies": {
