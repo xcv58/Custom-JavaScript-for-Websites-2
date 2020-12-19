@@ -6,11 +6,11 @@ describe('The Extension page should', () => {
   beforeEach(EACH)
   afterEach(EACH)
 
-  it.skip('have title ends with the extension name', async () => {
+  it('have title ends with the extension name', async () => {
     await expect(page.title()).resolves.toMatch('Custom JavaScript')
   })
 
-  it.skip('render correct layout', async () => {
+  it('render correct layout', async () => {
     const buttons = await page.$$('button')
     expect(buttons).toHaveLength(7)
     const checkbox = await page.$$('input[type="checkbox"]')
