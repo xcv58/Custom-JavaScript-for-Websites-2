@@ -43,7 +43,7 @@ jobs:
       - run: yarn --ignore-engines
       - *save_yarn_cache
       - run: yarn deploy
-      - run: cd integration_test && yarn install && yarn test
+      - run: cd integration_test && yarn install && yarn test-ci
 
   publish:
     docker:
