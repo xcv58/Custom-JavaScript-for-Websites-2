@@ -4,6 +4,7 @@
   "description": "Integration test via puppeteer",
   "scripts": {
     "launch": "babel-node launch.js",
+    "test-ci": "find ./test -mindepth 1 -maxdepth 10 -name '*.test.js' | xargs -n 1 yarn test",
     "test": "jest --maxWorkers=1",
     "test-watch": "yarn test --watch"
   },

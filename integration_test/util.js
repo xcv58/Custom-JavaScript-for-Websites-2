@@ -21,7 +21,7 @@ const getExtensionId = async (browser) => {
 export const ALL = async () => {
   const extensionURL = await getExtensionURL(browser)
   await page.goto(extensionURL)
-  await page.waitForTimeout(2000)
+  await page.waitForTimeout(1000)
 }
 
 export const EACH = async () => {
