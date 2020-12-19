@@ -25,6 +25,6 @@ export const ALL = async () => {
 }
 
 export const EACH = async () => {
+  await page.reload()
   await page.bringToFront()
-  await page.waitForTimeout(500)
 }
