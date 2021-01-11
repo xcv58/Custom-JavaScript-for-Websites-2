@@ -12,7 +12,8 @@ import { observer } from 'mobx-react'
 
 const issueLink =
   'https://github.com/xcv58/Custom-JavaScript-for-Websites-2/issues/32'
-const chromeDocLink = 'https://developer.chrome.com/apps/storage#property-sync'
+const storageSyncDocLink =
+  'https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/sync'
 
 export default observer(() => {
   const { clearSaveError, saveError, size } = useStore().AppStore
@@ -23,8 +24,12 @@ export default observer(() => {
         <DialogContentText>
           Failed to save your script, it's usually because your script is too
           large to store in{' '}
-          <a href={chromeDocLink} target='_blank' rel='noopener noreferrer'>
-            chrome.storage.sync
+          <a
+            href={storageSyncDocLink}
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            storage.sync
           </a>
           . Please reduce your script size and try again!
         </DialogContentText>
