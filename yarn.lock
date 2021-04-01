@@ -12424,10 +12424,10 @@ webpack-sources@^2.1.1:
     source-list-map "^2.0.1"
     source-map "^0.6.1"
 
-webpack@5.27.2:
-  version "5.27.2"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.27.2.tgz#44442219e1469ebe00292703b848580faae03f07"
-  integrity sha512-brNF3N/EdvMzkaZ/Xzb8sqPn5Si3iw6meqCnmNFtcnkorZsFZCBFMa2ElpIMjx6sKWYsnUpBO2dnX+7xgj+mjg==
+webpack@5.29.0:
+  version "5.29.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.29.0.tgz#3e8629dd0742d1bea822d1a0150421dff1dcec53"
+  integrity sha512-su24GKXk+Rh3Y/0XP6lOfF9Xgura4rXwwD7LA/5XD+SdhLvQIl09zoI8z6JeuYY/E+Jm4qyCiDByrivyt34PeA==
   dependencies:
     "@types/eslint-scope" "^3.7.0"
     "@types/estree" "^0.0.46"
