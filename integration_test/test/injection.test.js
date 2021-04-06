@@ -16,17 +16,17 @@ document.querySelector('body').style.background = 'red'`)
     await page.evaluate(() => {
       document.querySelectorAll('button')[6].click()
     })
-    await page.waitForTimeout(100)
+    await page.waitForTimeout(500)
     const input = await page.$$('textarea')
     await input[1].evaluate((node) => (node.value = ''))
     await input[1].type(
       'https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.11.0/underscore-min.js',
       { delay: 2 }
     )
-    await page.waitForTimeout(100)
+    await page.waitForTimeout(500)
     const allButtons = await page.$$('button')
     await allButtons[allButtons.length - 1].click()
-    await page.waitForTimeout(100)
+    await page.waitForTimeout(500)
     await page.$eval('button', (x) => x.click())
 
     const newPage = await browser.newPage()
