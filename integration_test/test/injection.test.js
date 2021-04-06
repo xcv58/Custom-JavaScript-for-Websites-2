@@ -6,6 +6,23 @@ describe('The Extension page should', () => {
   beforeEach(EACH)
   afterEach(EACH)
 
+  it('have title ends with the extension name', async () => {
+    await expect(page.title()).resolves.toMatch('Custom JavaScript')
+  })
+
+  it('render correct layout', async () => {
+    const buttons = await page.$$('button')
+    expect(buttons).toHaveLength(7)
+    const checkbox = await page.$$('input[type="checkbox"]')
+    expect(checkbox).toHaveLength(1)
+    expect(await page.$$('a[href="https://paypal.me/xcv58"]')).toHaveLength(1)
+    const aceEditor = await page.$('#ace-editor')
+    expect(aceEditor).toBeTruthy()
+    expect(await page.$eval('#ace-editor', (node) => node.textContent)).toMatch(
+      '// Here You can type your custom JavaScript...'
+    )
+  })
+
   it('execute the injected script after page loaded', async () => {
     await page.evaluate(() => {
       const editor = window.ace.edit('ace-editor')
@@ -30,7 +47,7 @@ document.querySelector('body').style.background = 'red'`)
     await page.$eval('button', (x) => x.click())
 
     const newPage = await browser.newPage()
-    await newPage.goto('https://google.com')
+    await newPage.goto('https://google.com/')
     await newPage.bringToFront()
     const background = await newPage.$eval(
       'body',
