@@ -49,6 +49,7 @@ document.querySelector('body').style.background = 'red'`)
     const newPage = await browser.newPage()
     await newPage.goto('https://google.com/')
     await newPage.bringToFront()
+    await page.waitForTimeout(500)
     const background = await newPage.$eval(
       'body',
       (node) => node.style.background
