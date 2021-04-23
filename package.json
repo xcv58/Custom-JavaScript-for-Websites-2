@@ -27,7 +27,7 @@
     "js-beautify": "1.13.13",
     "lodash.orderby": "4.6.0",
     "lodash.uniqby": "4.7.0",
-    "mobx": "6.2.0",
+    "mobx": "6.3.0",
     "mobx-react": "7.1.0",
     "object-sizeof": "1.6.1",
     "query-string": "7.0.0",
