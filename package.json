@@ -57,7 +57,7 @@
     "eslint": "7.26.0",
     "eslint-plugin-typescript": "0.14.0",
     "file-loader": "6.2.0",
-    "fork-ts-checker-webpack-plugin": "6.2.9",
+    "fork-ts-checker-webpack-plugin": "6.2.10",
     "hard-source-webpack-plugin": "0.13.1",
     "html-loader": "2.1.2",
     "html-webpack-plugin": "5.3.1",
