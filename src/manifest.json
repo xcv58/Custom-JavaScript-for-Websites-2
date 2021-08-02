@@ -29,5 +29,5 @@
     "default_popup": "popup.html"
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://*.googleapis.com https://gitcdn.link https://cdnjs.cloudflare.com; object-src 'self'",
-  "permissions": ["storage", "http://*/", "https://*/", "tabs"]
+  "permissions": ["storage", "http://*/", "https://*/"]
 }
