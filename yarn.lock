@@ -854,10 +854,10 @@
     "@types/node" "*"
     "@types/responselike" "*"
 
-"@types/chrome@0.0.151":
-  version "0.0.151"
-  resolved "https://registry.npmjs.org/@types/chrome/-/chrome-0.0.151.tgz#5ff1fd0a2ce7bd25f5183c4157dce7fd2e9b2a01"
-  integrity sha512-mtnRyIpf50YxJmy7AIccf2bYhvI+Tr0078TPkR7naf1o2nCp7MXAh4nnJnSIXXyBnc3HQSu40ET+2B/B1Malhg==
+"@types/chrome@0.0.152":
+  version "0.0.152"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.152.tgz#365ab9ed8f6e67af6a2281003e46a5cac6a917fb"
+  integrity sha512-QrdSrlqQW+vFFmYGK8ZsBmH9SpldWc59XwKbwnetRerJ0JvTG6JtafSPL6qQFYSPRSwMK7H1qbeT7HGly87zLw==
   dependencies:
     "@types/filesystem" "*"
     "@types/har-format" "*"
