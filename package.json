@@ -37,7 +37,7 @@
     "react-router-dom": "5.2.0"
   },
   "devDependencies": {
-    "@types/chrome": "0.0.151",
+    "@types/chrome": "0.0.152",
     "@types/jasmine": "3.8.2",
     "@types/jest": "26.0.24",
     "@types/react": "17.0.15",
