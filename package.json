@@ -23,7 +23,7 @@
     "@material-ui/styles": "4.11.4",
     "antd": "4.16.13",
     "chrome-extension-async": "3.4.1",
-    "clean-webpack-plugin": "4.0.0-alpha.0",
+    "clean-webpack-plugin": "4.0.0",
     "js-beautify": "1.14.0",
     "lodash.orderby": "4.6.0",
     "lodash.uniqby": "4.7.0",
