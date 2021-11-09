@@ -5,7 +5,7 @@ import queryString from 'query-string'
 import { useStore } from './StoreContext'
 import { observer } from 'mobx-react'
 import { Affix, Button, Table, message, PageHeader, Popconfirm } from 'antd'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Host = (props) => {
   const key = getHostKey(props)
@@ -29,7 +29,7 @@ export default observer((props) => {
   useEffect(() => {
     AppStore.init({})
   }, [])
-  const history = useHistory()
+  const navigate = useNavigate()
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const rowSelection = {
     selectedRowKeys,
@@ -96,7 +96,7 @@ export default observer((props) => {
       <Affix offsetTop={0.01}>
         <PageHeader
           ghost={false}
-          onBack={() => history.goBack()}
+          onBack={() => navigate(-1)}
           title='All Hosts & Patterns'
           extra={
             <>
