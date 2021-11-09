@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import queryString from 'query-string'
 import { useStore } from './StoreContext'
 import { observer } from 'mobx-react'
@@ -27,7 +27,7 @@ const Content = () => (
 )
 
 const NewPatternDialog = observer(() => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { NewPatternStore } = useStore()
   const { closeDialog, error, validPattern, pattern } = NewPatternStore
   return (
@@ -58,7 +58,7 @@ const NewPatternDialog = observer(() => {
           onClick={() => {
             const { addToHosts, host } = NewPatternStore
             addToHosts()
-            history.push(`?${queryString.stringify(host)}`)
+            navigate(`?${queryString.stringify(host)}`)
           }}
           disabled={!validPattern}
         >

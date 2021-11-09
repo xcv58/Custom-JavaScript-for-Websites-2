@@ -1,13 +1,13 @@
 import React from 'react'
 import { getHostName } from 'libs'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import queryString from 'query-string'
 import { useStore } from './StoreContext'
 import { observer } from 'mobx-react'
 import { MenuItem, FormControl, Select } from '@material-ui/core'
 
 export default observer((props) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { hosts, matchedHost = '' } = useStore().AppStore
   const options = hosts.map((host) => {
     const name = getHostName(host)
@@ -29,7 +29,7 @@ export default observer((props) => {
           } else {
             Object.assign(query, value)
           }
-          history.push(`?${queryString.stringify(query)}`)
+          navigate(`?${queryString.stringify(query)}`)
         }}
       >
         {options}

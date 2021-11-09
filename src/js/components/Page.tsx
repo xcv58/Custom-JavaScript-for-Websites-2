@@ -21,6 +21,7 @@ import { useStore } from './StoreContext'
 import { observer } from 'mobx-react'
 import Format from './Format'
 import HostTableLink from './HostTableLink'
+import { useLocation } from 'react-router-dom'
 
 const toolbarStyle = {
   display: 'flex',
@@ -30,9 +31,8 @@ const toolbarStyle = {
 
 export default observer((props) => {
   const { AppStore } = useStore()
-  const { location } = props
+  const location = useLocation()
   useEffect(() => {
-    const { location } = props
     const query = queryString.parse(location.search)
     AppStore.init(query)
   }, [location.search])
