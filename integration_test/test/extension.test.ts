@@ -1,12 +1,44 @@
-import { ALL, EACH } from '../util'
+import { Page, ChromiumBrowserContext } from 'playwright'
+import { toMatchImageSnapshot, } from 'jest-image-snapshot'
+import { CLOSE_PAGES, initBrowserWithExtension, } from '../util'
+
+expect.extend({ toMatchImageSnapshot })
+
+let page: Page
+let browserContext: ChromiumBrowserContext
+let extensionURL: string
 
 describe('The Extension page should', () => {
-  beforeAll(ALL)
-  afterAll(ALL)
-  beforeEach(EACH)
-  afterEach(EACH)
+  beforeAll(async () => {
+    const init = await initBrowserWithExtension()
+    browserContext = init.browserContext
+    extensionURL = init.extensionURL
+    page = browserContext.pages()[0]
+  })
+
+  afterAll(async () => {
+    await browserContext?.close()
+    browserContext = null
+    page = null
+    extensionURL = ''
+  })
+
+  beforeEach(async () => {
+    if (!extensionURL) {
+      console.error('Invalid extensionURL', { extensionURL })
+    }
+    await page.bringToFront()
+    await page.goto(extensionURL)
+    await page.waitForTimeout(1000)
+    await CLOSE_PAGES(browserContext)
+  })
+
+  afterEach(async () => {
+    await CLOSE_PAGES(browserContext)
+  })
 
   it('have title ends with the extension name', async () => {
+    await page.goto(extensionURL)
     await expect(page.title()).resolves.toMatch('Custom JavaScript')
   })
 
@@ -24,6 +56,8 @@ describe('The Extension page should', () => {
   })
 
   it('execute the injected script after page loaded', async () => {
+    await page.goto(extensionURL)
+    await page.waitForTimeout(1000)
     await page.evaluate(() => {
       const editor = window.ace.edit('ace-editor')
       editor.session.setValue(`
@@ -46,7 +80,7 @@ document.querySelector('body').style.background = 'red'`)
     await page.waitForTimeout(500)
     await page.$eval('button', (x) => x.click())
 
-    const newPage = await browser.newPage()
+    const newPage = await browserContext.newPage()
     await newPage.goto('https://google.com/')
     await newPage.bringToFront()
     await page.waitForTimeout(500)
