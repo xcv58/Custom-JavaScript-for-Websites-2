@@ -57,10 +57,7 @@ export const initBrowserWithExtension = async () => {
   if (backgroundPages.length) {
     setExtensionURL(backgroundPages[0])
   }
-  for (const x in [...Array(100)]) {
-    if (extensionURL || !x) {
-      break
-    }
+  while (!extensionURL) {
     await page.waitForTimeout(1000)
   }
   return { browserContext, extensionURL }
