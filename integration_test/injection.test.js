@@ -1,4 +1,4 @@
-import { ALL, EACH } from '../util'
+import { ALL, EACH } from './util'
 
 describe('The Extension page should', () => {
   beforeAll(ALL)
