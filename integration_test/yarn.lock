@@ -966,7 +966,7 @@ chalk@^2.0.0, chalk@^2.4.2:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.1, chalk@^4.1.2:
+chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.2:
   version "4.1.2"
   resolved "https://registry.npmjs.org/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
   integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
@@ -1301,10 +1301,10 @@ expect-playwright@^0.7.0:
   resolved "https://registry.npmjs.org/expect-playwright/-/expect-playwright-0.7.2.tgz#e1f2c31cd0d13d04e1ba4136019613ad01f6ea43"
   integrity sha512-5o9si+8SUi68QVI0CRVv8tvTjZinpJWRSfQ3GP6v0DvlK55lDgFvD79r6A/NU+EUawrBc62qP30MxzOUnXNJZQ==
 
-expect-puppeteer@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.npmjs.org/expect-puppeteer/-/expect-puppeteer-6.0.0.tgz#22cd2c312b249a1fe4af17937406f50df92e7869"
-  integrity sha512-qJWHvlHy58+YgI/eMm9BCgR5YmpAITw7Qlzacf6l2ZYv8ej01fto3XtlKTCtk2ik3hMut344aSCGPn09MXtUvA==
+expect-puppeteer@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/expect-puppeteer/-/expect-puppeteer-6.0.2.tgz#3da28c89234ddbf56774454155572488c2303843"
+  integrity sha512-Xlor321I2MrrgW9BWei0Lq4C9meU7qmyycwQMjprKh+tLG9MalptqdDPse16+1Ffq+hvM/kAlZcEchcteGWhzw==
 
 expect@^27.3.1:
   version "27.3.1"
@@ -1888,16 +1888,16 @@ jest-config@^27.3.1:
     micromatch "^4.0.4"
     pretty-format "^27.3.1"
 
-jest-dev-server@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.npmjs.org/jest-dev-server/-/jest-dev-server-6.0.0.tgz#b46ddeb3f74f953cc78b884fe6c5211a1e4aba6b"
-  integrity sha512-6X8+/gtFeZBfX7fX3BTAnZzPbdDYcWUdhsvcbJI5PsDXdJ06VNMPqwcPP7ZR5hUeXyvww6CX6ro+oIiARHo5Sg==
+jest-dev-server@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/jest-dev-server/-/jest-dev-server-6.0.2.tgz#04092cd7177e78e911f3be0a3e57e95ae551c1e4"
+  integrity sha512-cVpBu4KvNnefZsiustbaQmgGEKn72K6yk0OMgXDJ3yMT9N24ZM16TG0QgEacHPkrHKirOXZa1GN9Mi/lNl9Y+Q==
   dependencies:
     chalk "^4.1.2"
     cwd "^0.10.0"
     find-process "^1.4.5"
     prompts "^2.4.1"
-    spawnd "^6.0.0"
+    spawnd "^6.0.2"
     tree-kill "^1.2.2"
     wait-on "^6.0.0"
 
@@ -1942,7 +1942,7 @@ jest-environment-jsdom@^27.3.1:
     jest-util "^27.3.1"
     jsdom "^16.6.0"
 
-jest-environment-node@^27.0.1, jest-environment-node@^27.3.1:
+jest-environment-node@^27.3.1:
   version "27.3.1"
   resolved "https://registry.npmjs.org/jest-environment-node/-/jest-environment-node-27.3.1.tgz#af7d0eed04edafb740311b303f3fe7c8c27014bb"
   integrity sha512-T89F/FgkE8waqrTSA7/ydMkcc52uYPgZZ6q8OaZgyiZkJb5QNNCF6oPZjH9IfPFfcc9uBWh1574N0kY0pSvTXw==
@@ -1954,15 +1954,15 @@ jest-environment-node@^27.0.1, jest-environment-node@^27.3.1:
     jest-mock "^27.3.0"
     jest-util "^27.3.1"
 
-jest-environment-puppeteer@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/jest-environment-puppeteer/-/jest-environment-puppeteer-6.0.1.tgz#a3cd65454453f84dbcb328709813a115b0a0fb9d"
-  integrity sha512-TB/GrD4Fkq8f1eSm7On3t+8beehHZfCZERt27Oj3yb5whxQNNJfYZ0wt1P+VSet8e4Ay9jGqYRFKG3kYkLI5Mg==
+jest-environment-puppeteer@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/jest-environment-puppeteer/-/jest-environment-puppeteer-6.0.2.tgz#155350f59d5b1db365f8c8b025f5a03b4f75bede"
+  integrity sha512-UepaC93ZYGwtuFGw/YXreJsiMa3eaKEx+6OoJaelr2dgn9Rr+9g5zgRAusB081u27nwY/+l6FJIdj2+W1ktRng==
   dependencies:
-    chalk "^4.1.1"
+    chalk "^4.1.2"
     cwd "^0.10.0"
-    jest-dev-server "^6.0.0"
-    jest-environment-node "^27.0.1"
+    jest-dev-server "^6.0.2"
+    jest-environment-node "^27.3.1"
     merge-deep "^3.0.3"
 
 jest-get-type@^27.3.1:
@@ -2103,13 +2103,13 @@ jest-process-manager@^0.3.1:
     tree-kill "^1.2.2"
     wait-on "^5.3.0"
 
-jest-puppeteer@6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/jest-puppeteer/-/jest-puppeteer-6.0.1.tgz#7eb6b3c9b4af34323731879cc425884f38836170"
-  integrity sha512-a22oQtrT8glcSGOV0526z1+il6XSjRT6OAulyKquOQsHhlo0SWikxmdsHWPFgx4x0u/YERleZvVF3I/68cFl0g==
+jest-puppeteer@6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/jest-puppeteer/-/jest-puppeteer-6.0.2.tgz#edd4de4d43648ed0e86520e6d3f733467c158144"
+  integrity sha512-akdNZRGiKryv1JJx4qgWfsjl7yi5Vj0zcI2VQ1z2wrvXvPttjWdp3OdlvjSwIrHPUd664Bpdkyh0YMhTLO99EQ==
   dependencies:
-    expect-puppeteer "^6.0.0"
-    jest-environment-puppeteer "^6.0.1"
+    expect-puppeteer "^6.0.2"
+    jest-environment-puppeteer "^6.0.2"
 
 jest-regex-util@^27.0.6:
   version "27.0.6"
@@ -3004,6 +3004,11 @@ signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.npmjs.org/signal-exit/-/signal-exit-3.0.5.tgz#9e3e8cc0c75a99472b44321033a7702e7738252f"
   integrity sha512-KWcOiKeQj6ZyXx7zq4YxSMgHRlod4czeBQZrPb8OKcohcqAXShm7E20kEMle9WBt26hFcAf0qLOcp5zmY7kOqQ==
 
+signal-exit@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.6.tgz#24e630c4b0f03fea446a2bd299e62b4a6ca8d0af"
+  integrity sha512-sDl4qMFpijcGw22U5w63KmD3cZJfBuFlVNbVMKje2keoKML7X2UzWbc4XrmEbDwg0NXJc3yv4/ox7b+JWb57kQ==
+
 sisteransi@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npmjs.org/sisteransi/-/sisteransi-1.0.5.tgz#134d681297756437cc05ca01370d3a7a571075ed"
@@ -3081,13 +3086,13 @@ spawnd@^5.0.0:
     tree-kill "^1.2.2"
     wait-port "^0.2.9"
 
-spawnd@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.npmjs.org/spawnd/-/spawnd-6.0.0.tgz#8bcb3b8769901cfb434ea3ff4334ac3bde3b9cda"
-  integrity sha512-ItqOhwoMppJDL8IEF44bupB37f7dIpKrCqkd8TV8PWB7gHDBfMYgGgslTkkcdvKPxhE4BfvNqs2ZI/GVoGXyIQ==
+spawnd@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/spawnd/-/spawnd-6.0.2.tgz#a2631cab24ce5e3525e720af4058f10a0905147c"
+  integrity sha512-+YJtx0dvy2wt304MrHD//tASc84zinBUYU1jacPBzrjhZUd7RsDo25krxr4HUHAQzEQFuMAs4/p+yLYU5ciZ1w==
   dependencies:
     exit "^0.1.2"
-    signal-exit "^3.0.3"
+    signal-exit "^3.0.6"
     tree-kill "^1.2.2"
 
 sprintf-js@~1.0.2:
