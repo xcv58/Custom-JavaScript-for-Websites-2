@@ -7276,10 +7276,10 @@ mobx-react@7.2.1:
   dependencies:
     mobx-react-lite "^3.2.0"
 
-mobx@6.3.11:
-  version "6.3.11"
-  resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.3.11.tgz#9f749975c4699643febc732a26aac9c5f044f8a9"
-  integrity sha512-H1/w+MWhcDPm+u9bbY7RhMVauEkgyzca9fElAMcFN6J8+vdTMYM6trlWC0J9duPVjWITqh/F3JF8XeoFFgvyhA==
+mobx@6.3.12:
+  version "6.3.12"
+  resolved "https://registry.yarnpkg.com/mobx/-/mobx-6.3.12.tgz#2ceb4f632081a8bf8757ba7e5e01b5810800022f"
+  integrity sha512-5Hx2IjhBtySVQlSFe+sHczKgOQ+cCyi8hN2wEvWzpJEEMRflQoDzDwJJ+m7SBWBQhfrWMWb1RGZNk4X1XtxJkQ==
 
 modify-values@^1.0.0:
   version "1.0.1"
