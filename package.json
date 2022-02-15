@@ -29,7 +29,7 @@
     "lodash.uniqby": "4.7.0",
     "mobx": "6.3.13",
     "mobx-react": "7.2.1",
-    "object-sizeof": "1.6.2",
+    "object-sizeof": "1.6.3",
     "query-string": "7.1.1",
     "react": "17.0.2",
     "react-ace": "9.5.0",
