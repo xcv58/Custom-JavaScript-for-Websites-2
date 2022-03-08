@@ -1901,10 +1901,10 @@ ansi-styles@^6.0.0:
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-6.1.0.tgz#87313c102b8118abd57371afab34618bf7350ed3"
   integrity sha512-VbqNsoz55SYGczauuup0MFUyXNQviSpFTj1RQtFzmQLk18qbVSpTFFGMT293rmDaQuKCT6InmbuEyUne4mTuxQ==
 
-antd@4.19.0:
-  version "4.19.0"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-4.19.0.tgz#1c637a4d7dde091a2299260ca89f05c29fb21f80"
-  integrity sha512-4Kp47+zg3j1g1lWmzFstGrmlGdHzUIvxAVXxYJKJqX+iQs++QYgcK2HF+9PBpwEwP6H6VPZCsL0LqKEflke5qg==
+antd@4.19.1:
+  version "4.19.1"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-4.19.1.tgz#af44c0972b7086588ee3d031e3fbe0af006371f9"
+  integrity sha512-bPy/MSLzJGcHQH549B3WpTRitt1O3b35cD6UhAR+4AhKZjFmOqNc+gSUY5j+IsaKfdv+FeOGmUOqAr2jrc3Oyg==
   dependencies:
     "@ant-design/colors" "^6.0.0"
     "@ant-design/icons" "^4.7.0"
