@@ -24,7 +24,7 @@
     "antd": "4.19.4",
     "chrome-extension-async": "3.4.1",
     "clean-webpack-plugin": "4.0.0",
-    "js-beautify": "1.14.0",
+    "js-beautify": "1.14.1",
     "lodash.orderby": "4.6.0",
     "lodash.uniqby": "4.7.0",
     "mobx": "6.5.0",
