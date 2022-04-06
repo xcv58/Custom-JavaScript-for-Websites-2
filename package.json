@@ -85,7 +85,7 @@
     "web-ext": "6.8.0",
     "webpack": "5.71.0",
     "webpack-bundle-analyzer": "4.5.0",
-    "webpack-dev-server": "4.8.0",
+    "webpack-dev-server": "4.8.1",
     "write-file-webpack-plugin": "4.5.1"
   },
   "lint-staged": {
