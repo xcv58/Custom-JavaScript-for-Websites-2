@@ -25,11 +25,10 @@ delete config.chromeExtensionBoilerplate
 const compiler = webpack({ ...config, mode: 'development' })
 
 const server = new WebpackDevServer(compiler, {
-  stats: 'minimal',
+  devMiddleware: {
+    writeToDisk: true,
+  },
   hot: true,
-  writeToDisk: true,
-  disableHostCheck: true,
-  contentBase: path.join(__dirname, '../build'),
   headers: { 'Access-Control-Allow-Origin': '*' }
 })
 
