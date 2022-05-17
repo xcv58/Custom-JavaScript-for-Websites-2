@@ -2,7 +2,6 @@ const WebpackDevServer = require('webpack-dev-server')
 const webpack = require('webpack')
 const config = require('../webpack.config')()
 const env = require('./env')
-const path = require('path')
 
 const options = config.chromeExtensionBoilerplate || {}
 const excludeEntriesToHotReload = options.notHotReload || []
@@ -26,7 +25,7 @@ const compiler = webpack({ ...config, mode: 'development' })
 
 const server = new WebpackDevServer(compiler, {
   devMiddleware: {
-    writeToDisk: true,
+    writeToDisk: true
   },
   hot: true,
   headers: { 'Access-Control-Allow-Origin': '*' }
