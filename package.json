@@ -11,12 +11,13 @@
     "lint:ts": "standard --parser @typescript-eslint/parser --plugin typescript ./**/*.tsx",
     "lint": "standard",
     "lintfix": "yarn prettier 'src/**/*.{js,ts,tsx}' && yarn lint --fix && yarn lint:ts --fix",
+    "test:chrome-upload": "chrome-webstore-upload --help",
     "start": "node utils/webserver.js",
-    "upload:chrome": "node -r dotenv/config ./node_modules/.bin/webstore upload --source build.zip",
-    "publish:chrome": "node -r dotenv/config ./node_modules/.bin/webstore publish",
+    "upload:chrome": "node -r dotenv/config ./node_modules/.bin/chrome-webstore-upload upload --source build.zip",
+    "publish:chrome": "node -r dotenv/config ./node_modules/.bin/chrome-webstore-upload publish",
     "publish-extension": "yarn publish:chrome",
     "release": "standard-version",
-    "test": "run-s lint build"
+    "test": "run-s lint build test:*"
   },
   "dependencies": {
     "@material-ui/core": "4.12.4",
