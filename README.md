@@ -56,6 +56,21 @@ http://ryanmorr.com/using-mutation-observers-to-watch-for-element-availability/
 
 Special thanks to [Ryan Morr](http://ryanmorr.com/)
 
+## How do I inject large JavaScript
+
+You can host the JS code in public accessible url and dynamically load and eval it. A sample implementation like this:
+
+```
+customjsReady('body', function(element) {
+  fetch('https://gist.githubusercontent.com/xcv58/5aaeda690ace2f468d51dbf9c65a3980/raw/a8b1c59223892fb2be08490b00c84fa4a029bb8e/test.js')
+    .then((res) => res.text())
+    .then((js) => {
+      console.log('works in fetch', js)
+      eval(js);
+    })
+});
+```
+
 # Why Custom JavaScript for Websites 2
 Since the author haven't update original extension for almost one year.
 Its website http://hromadadan.com is also unavailable.
