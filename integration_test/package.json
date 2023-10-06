@@ -11,7 +11,7 @@
     "@types/jest-image-snapshot": "4.3.2",
     "jest": "27.5.1",
     "jest-image-snapshot": "4.5.1",
-    "jest-playwright-preset": "1.7.0",
+    "jest-playwright-preset": "1.7.2",
     "jest-puppeteer": "6.1.0",
     "playwright": "1.22.1",
     "ts-jest": "27.1.5",
