@@ -78,7 +78,7 @@
     "sinon-chrome": "3.0.1",
     "standard": "16.0.4",
     "standard-version": "9.5.0",
-    "style-loader": "3.3.3",
+    "style-loader": "3.3.4",
     "terser-webpack-plugin": "5.3.9",
     "ts-jest": "27.1.5",
     "ts-loader": "9.3.0",
