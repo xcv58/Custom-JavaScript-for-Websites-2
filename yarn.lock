@@ -1181,10 +1181,10 @@
     "@types/node" "*"
     "@types/responselike" "*"
 
-"@types/chrome@0.0.259":
-  version "0.0.259"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.259.tgz#5e55941b3f4067d088c0ad81c094733128db0f0a"
-  integrity sha512-WP1HsLqKgoUwR/4dYiTfmOSUG5B05+xrPLbqboO15nuaUC+aBYxwB9ixVyLPYY9D+vocJK9rzH5g1lpqVrJqhg==
+"@types/chrome@0.0.265":
+  version "0.0.265"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.265.tgz#6dbb225c3dc220873970ae8cd5d3c1a823710ffe"
+  integrity sha512-wusn3sa1C0UOGs7B07EHgCin/G8TQQXWFJhI8F5uwJ0dNGYBj5/+JPmP/l+x+E2ntXXyX/eeN2Bj6Sk6dzMEtA==
   dependencies:
     "@types/filesystem" "*"
     "@types/har-format" "*"
