@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@material-ui/core": "4.12.4",
-    "@material-ui/styles": "4.11.5",
+    "@mui/styles": "5.0.0",
     "antd": "4.20.5",
     "chrome-extension-async": "3.4.1",
     "clean-webpack-plugin": "4.0.0",
