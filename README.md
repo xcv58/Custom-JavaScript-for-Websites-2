@@ -1,3 +1,7 @@
+# DEPRECATED
+
+**There is no way to provide the same experience in latest Chrome. The extension won't be updated to manifest v3. More details in https://github.com/xcv58/Custom-JavaScript-for-Websites-2/issues/868**
+
 # Custom JavaScript for websites
 
 [![CircleCI](https://circleci.com/gh/xcv58/Custom-JavaScript-for-Websites-2.svg?style=svg)](https://circleci.com/gh/xcv58/Custom-JavaScript-for-Websites-2)
